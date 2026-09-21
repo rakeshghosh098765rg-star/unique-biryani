@@ -15,6 +15,11 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Firebase Compat SDKs (For 1-Tap Google Sign-in & Vouchers) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -37,13 +42,30 @@
     }
   </script>
 </head>
-<body class="bg-slate-950 text-slate-120₹120 font-sans antialiased pb-20 md:pb-0">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased pb-28 md:pb-10">
+
+  <!-- ================= FIRST-VISIT IN-STORE OFFER BANNER ================= -->
+  <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-slate-950 py-3 px-4 shadow-lg border-b border-amber-400/30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl animate-bounce">🎁</span>
+        <div>
+          <span class="font-extrabold text-sm sm:text-base uppercase tracking-wide text-white">First Time Visiting Our Restaurant?</span>
+          <p class="text-xs font-semibold text-amber-100">Sign in with Google & get a <strong>Flat ₹50 OFF In-Store Dine-in Voucher</strong>!</p>
+        </div>
+      </div>
+      <button onclick="handleVoucherButtonClick()" id="voucher-banner-btn" class="px-5 py-2 bg-slate-950 hover:bg-slate-900 text-amber-400 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2">
+        <i class="fa-brands fa-google"></i>
+        <span>Claim My ₹50 Voucher</span>
+      </button>
+    </div>
+  </div>
 
   <!-- ================= NAVBAR ================= -->
-  <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+  <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3">
-        <img src="images/logo.png" alt="Unique Biryani Logo" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=120₹120&q=80';" class="w-12 h-12 rounded-full object-cover border-2 border-amber-500 shadow-md">
+        <img src="images/logo.png" alt="Unique Biryani Logo" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=120&q=80';" class="w-12 h-12 rounded-full object-cover border-2 border-amber-500 shadow-md">
         <div>
           <span class="font-serif text-xl font-bold tracking-tight text-white block">UNIQUE BIRYANI</span>
           <span class="text-xs tracking-widest text-amber-500 uppercase font-semibold">& RESTAURANT</span>
@@ -51,26 +73,28 @@
       </a>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-8 font-medium text-slate-300">
+      <nav class="hidden md:flex items-center gap-7 font-medium text-slate-300 text-sm">
         <a href="#home" class="hover:text-amber-400 transition-colors">Home</a>
-        <a href="#special" class="hover:text-amber-400 transition-colors">Offers</a>
+        <a href="#offers" class="hover:text-amber-400 transition-colors">Offers</a>
+        <a href="#popular" class="hover:text-amber-400 transition-colors">Popular</a>
         <a href="#menu" class="hover:text-amber-400 transition-colors">Menu</a>
+        <a href="#ambience" class="hover:text-amber-400 transition-colors">Ambience</a>
         <a href="#gallery" class="hover:text-amber-400 transition-colors">Gallery</a>
         <a href="#about" class="hover:text-amber-400 transition-colors">About Us</a>
         <a href="#contact" class="hover:text-amber-400 transition-colors">Contact</a>
       </nav>
 
-      <!-- EDIT HERE: Replace with your phone number -->
-      <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20place%20an%20order!" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-4 py-2.5 rounded-full transition-all shadow-lg shadow-emerald-900/30">
-        <i class="fa-brands fa-whatsapp text-lg"></i>
-        <span>Order on WhatsApp</span>
-      </a>
+      <!-- Cart Button in Header -->
+      <button onclick="toggleCartDrawer(true)" class="relative inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2.5 rounded-full transition shadow-lg shadow-amber-500/20">
+        <i class="fa-solid fa-bag-shopping text-lg"></i>
+        <span>My Plate</span>
+        <span id="nav-cart-count" class="bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold ml-1">0</span>
+      </button>
     </div>
   </header>
 
   <!-- ================= HERO SECTION ================= -->
   <section id="home" class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-    <!-- Background Image with Overlay -->
     <div class="absolute inset-0 z-0">
       <img src="images/hero-biryani.jpg" alt="Hero Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1600&q=80';" class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/50"></div>
@@ -92,28 +116,24 @@
         <a href="#menu" class="w-full sm:w-auto px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 text-center">
           View Full Menu
         </a>
-        <a href="#special" class="w-full sm:w-auto px-8 py-3.5 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-700 transition-all text-center">
+        <a href="#offers" class="w-full sm:w-auto px-8 py-3.5 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-700 transition-all text-center">
           Today's Special Offer
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ================= TODAY'S SPECIAL =================2222222222222222222222222222222 -->
   <!-- ================= OFFERS & SPECIAL DEALS ================= -->
-  <section id="offers" class="py-16 bg-gradient-to-b from-slate-950 to-slate-900 border-y border-slate-800/80">
+  <section id="offers" class="py-16 bg-gradient-to-b from-slate-950 to-slate-900 border-y border-slate-800/80 relative">
+    <span id="special" class="absolute -top-24"></span>
     <div class="max-w-4xl mx-auto px-4">
       
-      <!-- Section Title -->
       <div class="text-center mb-8">
         <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Deals & Discounts</span>
         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">🔥 Special Offers</h2>
       </div>
 
-      <!-- =========================================================================
-           [MODE 1: NO OFFER FOR TODAY] (ACTIVE BY DEFAULT)
-           Keep this block visible when you do not have an active offer.
-           ========================================================================= -->
+      <!-- [MODE 1: NO OFFER FOR TODAY] (ACTIVE BY DEFAULT) -->
       <div id="no-offer-box" class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
         <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-3xl">
           🏷️
@@ -133,14 +153,8 @@
         </div>
       </div>
 
-      <!-- =========================================================================
-           [MODE 2: BANNER OFFER ACTIVE] (HIDDEN BY DEFAULT)
-           To activate this:
-           1. Remove 'hidden' from the class list below.
-           2. Add 'hidden' to the class list of 'no-offer-box' above.
-           ========================================================================= -->
+      <!-- [MODE 2: BANNER OFFER ACTIVE] (To show banner: remove 'hidden' from here and add 'hidden' to no-offer-box) -->
       <div id="active-offer-box" class="hidden bg-slate-900 border-2 border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl">
-        <!-- The Uploaded Offer Banner Image -->
         <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[420px] overflow-hidden bg-slate-950">
           <img 
             src="images/offer-banner.jpg" 
@@ -152,16 +166,12 @@
           </span>
         </div>
 
-        <!-- Banner Details & Order Action -->
         <div class="p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900">
           <div class="text-center sm:text-left">
-            <!-- EDIT YOUR OFFER HEADLINE HERE -->
             <h3 class="text-2xl font-serif font-bold text-white">Special Combo Offer!</h3>
-            <!-- EDIT YOUR OFFER SUBTEXT HERE -->
             <p class="text-slate-300 text-sm mt-1">Show this banner or mention it on WhatsApp to claim your discount.</p>
           </div>
 
-          <!-- Claim Button -->
           <a 
             href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20saw%20your%20website%20offer%20banner%20and%20want%20to%20claim%20it!" 
             target="_blank" 
@@ -177,30 +187,25 @@
   </section>
 
   <!-- ================= POPULAR CATEGORIES ================= -->
-  <!-- ================= POPULAR CATEGORIES ================= -->
-  <section class="py-14 max-w-5xl mx-auto px-4">
+  <section id="popular" class="py-14 max-w-5xl mx-auto px-4">
     <div class="text-center mb-10">
       <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Customer Favorites</span>
       <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Popular Categories</h2>
     </div>
 
-    <!-- 3-Item Balanced Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <!-- 1. Biryani -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍚</div>
         <h3 class="font-bold text-white text-xl">Biryani</h3>
         <p class="text-sm text-slate-400 mt-1">Chicken & Mutton Dum</p>
       </a>
 
-      <!-- 2. Rolls -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🌯</div>
         <h3 class="font-bold text-white text-xl">Rolls</h3>
         <p class="text-sm text-slate-400 mt-1">Egg & Chicken Kathi Rolls</p>
       </a>
 
-      <!-- 3. Chicken Chaap -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍗</div>
         <h3 class="font-bold text-white text-xl">Chicken Chaap</h3>
@@ -209,15 +214,15 @@
     </div>
   </section>
 
-  <!-- ================= OUR MENU ================= -->
+  <!-- ================= OUR MENU (WITH MULTI-ITEM CART) ================= -->
   <section id="menu" class="py-16 bg-slate-900/50 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
         <div>
           <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Fresh & Tasty</span>
           <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">📋 Our Menu</h2>
+          <p class="text-xs text-slate-400 mt-1">Click "+ Add to Plate" to pick multiple items together!</p>
         </div>
-        <!-- Link to PDF Menu -->
         <a href="menu/menu.pdf" download class="inline-flex items-center gap-2 text-sm bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 px-4 py-2.5 rounded-lg transition font-medium">
           <i class="fa-solid fa-file-pdf text-red-500"></i> Download Full Menu Card
         </a>
@@ -226,98 +231,138 @@
       <!-- Menu Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <!-- Item 1 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
-          <img src="images/chicken-biryani.jpg" alt="Chicken Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <div class="flex justify-between items-start">
-              <h3 class="font-bold text-lg text-white">Chicken Dum Biryani</h3>
-              <span class="text-amber-400 font-bold text-lg">₹120</span>
+        <!-- Item 1: Chicken Dum Biryani -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
+          <div>
+            <img src="images/chicken-biryani.jpg" alt="Chicken Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg text-white">Chicken Dum Biryani</h3>
+                <span class="text-amber-400 font-bold text-lg">₹120</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Rich spices, tender chicken, soft potato, aromatic rice.</p>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Rich spices, tender chicken, soft potato, aromatic rice.</p>
-            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Biryani" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="addToCart('Chicken Dum Biryani', 120)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-plus"></i> Add to Plate
+            </button>
           </div>
         </div>
 
-        <!-- Item 2 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
-          <img src="images/mutton-biryani.jpg" alt="Mutton Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600&q=80';" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <div class="flex justify-between items-start">
-              <h3 class="font-bold text-lg text-white">Special Mutton Biryani</h3>
-              <span class="text-amber-400 font-bold text-lg">₹180</span>
+        <!-- Item 2: Special Mutton Biryani -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
+          <div>
+            <img src="images/mutton-biryani.jpg" alt="Mutton Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600&q=80';" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg text-white">Special Mutton Biryani</h3>
+                <span class="text-amber-400 font-bold text-lg">₹180</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Slow-cooked tender juicy mutton piece with royal spices.</p>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Slow-cooked tender juicy mutton piece with royal spices.</p>
-            <a href="https://wa.me/917074155166?text=Order%20Mutton%20Biryani" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="addToCart('Special Mutton Biryani', 180)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-plus"></i> Add to Plate
+            </button>
           </div>
         </div>
 
-        <!-- Item 3 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
-          <img src="images/chicken-chap.jpg" alt="Chicken Chaap" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <div class="flex justify-between items-start">
-              <h3 class="font-bold text-lg text-white">Mughlai Chicken Chaap</h3>
-              <span class="text-amber-400 font-bold text-lg">₹60</span>
+        <!-- Item 3: Mughlai Chicken Chaap -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
+          <div>
+            <img src="images/chicken-chap.jpg" alt="Chicken Chaap" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg text-white">Mughlai Chicken Chaap</h3>
+                <span class="text-amber-400 font-bold text-lg">₹60</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Mughlai style slow cooked thick poppy-seed and cashew gravy.</p>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Mughlai style slow cooked thick poppy-seed and cashew gravy.</p>
-            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Chaap" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="addToCart('Mughlai Chicken Chaap', 60)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-plus"></i> Add to Plate
+            </button>
           </div>
         </div>
 
-        <!-- Item 4 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
-          <img src="images/chicken-lollipop.jpg" alt="Chicken Lollipop" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1527477378378-00d04c4051b8?w=600&q=80';" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <div class="flex justify-between items-start">
-              <h3 class="font-bold text-lg text-white">Chicken Lollipop (4 pcs)</h3>
-              <span class="text-amber-400 font-bold text-lg">₹110</span>
+        <!-- Item 4: Chicken Lollipop -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
+          <div>
+            <img src="images/chicken-lollipop.jpg" alt="Chicken Lollipop" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1527477378378-00d04c4051b8?w=600&q=80';" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg text-white">Chicken Lollipop (4 pcs)</h3>
+                <span class="text-amber-400 font-bold text-lg">₹110</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Crispy spiced winglets tossed with hot garlic dip.</p>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Crispy spiced winglets tossed with hot garlic dip.</p>
-            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Lollipop" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="addToCart('Chicken Lollipop (4 pcs)', 110)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-plus"></i> Add to Plate
+            </button>
           </div>
         </div>
 
-        <!-- Item 5 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
-          <img src="images/chowmein.jpg" alt="Chicken Chowmein" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=80';" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <div class="flex justify-between items-start">
-              <h3 class="font-bold text-lg text-white">Chicken Hakka Chowmein</h3>
-              <span class="text-amber-400 font-bold text-lg">₹80</span>
+        <!-- Item 5: Chicken Hakka Chowmein -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
+          <div>
+            <img src="images/chowmein.jpg" alt="Chicken Chowmein" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=80';" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg text-white">Chicken Hakka Chowmein</h3>
+                <span class="text-amber-400 font-bold text-lg">₹80</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Wok tossed noodles with shredded chicken and veggies.</p>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Wok tossed noodles with shredded chicken and veggies.</p>
-            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Chowmein" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
           </div>
-        </div>
-        <!--item6-->
-        <!-- Item: Crispy Egg Roll -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
-          <img src="images/egg-roll.jpg" alt="Egg Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <div class="flex justify-between items-start">
-              <h3 class="font-bold text-lg text-white">Crispy Egg Roll</h3>
-              <span class="text-amber-400 font-bold text-lg">₹40</span>
-            </div>
-            <p class="text-xs text-slate-400 mt-1">Crispy flaky golden paratha rolled with seasoned double egg, onions & tangy sauce.</p>
-            <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order%20Crispy%20Egg%20Roll" target="_blank" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          <div class="p-5 pt-0">
+            <button onclick="addToCart('Chicken Hakka Chowmein', 80)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-plus"></i> Add to Plate
+            </button>
           </div>
         </div>
 
-        <!-- Item: Kolkata Chicken Roll -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
-          <img src="images/chicken-roll.jpg" alt="Chicken Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <div class="flex justify-between items-start">
-              <h3 class="font-bold text-lg text-white">Chicken Roll</h3>
-              <span class="text-amber-400 font-bold text-lg">₹70</span>
+        <!-- Item 6: Crispy Egg Roll -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
+          <div>
+            <img src="images/egg-roll.jpg" alt="Egg Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg text-white">Crispy Egg Roll</h3>
+                <span class="text-amber-400 font-bold text-lg">₹40</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Crispy flaky golden paratha rolled with seasoned double egg, onions & tangy sauce.</p>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Tender spiced chicken chunks tossed with sliced onions, lime juice & green chilies wrapped in crispy paratha.</p>
-            <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order%20Kolkata%20Chicken%20Roll" target="_blank" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="addToCart('Crispy Egg Roll', 40)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-plus"></i> Add to Plate
+            </button>
           </div>
         </div>
 
-       
+        <!-- Item 7: Kolkata Chicken Roll -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
+          <div>
+            <img src="images/chicken-roll.jpg" alt="Chicken Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
+            <div class="p-5">
+              <div class="flex justify-between items-start">
+                <h3 class="font-bold text-lg text-white">Chicken Roll</h3>
+                <span class="text-amber-400 font-bold text-lg">₹70</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">Tender spiced chicken chunks tossed with sliced onions, lime juice & green chilies wrapped in crispy paratha.</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="addToCart('Chicken Roll', 70)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-plus"></i> Add to Plate
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -346,13 +391,10 @@
     </div>
   </section>
 
-  
-
-      <!-- ================= AMBIENCE & NATURE AROUND US ================= -->
+  <!-- ================= AMBIENCE & NATURE AROUND US ================= -->
   <section id="ambience" class="py-16 bg-slate-900/40 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
       
-      <!-- Section Heading -->
       <div class="text-center max-w-2xl mx-auto mb-12">
         <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase flex items-center justify-center gap-2">
           <span>🌿</span> Relax & Dine In Peace
@@ -365,10 +407,9 @@
         </p>
       </div>
 
-      <!-- 6 Numbered Nature Photos Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <!-- ================= NATURE PHOTO 1 ================= -->
+        <!-- Nature Photo 1 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
             <img 
@@ -380,14 +421,12 @@
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 1</span>
-            <!-- UPDATE TITLE 1 HERE -->
             <h3 class="text-white font-bold text-base mt-0.5">Green Surroundings</h3>
-            <!-- UPDATE DESCRIPTION 1 HERE -->
             <p class="text-xs text-slate-400 mt-1">Peaceful greenery and trees outside our restaurant.</p>
           </div>
         </div>
 
-        <!-- ================= NATURE PHOTO 2 ================= -->
+        <!-- Nature Photo 2 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
             <img 
@@ -399,14 +438,12 @@
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 2</span>
-            <!-- UPDATE TITLE 2 HERE -->
             <h3 class="text-white font-bold text-base mt-0.5">Open Sky & Fresh Air</h3>
-            <!-- UPDATE DESCRIPTION 2 HERE -->
             <p class="text-xs text-slate-400 mt-1">Wide open space away from dusty roads and noise.</p>
           </div>
         </div>
 
-        <!-- ================= NATURE PHOTO 3 ================= -->
+        <!-- Nature Photo 3 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
             <img 
@@ -418,14 +455,12 @@
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 3</span>
-            <!-- UPDATE TITLE 3 HERE -->
             <h3 class="text-white font-bold text-base mt-0.5">Outdoor Pathway</h3>
-            <!-- UPDATE DESCRIPTION 3 HERE -->
             <p class="text-xs text-slate-400 mt-1">Clean and calm pathway leading into our dining area.</p>
           </div>
         </div>
 
-        <!-- ================= NATURE PHOTO 4 ================= -->
+        <!-- Nature Photo 4 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
             <img 
@@ -437,14 +472,12 @@
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 4</span>
-            <!-- UPDATE TITLE 4 HERE -->
             <h3 class="text-white font-bold text-base mt-0.5">Evening Sunset Ambience</h3>
-            <!-- UPDATE DESCRIPTION 4 HERE -->
             <p class="text-xs text-slate-400 mt-1">Beautiful golden hour sunset view while enjoying hot rolls.</p>
           </div>
         </div>
 
-        <!-- ================= NATURE PHOTO 5 ================= -->
+        <!-- Nature Photo 5 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
             <img 
@@ -456,14 +489,12 @@
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 5</span>
-            <!-- UPDATE TITLE 5 HERE -->
             <h3 class="text-white font-bold text-base mt-0.5">Garden Corner</h3>
-            <!-- UPDATE DESCRIPTION 5 HERE -->
             <p class="text-xs text-slate-400 mt-1">Lush plants and decorative flowers around the seating area.</p>
           </div>
         </div>
 
-        <!-- ================= NATURE PHOTO 6 ================= -->
+        <!-- Nature Photo 6 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
             <img 
@@ -475,9 +506,7 @@
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 6</span>
-            <!-- UPDATE TITLE 6 HERE -->
             <h3 class="text-white font-bold text-base mt-0.5">Night Lights & Breeze</h3>
-            <!-- UPDATE DESCRIPTION 6 HERE -->
             <p class="text-xs text-slate-400 mt-1">Cozy lighting making outdoor dinners warm and memorable.</p>
           </div>
         </div>
@@ -566,42 +595,41 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Contact Cards & Timings -->
         <div class="space-y-6">
           <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
             <h3 class="text-xl font-bold text-white mb-4">Contact Info</h3>
             
             <div class="space-y-4">
-              <!-- EDIT HERE: Replace phone number -->
+              <!-- CALL LINK -->
               <a href="tel:+917074155166" class="flex items-center gap-4 text-slate-300 hover:text-amber-400 transition">
                 <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
                   <i class="fa-solid fa-phone"></i>
                 </div>
                 <div>
                   <div class="text-xs text-slate-500 uppercase">Call for Orders</div>
-                  <div class="font-semibold">+91 7074155166</div>
+                  <div class="font-semibold text-lg text-white">+91 70741 55166</div>
                 </div>
               </a>
 
-              <!-- EDIT HERE: Replace WhatsApp number -->
+              <!-- WHATSAPP LINK -->
               <a href="https://wa.me/917074155166" target="_blank" class="flex items-center gap-4 text-slate-300 hover:text-emerald-400 transition">
                 <div class="w-10 h-10 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                   <i class="fa-brands fa-whatsapp"></i>
                 </div>
                 <div>
                   <div class="text-xs text-slate-500 uppercase">Chat & WhatsApp Booking</div>
-                  <div class="font-semibold">+91 7074155166</div>
+                  <div class="font-semibold text-lg text-white">+91 70741 55166</div>
                 </div>
               </a>
 
-              <!-- EDIT HERE: Replace your physical address -->
+              <!-- ADDRESS -->
               <div class="flex items-center gap-4 text-slate-300">
                 <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
                   <i class="fa-solid fa-location-dot"></i>
                 </div>
                 <div>
                   <div class="text-xs text-slate-500 uppercase">Address</div>
-                  <div class="font-semibold">Main Road, Near krishnaganj MathaBhanga River setu(bridge), Unique Biryani & Restaurant</div>
+                  <div class="font-semibold text-white">Main Road, Near krishnaganj MathaBhanga River setu(bridge), Unique Biryani & Restaurant</div>
                 </div>
               </div>
             </div>
@@ -625,9 +653,8 @@
 
         <!-- Google Maps Embed -->
         <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl overflow-hidden h-[380px]">
-          <!-- EDIT HERE: Put your Google Maps Embed iframe below -->
           <iframe 
-            src="https://maps.app.goo.gl/XA4vJv7ECnij43hU9?g_st=ac"
+            src="https://maps.google.com/maps?q=Krishnaganj+Mathabhanga+River+Bridge,+West+Bengal&t=&z=14&ie=UTF8&iwloc=&output=embed" 
             class="w-full h-full rounded-xl border-0" 
             allowfullscreen="" 
             loading="lazy">
@@ -641,7 +668,6 @@
   <footer class="bg-slate-950 border-t border-slate-900 py-10 text-center text-sm text-slate-500">
     <div class="max-w-7xl mx-auto px-4 space-y-4">
       <div class="flex justify-center items-center gap-6 text-xl text-slate-400">
-        <!-- EDIT HERE: Add your social profiles111111111111111111111111111111 -->
         <a href="https://instagram.com" target="_blank" class="hover:text-pink-400 transition"><i class="fa-brands fa-instagram"></i></a>
         <a href="https://facebook.com" target="_blank" class="hover:text-blue-400 transition"><i class="fa-brands fa-facebook"></i></a>
         <a href="https://wa.me/917074155166" target="_blank" class="hover:text-emerald-400 transition"><i class="fa-brands fa-whatsapp"></i></a>
@@ -651,17 +677,482 @@
   </footer>
 
   <!-- ================= MOBILE FIXED BOTTOM ACTION BAR ================= -->
-  <div class="fixed bottom-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-2.5 flex items-center justify-around md:hidden">
-    <a href="tel:+917074155166?text" class="flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold flex-1 justify-center mr-2">
+  <div class="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-2.5 flex items-center justify-around md:hidden">
+    <a href="tel:+917074155166" class="flex items-center gap-2 px-4 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-semibold flex-1 justify-center mr-2">
       <i class="fa-solid fa-phone text-amber-400"></i> Call Now
     </a>
-    <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order!" target="_blank" class="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-semibold flex-1 justify-center">
-      <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Order
+    <button onclick="toggleCartDrawer(true)" class="flex items-center gap-2 px-4 py-2.5 bg-amber-500 text-slate-950 rounded-xl text-xs font-bold flex-1 justify-center mr-2">
+      <i class="fa-solid fa-bag-shopping"></i> My Plate
+    </button>
+    <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order!" target="_blank" class="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-semibold flex-1 justify-center">
+      <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
     </a>
   </div>
 
+  <!-- ================= FLOATING CART BAR (APPEARS ON ITEM ADD) ================= -->
+  <div id="floating-cart-bar" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 p-4 rounded-2xl shadow-2xl shadow-amber-500/30 flex items-center justify-between cursor-pointer transform translate-y-28 opacity-0 transition-all duration-300 pointer-events-none" onclick="toggleCartDrawer(true)">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-slate-950/20 flex items-center justify-center text-xl font-bold">
+        🛒
+      </div>
+      <div>
+        <div class="font-extrabold text-sm uppercase tracking-wide leading-none" id="float-cart-count">0 Items Added</div>
+        <div class="text-xs font-semibold text-slate-900 mt-1">Total: <span id="float-cart-total" class="font-black text-base text-slate-950">₹0</span></div>
+      </div>
+    </div>
+    <div class="flex items-center gap-1 font-bold text-sm bg-slate-950 text-white px-4 py-2 rounded-xl ml-4">
+      <span>View Plate</span>
+      <i class="fa-solid fa-arrow-right text-xs"></i>
+    </div>
+  </div>
+
+  <!-- ================= CART SLIDE-OVER DRAWER ================= -->
+  <div id="cart-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
+
+  <div id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-slate-900 z-50 shadow-2xl border-l border-slate-800 flex flex-col transform translate-x-full transition-transform duration-300">
+    
+    <!-- Drawer Header -->
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+      <div class="flex items-center gap-2.5">
+        <span class="text-2xl">🥘</span>
+        <div>
+          <h3 class="font-bold text-lg text-white">Your Order Plate</h3>
+          <p class="text-xs text-slate-400">Review items before WhatsApp checkout</p>
+        </div>
+      </div>
+      <button onclick="toggleCartDrawer(false)" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Items List (Scrollable) -->
+    <div class="flex-1 overflow-y-auto p-5 space-y-4" id="cart-items-container"></div>
+
+    <!-- Empty State -->
+    <div id="cart-empty-state" class="hidden flex-1 flex-col items-center justify-center p-8 text-center">
+      <span class="text-5xl mb-3">🍽️</span>
+      <h4 class="text-lg font-bold text-white">Your plate is empty</h4>
+      <p class="text-sm text-slate-400 mt-1">Browse our menu and pick delicious biryani and snacks!</p>
+      <button onclick="toggleCartDrawer(false)" class="mt-5 px-5 py-2 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl">Explore Menu</button>
+    </div>
+
+    <!-- Drawer Footer / Checkout Form -->
+    <div id="cart-footer" class="p-5 border-t border-slate-800 bg-slate-950 space-y-4">
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Name *</label>
+          <input type="text" id="cust-name" placeholder="Enter your full name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Order Type</label>
+            <select id="cust-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+              <option value="Home Delivery">Home Delivery</option>
+              <option value="Takeaway / Parcel">Takeaway Parcel</option>
+              <option value="Dine-in (At Table)">Dine-in (Table)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Phone (Optional)</label>
+            <input type="tel" id="cust-phone" placeholder="Phone number" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Delivery Address / Table No. *</label>
+          <input type="text" id="cust-address" placeholder="Room/Street/Landmark or Table No." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Cooking Note / Extra (Optional)</label>
+          <input type="text" id="cust-note" placeholder="E.g. Extra salad, less spicy, extra spoons" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-3 space-y-1.5 text-sm">
+        <div class="flex justify-between text-slate-400">
+          <span>Subtotal</span>
+          <span id="cart-subtotal" class="font-medium text-white">₹0</span>
+        </div>
+        <div class="flex justify-between text-base font-bold text-white pt-1">
+          <span>Total Payable</span>
+          <span id="cart-grandtotal" class="text-amber-400 text-xl font-black">₹0</span>
+        </div>
+      </div>
+
+      <button onclick="sendWhatsAppOrder()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 text-base shadow-xl shadow-emerald-950">
+        <i class="fa-brands fa-whatsapp text-xl"></i>
+        <span>Place Complete Order on WhatsApp</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= VOUCHER POPUP MODAL ================= -->
+  <div id="voucher-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl overflow-hidden">
+      
+      <!-- Close Button -->
+      <button onclick="toggleVoucherModal(false)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- STATE 1: NOT LOGGED IN -->
+      <div id="voucher-login-state" class="text-center py-4">
+        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mx-auto mb-4">
+          🎟️
+        </div>
+        <h3 class="text-2xl font-serif font-bold text-white">First-Visit Welcome Gift</h3>
+        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+          Sign in with Google to generate your personal <strong>Flat ₹50 OFF</strong> in-store voucher. Show it at our restaurant counter during your dine-in meal.
+        </p>
+        <div class="mt-6">
+          <button onclick="loginWithGoogle()" class="w-full py-3.5 px-4 bg-white hover:bg-slate-100 text-slate-900 font-bold rounded-xl transition flex items-center justify-center gap-3 shadow-lg">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
+            <span>Continue with Google</span>
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-4">One voucher per Google account. Valid on first physical dine-in visit only.</p>
+      </div>
+
+      <!-- STATE 2: ACTIVE VOUCHER (FOR STORE COUNTER) -->
+      <div id="voucher-card-state" class="hidden text-center">
+        <div class="border-2 border-dashed border-amber-500/60 rounded-2xl p-5 bg-slate-950/60 relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 text-[10px] font-black uppercase tracking-widest px-3 py-0.5 rounded-full shadow">
+            In-Store Dine-in Pass
+          </span>
+
+          <div class="flex items-center justify-center gap-3 mt-2 mb-3">
+            <img id="user-avatar" src="" class="w-10 h-10 rounded-full border border-amber-400 object-cover" alt="User">
+            <div class="text-left">
+              <h4 id="user-name" class="text-white font-bold text-sm"></h4>
+              <span class="text-xs text-slate-400" id="user-email"></span>
+            </div>
+          </div>
+
+          <div class="py-2 my-2 border-y border-slate-800">
+            <div class="text-4xl font-extrabold text-amber-400 font-serif">FLAT ₹50 OFF</div>
+            <p class="text-xs text-slate-400 mt-0.5">Valid on your dine-in visit at restaurant counter</p>
+          </div>
+
+          <!-- Generated QR Code -->
+          <div class="my-4 flex justify-center">
+            <div class="p-2.5 bg-white rounded-xl shadow-inner">
+              <img id="voucher-qr" src="" alt="Voucher QR" class="w-36 h-36">
+            </div>
+          </div>
+
+          <div class="bg-slate-900 py-2 px-3 rounded-xl border border-slate-800">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400">Voucher Code</div>
+            <div id="voucher-code-display" class="text-xl font-mono font-bold tracking-widest text-amber-400 select-all"></div>
+          </div>
+        </div>
+
+        <div id="voucher-status-pill" class="mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2"></div>
+
+        <p class="text-[11px] text-slate-400 mt-3">
+          Show this screen or take a screenshot to present at <strong>Unique Biryani & Restaurant</strong> counter during payment.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded-full shadow-2xl transition-all duration-300 opacity-0 pointer-events-none text-sm flex items-center gap-2">
+    <span>✅</span>
+    <span id="toast-message">Item added to plate!</span>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ENGINE ================= -->
   <script>
+    // ==========================================
+    // 1. YOUR RESTAURANT WHATSAPP NUMBER
+    // ==========================================
+    const RESTAURANT_WHATSAPP = "917074155166";
+
+    // Set Copyright Year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ==========================================
+    // 2. FIREBASE CONFIGURATION (PASTE KEYS HERE)
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "unique-biryani.firebaseapp.com",
+      projectId: "unique-biryani",
+      storageBucket: "unique-biryani.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    let auth = null;
+    let db = null;
+
+    // Safe initialization so website runs even before keys are pasted
+    try {
+      if (firebaseConfig.apiKey !== "YOUR_API_KEY" && !firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        auth = firebase.auth();
+        db = firebase.firestore();
+
+        // Listen for user login state
+        auth.onAuthStateChanged(async (user) => {
+          const bannerBtn = document.getElementById('voucher-banner-btn');
+          if (user) {
+            if (bannerBtn) bannerBtn.innerHTML = `<span>My Voucher</span>`;
+            await checkAndLoadVoucher(user);
+          } else {
+            if (bannerBtn) bannerBtn.innerHTML = `<i class="fa-brands fa-google"></i><span>Claim My ₹50 Voucher</span>`;
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("Firebase not configured yet:", e.message);
+    }
+
+    // Voucher Modal Helpers
+    function handleVoucherButtonClick() {
+      toggleVoucherModal(true);
+    }
+
+    function toggleVoucherModal(show) {
+      const modal = document.getElementById('voucher-modal');
+      if (show) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    async function loginWithGoogle() {
+      if (!auth) {
+        alert("Please paste your Firebase keys into index.html to activate Google Sign-in!");
+        return;
+      }
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        await checkAndLoadVoucher(result.user);
+      } catch (error) {
+        alert("Sign-in error: " + error.message);
+      }
+    }
+
+    async function checkAndLoadVoucher(user) {
+      if (!db) return;
+      const userRef = db.collection('vouchers').doc(user.uid);
+      const doc = await userRef.get();
+
+      let voucherData;
+      if (!doc.exists) {
+        // Brand new customer! Create one-time unique voucher
+        const uniqueCode = "UB-" + Math.random().toString(36).substring(2, 7).toUpperCase();
+        voucherData = {
+          uid: user.uid,
+          name: user.displayName || "Valued Customer",
+          email: user.email,
+          photoURL: user.photoURL || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100",
+          code: uniqueCode,
+          discount: "₹50 OFF",
+          isRedeemed: false,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          redeemedAt: null
+        };
+        await userRef.set(voucherData);
+      } else {
+        voucherData = doc.data();
+      }
+
+      renderVoucherCard(voucherData);
+    }
+
+    function renderVoucherCard(data) {
+      document.getElementById('voucher-login-state').classList.add('hidden');
+      document.getElementById('voucher-card-state').classList.remove('hidden');
+
+      document.getElementById('user-avatar').src = data.photoURL;
+      document.getElementById('user-name').textContent = data.name;
+      document.getElementById('user-email').textContent = data.email;
+      document.getElementById('voucher-code-display').textContent = data.code;
+      document.getElementById('voucher-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(data.code)}`;
+
+      const statusPill = document.getElementById('voucher-status-pill');
+      if (data.isRedeemed) {
+        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-red-900/60 text-red-300 border border-red-500/40";
+        statusPill.innerHTML = `<span>❌ ALREADY REDEEMED</span>`;
+      } else {
+        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-emerald-950/60 text-emerald-300 border border-emerald-500/40";
+        statusPill.innerHTML = `<span>✅ VALID FOR FIRST VISIT</span>`;
+      }
+    }
+
+    // ==========================================
+    // 3. MULTI-ITEM CART & WHATSAPP ENGINE
+    // ==========================================
+    let cart = [];
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name: name, price: price, quantity: 1 });
+      }
+      renderCart();
+      showToast(`Added ${name} to your plate!`);
+    }
+
+    function changeQty(index, delta) {
+      if (cart[index]) {
+        cart[index].quantity += delta;
+        if (cart[index].quantity <= 0) {
+          cart.splice(index, 1);
+        }
+      }
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2200);
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items-container');
+      const emptyState = document.getElementById('cart-empty-state');
+      const footer = document.getElementById('cart-footer');
+      const navCount = document.getElementById('nav-cart-count');
+      const floatBar = document.getElementById('floating-cart-bar');
+      const floatCount = document.getElementById('float-cart-count');
+      const floatTotal = document.getElementById('float-cart-total');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+      if (navCount) navCount.textContent = totalItems;
+
+      if (floatBar) {
+        if (totalItems > 0) {
+          floatBar.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
+          floatCount.textContent = `${totalItems} ${totalItems === 1 ? 'Item' : 'Items'} in Plate`;
+          floatTotal.textContent = `₹${grandTotal}`;
+        } else {
+          floatBar.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
+        }
+      }
+
+      if (cart.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        footer.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+      footer.classList.remove('hidden');
+
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 flex items-center justify-between gap-3">
+          <div class="flex-1 min-w-0">
+            <h5 class="text-sm font-bold text-white truncate">${item.name}</h5>
+            <div class="text-xs text-amber-400 font-semibold mt-0.5">₹${item.price} each</div>
+            <div class="text-xs text-slate-400 mt-1">Subtotal: <strong class="text-white">₹${item.price * item.quantity}</strong></div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg overflow-hidden">
+              <button onclick="changeQty(${idx}, -1)" class="w-7 h-7 flex items-center justify-center text-slate-300 hover:bg-slate-800 active:scale-90 transition font-bold">−</button>
+              <span class="w-8 text-center text-xs font-bold text-white">${item.quantity}</span>
+              <button onclick="changeQty(${idx}, 1)" class="w-7 h-7 flex items-center justify-center text-slate-300 hover:bg-slate-800 active:scale-90 transition font-bold">+</button>
+            </div>
+            <button onclick="removeItem(${idx})" class="w-7 h-7 text-slate-500 hover:text-red-400 flex items-center justify-center transition">
+              <i class="fa-solid fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('cart-subtotal').textContent = `₹${grandTotal}`;
+      document.getElementById('cart-grandtotal').textContent = `₹${grandTotal}`;
+    }
+
+    function toggleCartDrawer(open) {
+      const drawer = document.getElementById('cart-drawer');
+      const backdrop = document.getElementById('cart-backdrop');
+      if (open) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function sendWhatsAppOrder() {
+      if (cart.length === 0) {
+        alert("Your plate is empty! Please select dishes first.");
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value.trim();
+      const type = document.getElementById('cust-type').value;
+      const phone = document.getElementById('cust-phone').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+      const note = document.getElementById('cust-note').value.trim();
+
+      if (!name) {
+        alert("Please enter your Name before sending the order.");
+        document.getElementById('cust-name').focus();
+        return;
+      }
+
+      if (!address) {
+        alert("Please provide your Delivery Address or Dine-in Table Number.");
+        document.getElementById('cust-address').focus();
+        return;
+      }
+
+      const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+      let msg = `🛍️ *NEW ORDER - UNIQUE BIRYANI & RESTAURANT*\n`;
+      msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `👤 *Customer:* ${name}\n`;
+      if (phone) msg += `📞 *Phone:* ${phone}\n`;
+      msg += `📍 *Order Type:* ${type}\n`;
+      msg += `🏠 *Address / Table:* ${address}\n`;
+      msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `📋 *ITEMS ORDERED:*\n`;
+
+      cart.forEach((item) => {
+        msg += `• ${item.quantity}x ${item.name} (₹${item.price}) = ₹${item.price * item.quantity}\n`;
+      });
+
+      msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `💰 *GRAND TOTAL:* ₹${grandTotal}\n`;
+      if (note) msg += `📝 *Special Instructions:* ${note}\n`;
+      msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `_Order placed via website_`;
+
+      const encodedURL = `https://wa.me/${RESTAURANT_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+      window.open(encodedURL, '_blank');
+    }
+
+    // Initial load
+    renderCart();
   </script>
 </body>
 </html>
