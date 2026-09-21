@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Counter Portal | Unique Biryani</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 flex items-center justify-center font-sans">
+
+  <div class="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+    
+    <div class="text-center mb-6">
+      <span class="text-3xl">👨‍🍳</span>
+      <h1 class="text-2xl font-bold text-white mt-2">Cashier Voucher Verification</h1>
+      <p class="text-xs text-slate-400">Unique Biryani & Restaurant Counter</p>
+    </div>
+
+    <!-- Step 1: Staff PIN Protection -->
+    <div id="pin-screen" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Enter Staff 4-Digit PIN</label>
+        <input type="password" id="staff-pin" maxlength="4" placeholder="••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-center text-2xl tracking-widest text-white focus:outline-none focus:border-amber-500">
+      </div>
+      <button onclick="verifyPin()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition">
+        Unlock Cashier Scanner
+      </button>
+    </div>
+
+    <!-- Step 2: Voucher Verification Screen -->
+    <div id="verify-screen" class="hidden space-y-5">
+      <div>
+        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Customer Voucher Code</label>
+        <div class="flex gap-2">
+          <input type="text" id="code-input" placeholder="e.g. UB-7A9B2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-lg font-mono font-bold uppercase text-white focus:outline-none focus:border-amber-500">
+          <button onclick="checkVoucher()" class="px-5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition">
+            Check
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div id="result-box" class="hidden p-5 rounded-2xl border transition-all"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // STAFF PIN (Change "1234" here if you want a different PIN)
+    const STAFF_PIN = "1234";
+
+    // YOUR REAL FIREBASE KEYS (Pre-connected)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBjHFiJmNNBLY3YKe2VWlvZavjhT4gGH7c",
+      authDomain: "unique-biryani.firebaseapp.com",
+      projectId: "unique-biryani",
+      storageBucket: "unique-biryani.firebasestorage.app",
+      messagingSenderId: "401965405432",
+      appId: "1:401965405432:web:3787d365e54ddb7255170d",
+      measurementId: "G-GLJRZBN0GD"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function verifyPin() {
+      const entered = document.getElementById('staff-pin').value;
+      if (entered === STAFF_PIN) {
+        document.getElementById('pin-screen').classList.add('hidden');
+        document.getElementById('verify-screen').classList.remove('hidden');
+      } else {
+        alert("Incorrect Staff PIN!");
+      }
+    }
+
+    let activeDocId = null;
+
+    async function checkVoucher() {
+      const code = document.getElementById('code-input').value.trim().toUpperCase();
+      const resultBox = document.getElementById('result-box');
+
+      if (!code) {
+        alert("Please enter a code");
+        return;
+      }
+
+      resultBox.classList.remove('hidden');
+      resultBox.innerHTML = `<p class="text-sm text-slate-400 text-center">Searching database...</p>`;
+
+      const snap = await db.collection('vouchers').where('code', '==', code).get();
+
+      if (snap.empty) {
+        resultBox.className = "p-5 rounded-2xl border border-red-500/40 bg-red-950/40 text-center";
+        resultBox.innerHTML = `
+          <div class="text-3xl mb-1">❌</div>
+          <h3 class="text-lg font-bold text-red-400">Invalid Voucher</h3>
+          <p class="text-xs text-slate-400 mt-1">This code does not exist in our system.</p>
+        `;
+        return;
+      }
+
+      const doc = snap.docs[0];
+      const data = doc.data();
+      activeDocId = doc.id;
+
+      if (data.isRedeemed) {
+        resultBox.className = "p-5 rounded-2xl border border-red-500/40 bg-red-950/40 text-center";
+        resultBox.innerHTML = `
+          <div class="text-3xl mb-1">⚠️</div>
+          <h3 class="text-lg font-bold text-red-400">Already Redeemed</h3>
+          <p class="text-xs text-slate-300 mt-1"><strong>Customer:</strong> ${data.name}</p>
+          <p class="text-xs text-slate-400 mt-0.5">This voucher has already been used once!</p>
+        `;
+      } else {
+        resultBox.className = "p-5 rounded-2xl border border-emerald-500/40 bg-emerald-950/40 text-center";
+        resultBox.innerHTML = `
+          <div class="text-3xl mb-1">✅</div>
+          <h3 class="text-xl font-extrabold text-emerald-400 font-serif">VALID VOUCHER</h3>
+          <div class="mt-2 text-sm text-slate-200">
+            <p><strong>Customer:</strong> ${data.name}</p>
+            <p class="text-xs text-slate-400">${data.email}</p>
+            <div class="text-2xl font-bold text-amber-400 mt-2">DEDUCT ₹50 FROM BILL</div>
+          </div>
+          <button onclick="confirmRedeem()" class="mt-4 w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-900/40">
+            Confirm & Mark as Redeemed
+          </button>
+        `;
+      }
+    }
+
+    async function confirmRedeem() {
+      if (!activeDocId) return;
+      if (confirm("Are you sure you want to mark this ₹50 discount as redeemed?")) {
+        await db.collection('vouchers').doc(activeDocId).update({
+          isRedeemed: true,
+          redeemedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert("Success! Voucher marked as REDEEMED.");
+        document.getElementById('code-input').value = "";
+        document.getElementById('result-box').classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
