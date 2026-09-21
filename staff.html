@@ -19,23 +19,12 @@
       <p class="text-xs text-slate-400">Unique Biryani & Restaurant Counter</p>
     </div>
 
-    <!-- Step 1: Staff PIN Protection -->
-    <div id="pin-screen" class="space-y-4">
-      <div>
-        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Enter Staff 4-Digit PIN</label>
-        <input type="password" id="staff-pin" maxlength="4" placeholder="••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-center text-2xl tracking-widest text-white focus:outline-none focus:border-amber-500">
-      </div>
-      <button onclick="verifyPin()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition">
-        Unlock Cashier Scanner
-      </button>
-    </div>
-
-    <!-- Step 2: Voucher Verification Screen -->
-    <div id="verify-screen" class="hidden space-y-5">
+    <!-- Direct Voucher Verification Screen (No PIN required) -->
+    <div class="space-y-5">
       <div>
         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Customer Voucher Code</label>
         <div class="flex gap-2">
-          <input type="text" id="code-input" placeholder="e.g. UB-7A9B2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-lg font-mono font-bold uppercase text-white focus:outline-none focus:border-amber-500">
+          <input type="text" id="code-input" placeholder="e.g. UB-1LQH3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-lg font-mono font-bold uppercase text-white focus:outline-none focus:border-amber-500">
           <button onclick="checkVoucher()" class="px-5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition">
             Check
           </button>
@@ -49,10 +38,7 @@
   </div>
 
   <script>
-    // STAFF PIN (Change "1234" here if you want a different PIN)
-    const STAFF_PIN = "1234";
-
-    // YOUR REAL FIREBASE KEYS (Pre-connected)
+    // YOUR REAL FIREBASE KEYS
     const firebaseConfig = {
       apiKey: "AIzaSyBjHFiJmNNBLY3YKe2VWlvZavjhT4gGH7c",
       authDomain: "unique-biryani.firebaseapp.com",
@@ -66,16 +52,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    function verifyPin() {
-      const entered = document.getElementById('staff-pin').value;
-      if (entered === STAFF_PIN) {
-        document.getElementById('pin-screen').classList.add('hidden');
-        document.getElementById('verify-screen').classList.remove('hidden');
-      } else {
-        alert("Incorrect Staff PIN!");
-      }
-    }
-
     let activeDocId = null;
 
     async function checkVoucher() {
@@ -83,7 +59,7 @@
       const resultBox = document.getElementById('result-box');
 
       if (!code) {
-        alert("Please enter a code");
+        alert("Please enter a voucher code");
         return;
       }
 
