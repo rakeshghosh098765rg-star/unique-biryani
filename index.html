@@ -15,7 +15,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Firebase Compat SDKs (For 1-Tap Google Sign-in & Vouchers) -->
+  <!-- Firebase SDKs for Google Sign-in & Vouchers -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -153,14 +153,10 @@
         </div>
       </div>
 
-      <!-- [MODE 2: BANNER OFFER ACTIVE] (To show banner: remove 'hidden' from here and add 'hidden' to no-offer-box) -->
+      <!-- [MODE 2: BANNER OFFER ACTIVE] -->
       <div id="active-offer-box" class="hidden bg-slate-900 border-2 border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl">
         <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[420px] overflow-hidden bg-slate-950">
-          <img 
-            src="images/offer-banner.jpg" 
-            alt="Today's Special Offer Banner" 
-            class="w-full h-full object-cover"
-          >
+          <img src="images/offer-banner.jpg" alt="Today's Special Offer Banner" class="w-full h-full object-cover">
           <span class="absolute top-4 left-4 bg-red-600 text-white text-xs font-black uppercase tracking-wider px-3 py-1 rounded-md shadow-lg animate-pulse">
             🔥 Limited Time Deal
           </span>
@@ -172,11 +168,7 @@
             <p class="text-slate-300 text-sm mt-1">Show this banner or mention it on WhatsApp to claim your discount.</p>
           </div>
 
-          <a 
-            href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20saw%20your%20website%20offer%20banner%20and%20want%20to%20claim%20it!" 
-            target="_blank" 
-            class="w-full sm:w-auto px-7 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/40 transition flex-shrink-0"
-          >
+          <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20saw%20your%20website%20offer%20banner%20and%20want%20to%20claim%20it!" target="_blank" class="w-full sm:w-auto px-7 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/40 transition flex-shrink-0">
             <i class="fa-brands fa-whatsapp text-lg"></i>
             <span>Claim Offer on WhatsApp</span>
           </a>
@@ -194,18 +186,21 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <!-- 1. Biryani -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍚</div>
         <h3 class="font-bold text-white text-xl">Biryani</h3>
         <p class="text-sm text-slate-400 mt-1">Chicken & Mutton Dum</p>
       </a>
 
+      <!-- 2. Rolls -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🌯</div>
         <h3 class="font-bold text-white text-xl">Rolls</h3>
         <p class="text-sm text-slate-400 mt-1">Egg & Chicken Kathi Rolls</p>
       </a>
 
+      <!-- 3. Chicken Chaap -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍗</div>
         <h3 class="font-bold text-white text-xl">Chicken Chaap</h3>
@@ -214,7 +209,7 @@
     </div>
   </section>
 
-  <!-- ================= OUR MENU (WITH MULTI-ITEM CART) ================= -->
+  <!-- ================= OUR MENU (MULTI-ITEM CART) ================= -->
   <section id="menu" class="py-16 bg-slate-900/50 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
@@ -231,7 +226,7 @@
       <!-- Menu Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <!-- Item 1: Chicken Dum Biryani -->
+        <!-- 1. Chicken Dum Biryani -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
             <img src="images/chicken-biryani.jpg" alt="Chicken Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-48 object-cover">
@@ -250,7 +245,7 @@
           </div>
         </div>
 
-        <!-- Item 2: Special Mutton Biryani -->
+        <!-- 2. Special Mutton Biryani -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
             <img src="images/mutton-biryani.jpg" alt="Mutton Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600&q=80';" class="w-full h-48 object-cover">
@@ -269,7 +264,7 @@
           </div>
         </div>
 
-        <!-- Item 3: Mughlai Chicken Chaap -->
+        <!-- 3. Mughlai Chicken Chaap -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
             <img src="images/chicken-chap.jpg" alt="Chicken Chaap" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
@@ -288,7 +283,7 @@
           </div>
         </div>
 
-        <!-- Item 4: Chicken Lollipop -->
+        <!-- 4. Chicken Lollipop -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
             <img src="images/chicken-lollipop.jpg" alt="Chicken Lollipop" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1527477378378-00d04c4051b8?w=600&q=80';" class="w-full h-48 object-cover">
@@ -307,7 +302,7 @@
           </div>
         </div>
 
-        <!-- Item 5: Chicken Hakka Chowmein -->
+        <!-- 5. Chicken Hakka Chowmein -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
             <img src="images/chowmein.jpg" alt="Chicken Chowmein" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=80';" class="w-full h-48 object-cover">
@@ -326,7 +321,7 @@
           </div>
         </div>
 
-        <!-- Item 6: Crispy Egg Roll -->
+        <!-- 6. Crispy Egg Roll -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
             <img src="images/egg-roll.jpg" alt="Egg Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
@@ -345,7 +340,7 @@
           </div>
         </div>
 
-        <!-- Item 7: Kolkata Chicken Roll -->
+        <!-- 7. Kolkata Chicken Roll -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
             <img src="images/chicken-roll.jpg" alt="Chicken Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
@@ -412,12 +407,7 @@
         <!-- Nature Photo 1 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
-            <img 
-              src="images/nature-1.jpg" 
-              alt="Nature View 1" 
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511497584788-87676104235f?w=800&q=80';"
-              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-            >
+            <img src="images/nature-1.jpg" alt="Nature View 1" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511497584788-87676104235f?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 1</span>
@@ -429,12 +419,7 @@
         <!-- Nature Photo 2 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
-            <img 
-              src="images/nature-2.jpg" 
-              alt="Nature View 2" 
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';"
-              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-            >
+            <img src="images/nature-2.jpg" alt="Nature View 2" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 2</span>
@@ -446,12 +431,7 @@
         <!-- Nature Photo 3 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
-            <img 
-              src="images/nature-3.jpg" 
-              alt="Nature View 3" 
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80';"
-              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-            >
+            <img src="images/nature-3.jpg" alt="Nature View 3" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 3</span>
@@ -463,12 +443,7 @@
         <!-- Nature Photo 4 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
-            <img 
-              src="images/nature-4.jpg" 
-              alt="Nature View 4" 
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=800&q=80';"
-              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-            >
+            <img src="images/nature-4.jpg" alt="Nature View 4" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 4</span>
@@ -480,12 +455,7 @@
         <!-- Nature Photo 5 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
-            <img 
-              src="images/nature-5.jpg" 
-              alt="Nature View 5" 
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';"
-              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-            >
+            <img src="images/nature-5.jpg" alt="Nature View 5" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 5</span>
@@ -497,12 +467,7 @@
         <!-- Nature Photo 6 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
           <div class="h-64 sm:h-72 overflow-hidden">
-            <img 
-              src="images/nature-6.jpg" 
-              alt="Nature View 6" 
-              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80';"
-              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-            >
+            <img src="images/nature-6.jpg" alt="Nature View 6" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
           </div>
           <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
             <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 6</span>
@@ -600,7 +565,6 @@
             <h3 class="text-xl font-bold text-white mb-4">Contact Info</h3>
             
             <div class="space-y-4">
-              <!-- CALL LINK -->
               <a href="tel:+917074155166" class="flex items-center gap-4 text-slate-300 hover:text-amber-400 transition">
                 <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
                   <i class="fa-solid fa-phone"></i>
@@ -611,7 +575,6 @@
                 </div>
               </a>
 
-              <!-- WHATSAPP LINK -->
               <a href="https://wa.me/917074155166" target="_blank" class="flex items-center gap-4 text-slate-300 hover:text-emerald-400 transition">
                 <div class="w-10 h-10 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                   <i class="fa-brands fa-whatsapp"></i>
@@ -622,7 +585,6 @@
                 </div>
               </a>
 
-              <!-- ADDRESS -->
               <div class="flex items-center gap-4 text-slate-300">
                 <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
                   <i class="fa-solid fa-location-dot"></i>
@@ -635,7 +597,6 @@
             </div>
           </div>
 
-          <!-- Opening Hours -->
           <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
             <h3 class="text-xl font-bold text-white mb-3">🕒 Opening Hours</h3>
             <div class="space-y-2 text-sm text-slate-300">
@@ -651,7 +612,6 @@
           </div>
         </div>
 
-        <!-- Google Maps Embed -->
         <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl overflow-hidden h-[380px]">
           <iframe 
             src="https://maps.google.com/maps?q=Krishnaganj+Mathabhanga+River+Bridge,+West+Bengal&t=&z=14&ie=UTF8&iwloc=&output=embed" 
@@ -866,34 +826,28 @@
 
   <!-- ================= JAVASCRIPT LOGIC ENGINE ================= -->
   <script>
-    // ==========================================
-    // 1. YOUR RESTAURANT WHATSAPP NUMBER
-    // ==========================================
+    // 1. RESTAURANT WHATSAPP NUMBER
     const RESTAURANT_WHATSAPP = "917074155166";
 
     // Set Copyright Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ==========================================
-    // 2. FIREBASE CONFIGURATION (PASTE KEYS HERE)
-    // ==========================================
+    // 2. YOUR REAL FIREBASE KEYS (PRE-CONNECTED!)
     const firebaseConfig = {
-  apiKey: "AIzaSyBjHFiJmNNBLY3YKe2VWlvZavjhT4gGH7c",
-  authDomain: "unique-biryani.firebaseapp.com",
-  projectId: "unique-biryani",
-  storageBucket: "unique-biryani.firebasestorage.app",
-  messagingSenderId: "401965405432",
-  appId: "1:401965405432:web:3787d365e54ddb7255170d",
-  measurementId: "G-GLJRZBN0GD"
-};
-
+      apiKey: "AIzaSyBjHFiJmNNBLY3YKe2VWlvZavjhT4gGH7c",
+      authDomain: "unique-biryani.firebaseapp.com",
+      projectId: "unique-biryani",
+      storageBucket: "unique-biryani.firebasestorage.app",
+      messagingSenderId: "401965405432",
+      appId: "1:401965405432:web:3787d365e54ddb7255170d",
+      measurementId: "G-GLJRZBN0GD"
+    };
 
     let auth = null;
     let db = null;
 
-    // Safe initialization so website runs even before keys are pasted
     try {
-      if (firebaseConfig.apiKey !== "YOUR_API_KEY" && !firebase.apps.length) {
+      if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
         auth = firebase.auth();
         db = firebase.firestore();
@@ -910,7 +864,7 @@
         });
       }
     } catch (e) {
-      console.warn("Firebase not configured yet:", e.message);
+      console.error("Firebase init error:", e);
     }
 
     // Voucher Modal Helpers
@@ -929,7 +883,7 @@
 
     async function loginWithGoogle() {
       if (!auth) {
-        alert("Please paste your Firebase keys into index.html to activate Google Sign-in!");
+        alert("Firebase is initializing. Please try again in 3 seconds.");
         return;
       }
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -948,7 +902,6 @@
 
       let voucherData;
       if (!doc.exists) {
-        // Brand new customer! Create one-time unique voucher
         const uniqueCode = "UB-" + Math.random().toString(36).substring(2, 7).toUpperCase();
         voucherData = {
           uid: user.uid,
@@ -989,9 +942,7 @@
       }
     }
 
-    // ==========================================
     // 3. MULTI-ITEM CART & WHATSAPP ENGINE
-    // ==========================================
     let cart = [];
 
     function addToCart(name, price) {
@@ -1153,7 +1104,6 @@
       window.open(encodedURL, '_blank');
     }
 
-    // Initial load
     renderCart();
   </script>
 </body>
