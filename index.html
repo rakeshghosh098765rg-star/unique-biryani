@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unique Biryani & Restaurant | Authentic Taste • Fresh Food</title>
+  <meta name="description" content="Authentic Kolkata style Biryani, Chaap, Rolls, and Chinese delights at Unique Biryani & Restaurant." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#F59E0B',
+              darkRed: '#881337',
+              spice: '#EA580C',
+              dark: '#0F172A',
+              card: '#1E293B',
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-120₹120 font-sans antialiased pb-20 md:pb-0">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <img src="images/logo.png" alt="Unique Biryani Logo" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=120₹120&q=80';" class="w-12 h-12 rounded-full object-cover border-2 border-amber-500 shadow-md">
+        <div>
+          <span class="font-serif text-xl font-bold tracking-tight text-white block">UNIQUE BIRYANI</span>
+          <span class="text-xs tracking-widest text-amber-500 uppercase font-semibold">& RESTAURANT</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8 font-medium text-slate-300">
+        <a href="#home" class="hover:text-amber-400 transition-colors">Home</a>
+        <a href="#special" class="hover:text-amber-400 transition-colors">Offers</a>
+        <a href="#menu" class="hover:text-amber-400 transition-colors">Menu</a>
+        <a href="#gallery" class="hover:text-amber-400 transition-colors">Gallery</a>
+        <a href="#about" class="hover:text-amber-400 transition-colors">About Us</a>
+        <a href="#contact" class="hover:text-amber-400 transition-colors">Contact</a>
+      </nav>
+
+      <!-- EDIT HERE: Replace with your phone number -->
+      <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20place%20an%20order!" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-4 py-2.5 rounded-full transition-all shadow-lg shadow-emerald-900/30">
+        <i class="fa-brands fa-whatsapp text-lg"></i>
+        <span>Order on WhatsApp</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section id="home" class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+      <img src="images/hero-biryani.jpg" alt="Hero Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1600&q=80';" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/50"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-8">
+      <span class="inline-block py-1 px-4 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold uppercase tracking-wider mb-4">
+        ✨ Fresh Dum Cooked Every Day
+      </span>
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-extrabold text-white leading-tight">
+        UNIQUE BIRYANI <br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">& RESTAURANT</span>
+      </h1>
+      <p class="mt-4 text-lg sm:text-xl text-slate-300 max-w-xl mx-auto font-light">
+        Authentic taste • Fresh food • Royal Mughlai aroma
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#menu" class="w-full sm:w-auto px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 text-center">
+          View Full Menu
+        </a>
+        <a href="#special" class="w-full sm:w-auto px-8 py-3.5 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-700 transition-all text-center">
+          Today's Special Offer
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TODAY'S SPECIAL =================2222222222222222222222222222222 -->
+  <!-- ================= OFFERS & SPECIAL DEALS ================= -->
+  <section id="offers" class="py-16 bg-gradient-to-b from-slate-950 to-slate-900 border-y border-slate-800/80">
+    <div class="max-w-4xl mx-auto px-4">
+      
+      <!-- Section Title -->
+      <div class="text-center mb-8">
+        <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Deals & Discounts</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">🔥 Special Offers</h2>
+      </div>
+
+      <!-- =========================================================================
+           [MODE 1: NO OFFER FOR TODAY] (ACTIVE BY DEFAULT)
+           Keep this block visible when you do not have an active offer.
+           ========================================================================= -->
+      <div id="no-offer-box" class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-3xl">
+          🏷️
+        </div>
+        <h3 class="text-2xl font-serif font-bold text-white mb-2">No Offer For Today</h3>
+        <p class="text-slate-400 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
+          There are no special promotional offers running right now. However, our signature biryani, rolls, and chaap are freshly prepared every day at our regular pocket-friendly prices!
+        </p>
+        
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+          <a href="#menu" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition">
+            Explore Regular Menu
+          </a>
+          <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20do%20you%20have%20any%20deals%20today?" target="_blank" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold rounded-xl border border-slate-700 transition">
+            Ask on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           [MODE 2: BANNER OFFER ACTIVE] (HIDDEN BY DEFAULT)
+           To activate this:
+           1. Remove 'hidden' from the class list below.
+           2. Add 'hidden' to the class list of 'no-offer-box' above.
+           ========================================================================= -->
+      <div id="active-offer-box" class="hidden bg-slate-900 border-2 border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl">
+        <!-- The Uploaded Offer Banner Image -->
+        <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[420px] overflow-hidden bg-slate-950">
+          <img 
+            src="images/offer-banner.jpg" 
+            alt="Today's Special Offer Banner" 
+            class="w-full h-full object-cover"
+          >
+          <span class="absolute top-4 left-4 bg-red-600 text-white text-xs font-black uppercase tracking-wider px-3 py-1 rounded-md shadow-lg animate-pulse">
+            🔥 Limited Time Deal
+          </span>
+        </div>
+
+        <!-- Banner Details & Order Action -->
+        <div class="p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900">
+          <div class="text-center sm:text-left">
+            <!-- EDIT YOUR OFFER HEADLINE HERE -->
+            <h3 class="text-2xl font-serif font-bold text-white">Special Combo Offer!</h3>
+            <!-- EDIT YOUR OFFER SUBTEXT HERE -->
+            <p class="text-slate-300 text-sm mt-1">Show this banner or mention it on WhatsApp to claim your discount.</p>
+          </div>
+
+          <!-- Claim Button -->
+          <a 
+            href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20saw%20your%20website%20offer%20banner%20and%20want%20to%20claim%20it!" 
+            target="_blank" 
+            class="w-full sm:w-auto px-7 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/40 transition flex-shrink-0"
+          >
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span>Claim Offer on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= POPULAR CATEGORIES ================= -->
+  <!-- ================= POPULAR CATEGORIES ================= -->
+  <section class="py-14 max-w-5xl mx-auto px-4">
+    <div class="text-center mb-10">
+      <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Customer Favorites</span>
+      <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Popular Categories</h2>
+    </div>
+
+    <!-- 3-Item Balanced Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <!-- 1. Biryani -->
+      <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
+        <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍚</div>
+        <h3 class="font-bold text-white text-xl">Biryani</h3>
+        <p class="text-sm text-slate-400 mt-1">Chicken & Mutton Dum</p>
+      </a>
+
+      <!-- 2. Rolls -->
+      <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
+        <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🌯</div>
+        <h3 class="font-bold text-white text-xl">Rolls</h3>
+        <p class="text-sm text-slate-400 mt-1">Egg & Chicken Kathi Rolls</p>
+      </a>
+
+      <!-- 3. Chicken Chaap -->
+      <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
+        <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍗</div>
+        <h3 class="font-bold text-white text-xl">Chicken Chaap</h3>
+        <p class="text-sm text-slate-400 mt-1">Mughlai Royal Gravy</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= OUR MENU ================= -->
+  <section id="menu" class="py-16 bg-slate-900/50 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Fresh & Tasty</span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">📋 Our Menu</h2>
+        </div>
+        <!-- Link to PDF Menu -->
+        <a href="menu/menu.pdf" download class="inline-flex items-center gap-2 text-sm bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 px-4 py-2.5 rounded-lg transition font-medium">
+          <i class="fa-solid fa-file-pdf text-red-500"></i> Download Full Menu Card
+        </a>
+      </div>
+
+      <!-- Menu Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Item 1 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
+          <img src="images/chicken-biryani.jpg" alt="Chicken Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg text-white">Chicken Dum Biryani</h3>
+              <span class="text-amber-400 font-bold text-lg">₹120</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Rich spices, tender chicken, soft potato, aromatic rice.</p>
+            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Biryani" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
+          <img src="images/mutton-biryani.jpg" alt="Mutton Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600&q=80';" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg text-white">Special Mutton Biryani</h3>
+              <span class="text-amber-400 font-bold text-lg">₹180</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Slow-cooked tender juicy mutton piece with royal spices.</p>
+            <a href="https://wa.me/917074155166?text=Order%20Mutton%20Biryani" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
+          <img src="images/chicken-chap.jpg" alt="Chicken Chaap" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg text-white">Mughlai Chicken Chaap</h3>
+              <span class="text-amber-400 font-bold text-lg">₹60</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Mughlai style slow cooked thick poppy-seed and cashew gravy.</p>
+            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Chaap" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
+          <img src="images/chicken-lollipop.jpg" alt="Chicken Lollipop" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1527477378378-00d04c4051b8?w=600&q=80';" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg text-white">Chicken Lollipop (4 pcs)</h3>
+              <span class="text-amber-400 font-bold text-lg">₹110</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Crispy spiced winglets tossed with hot garlic dip.</p>
+            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Lollipop" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
+          <img src="images/chowmein.jpg" alt="Chicken Chowmein" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=80';" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg text-white">Chicken Hakka Chowmein</h3>
+              <span class="text-amber-400 font-bold text-lg">₹80</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Wok tossed noodles with shredded chicken and veggies.</p>
+            <a href="https://wa.me/917074155166?text=Order%20Chicken%20Chowmein" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+        </div>
+        <!--item6-->
+        <!-- Item: Crispy Egg Roll -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
+          <img src="images/egg-roll.jpg" alt="Egg Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg text-white">Crispy Egg Roll</h3>
+              <span class="text-amber-400 font-bold text-lg">₹40</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Crispy flaky golden paratha rolled with seasoned double egg, onions & tangy sauce.</p>
+            <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order%20Crispy%20Egg%20Roll" target="_blank" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+        </div>
+
+        <!-- Item: Kolkata Chicken Roll -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition">
+          <img src="images/chicken-roll.jpg" alt="Chicken Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg text-white">Chicken Roll</h3>
+              <span class="text-amber-400 font-bold text-lg">₹70</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Tender spiced chicken chunks tossed with sliced onions, lime juice & green chilies wrapped in crispy paratha.</p>
+            <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order%20Kolkata%20Chicken%20Roll" target="_blank" class="mt-4 block w-full text-center py-2 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 font-semibold text-xs uppercase tracking-wider rounded-lg transition">Order Now</a>
+          </div>
+        </div>
+
+       
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOD GALLERY ================= -->
+  <section id="gallery" class="py-16 max-w-7xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Visual Treats</span>
+      <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">📸 Food Gallery</h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
+        <img src="images/hero-biryani.jpg" alt="Gallery Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+      </div>
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
+        <img src="images/restaurant-front.jpg" alt="Restaurant Front" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+      </div>
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
+        <img src="images/restaurant-inside.jpg" alt="Dining Area" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+      </div>
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
+        <img src="images/packaging.jpg" alt="Takeaway Packing" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526367790999-0150786686a2?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+      </div>
+    </div>
+  </section>
+
+  
+
+      <!-- ================= AMBIENCE & NATURE AROUND US ================= -->
+  <section id="ambience" class="py-16 bg-slate-900/40 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4">
+      
+      <!-- Section Heading -->
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase flex items-center justify-center gap-2">
+          <span>🌿</span> Relax & Dine In Peace
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-2">
+          Ambience & Nature Around Us
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base mt-2">
+          Enjoy mouth-watering biryani surrounded by refreshing natural greenery and fresh open air.
+        </p>
+      </div>
+
+      <!-- 6 Numbered Nature Photos Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- ================= NATURE PHOTO 1 ================= -->
+        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
+          <div class="h-64 sm:h-72 overflow-hidden">
+            <img 
+              src="images/nature-1.jpg" 
+              alt="Nature View 1" 
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511497584788-87676104235f?w=800&q=80';"
+              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+            >
+          </div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
+            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 1</span>
+            <!-- UPDATE TITLE 1 HERE -->
+            <h3 class="text-white font-bold text-base mt-0.5">Green Surroundings</h3>
+            <!-- UPDATE DESCRIPTION 1 HERE -->
+            <p class="text-xs text-slate-400 mt-1">Peaceful greenery and trees outside our restaurant.</p>
+          </div>
+        </div>
+
+        <!-- ================= NATURE PHOTO 2 ================= -->
+        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
+          <div class="h-64 sm:h-72 overflow-hidden">
+            <img 
+              src="images/nature-2.jpg" 
+              alt="Nature View 2" 
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';"
+              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+            >
+          </div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
+            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 2</span>
+            <!-- UPDATE TITLE 2 HERE -->
+            <h3 class="text-white font-bold text-base mt-0.5">Open Sky & Fresh Air</h3>
+            <!-- UPDATE DESCRIPTION 2 HERE -->
+            <p class="text-xs text-slate-400 mt-1">Wide open space away from dusty roads and noise.</p>
+          </div>
+        </div>
+
+        <!-- ================= NATURE PHOTO 3 ================= -->
+        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
+          <div class="h-64 sm:h-72 overflow-hidden">
+            <img 
+              src="images/nature-3.jpg" 
+              alt="Nature View 3" 
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80';"
+              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+            >
+          </div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
+            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 3</span>
+            <!-- UPDATE TITLE 3 HERE -->
+            <h3 class="text-white font-bold text-base mt-0.5">Outdoor Pathway</h3>
+            <!-- UPDATE DESCRIPTION 3 HERE -->
+            <p class="text-xs text-slate-400 mt-1">Clean and calm pathway leading into our dining area.</p>
+          </div>
+        </div>
+
+        <!-- ================= NATURE PHOTO 4 ================= -->
+        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
+          <div class="h-64 sm:h-72 overflow-hidden">
+            <img 
+              src="images/nature-4.jpg" 
+              alt="Nature View 4" 
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=800&q=80';"
+              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+            >
+          </div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
+            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 4</span>
+            <!-- UPDATE TITLE 4 HERE -->
+            <h3 class="text-white font-bold text-base mt-0.5">Evening Sunset Ambience</h3>
+            <!-- UPDATE DESCRIPTION 4 HERE -->
+            <p class="text-xs text-slate-400 mt-1">Beautiful golden hour sunset view while enjoying hot rolls.</p>
+          </div>
+        </div>
+
+        <!-- ================= NATURE PHOTO 5 ================= -->
+        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
+          <div class="h-64 sm:h-72 overflow-hidden">
+            <img 
+              src="images/nature-5.jpg" 
+              alt="Nature View 5" 
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';"
+              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+            >
+          </div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
+            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 5</span>
+            <!-- UPDATE TITLE 5 HERE -->
+            <h3 class="text-white font-bold text-base mt-0.5">Garden Corner</h3>
+            <!-- UPDATE DESCRIPTION 5 HERE -->
+            <p class="text-xs text-slate-400 mt-1">Lush plants and decorative flowers around the seating area.</p>
+          </div>
+        </div>
+
+        <!-- ================= NATURE PHOTO 6 ================= -->
+        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
+          <div class="h-64 sm:h-72 overflow-hidden">
+            <img 
+              src="images/nature-6.jpg" 
+              alt="Nature View 6" 
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80';"
+              class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+            >
+          </div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
+            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 6</span>
+            <!-- UPDATE TITLE 6 HERE -->
+            <h3 class="text-white font-bold text-base mt-0.5">Night Lights & Breeze</h3>
+            <!-- UPDATE DESCRIPTION 6 HERE -->
+            <p class="text-xs text-slate-400 mt-1">Cozy lighting making outdoor dinners warm and memorable.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT UNIQUE BIRYANI ================= -->
+  <section id="about" class="py-16 bg-slate-900/60 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Our Story</span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">👨‍🍳 About Unique Biryani</h2>
+          <p class="text-slate-300 mt-4 leading-relaxed">
+            Welcome to <strong class="text-white">Unique Biryani & Restaurant</strong>. We started with one mission: to serve the most authentic, aromatic, and comforting Biryani crafted with hand-ground spices and fresh meats.
+          </p>
+          <p class="text-slate-400 mt-3 leading-relaxed">
+            Every handi is dum-cooked slowly over a sealed flame so that every grain of rice absorbs the rich essence of saffron, spices, and soft melt-in-the-mouth potatoes.
+          </p>
+
+          <div class="mt-6 grid grid-cols-3 gap-4 border-t border-slate-800 pt-6">
+            <div>
+              <div class="text-2xl font-bold text-amber-400">100%</div>
+              <div class="text-xs text-slate-400">Fresh Ingredients</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-amber-400">unique🤫</div>
+              <div class="text-xs text-slate-400">Cooking Style</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-amber-400">Fast</div>
+              <div class="text-xs text-slate-400">Takeaway & Dine-in</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
+          <img src="images/chef.jpg" alt="Our Chef" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80';" class="w-full h-80 lg:h-96 object-cover">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CUSTOMER REVIEWS ================= -->
+  <section class="py-16 max-w-7xl mx-auto px-4">
+    <div class="text-center mb-10">
+      <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">What People Say</span>
+      <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Customer Reviews</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
+        <div class="flex text-amber-400 mb-3 text-sm">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="text-slate-300 text-sm">"The ₹120 Chicken Biryani is pure value for money! Potato was so soft and chicken was properly cooked. Best in this area."</p>
+        <div class="mt-4 font-semibold text-white text-sm">— Rahul Roy</div>
+      </div>
+
+      <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
+        <div class="flex text-amber-400 mb-3 text-sm">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="text-slate-300 text-sm">"Chicken Chaap with their rolls and Biryani is a deadly combination. Packaging was clean and food arrived piping hot."</p>
+        <div class="mt-4 font-semibold text-white text-sm">— Sayan Banerjee</div>
+      </div>
+
+      <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
+        <div class="flex text-amber-400 mb-3 text-sm">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p class="text-slate-300 text-sm">"Authentic aroma! Light and not overly oily like other shops. We order every weekend on WhatsApp."</p>
+        <div class="mt-4 font-semibold text-white text-sm">— Anirban Das</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FIND US / CONTACT / GOOGLE MAP ================= -->
+  <section id="contact" class="py-16 bg-slate-900/40 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Reach Us</span>
+        <h2 class="text-3xl font-serif font-bold text-white mt-1">📍 Find Us & Order</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Contact Cards & Timings -->
+        <div class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+            <h3 class="text-xl font-bold text-white mb-4">Contact Info</h3>
+            
+            <div class="space-y-4">
+              <!-- EDIT HERE: Replace phone number -->
+              <a href="tel:+917074155166" class="flex items-center gap-4 text-slate-300 hover:text-amber-400 transition">
+                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500 uppercase">Call for Orders</div>
+                  <div class="font-semibold">+91 7074155166</div>
+                </div>
+              </a>
+
+              <!-- EDIT HERE: Replace WhatsApp number -->
+              <a href="https://wa.me/917074155166" target="_blank" class="flex items-center gap-4 text-slate-300 hover:text-emerald-400 transition">
+                <div class="w-10 h-10 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500 uppercase">Chat & WhatsApp Booking</div>
+                  <div class="font-semibold">+91 7074155166</div>
+                </div>
+              </a>
+
+              <!-- EDIT HERE: Replace your physical address -->
+              <div class="flex items-center gap-4 text-slate-300">
+                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500 uppercase">Address</div>
+                  <div class="font-semibold">Main Road, Near krishnaganj MathaBhanga River setu(bridge), Unique Biryani & Restaurant</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opening Hours -->
+          <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+            <h3 class="text-xl font-bold text-white mb-3">🕒 Opening Hours</h3>
+            <div class="space-y-2 text-sm text-slate-300">
+              <div class="flex justify-between border-b border-slate-800 pb-2">
+                <span>Monday – Sunday</span>
+                <span class="text-amber-400 font-semibold">01:00 PM – 11:30 PM</span>
+              </div>
+              <div class="flex justify-between pt-1">
+                <span>Biryani Dum Opening</span>
+                <span class="text-emerald-400 font-semibold">Ready by 04:00 PM & 11:00 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Maps Embed -->
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl overflow-hidden h-[380px]">
+          <!-- EDIT HERE: Put your Google Maps Embed iframe below -->
+          <iframe 
+            src="https://maps.app.goo.gl/XA4vJv7ECnij43hU9?g_st=ac"
+            class="w-full h-full rounded-xl border-0" 
+            allowfullscreen="" 
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-slate-950 border-t border-slate-900 py-10 text-center text-sm text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-4">
+      <div class="flex justify-center items-center gap-6 text-xl text-slate-400">
+        <!-- EDIT HERE: Add your social profiles111111111111111111111111111111 -->
+        <a href="https://instagram.com" target="_blank" class="hover:text-pink-400 transition"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://facebook.com" target="_blank" class="hover:text-blue-400 transition"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://wa.me/917074155166" target="_blank" class="hover:text-emerald-400 transition"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+      <p>© <span id="year"></span> Unique Biryani & Restaurant. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ================= MOBILE FIXED BOTTOM ACTION BAR ================= -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-2.5 flex items-center justify-around md:hidden">
+    <a href="tel:+917074155166?text" class="flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl text-sm font-semibold flex-1 justify-center mr-2">
+      <i class="fa-solid fa-phone text-amber-400"></i> Call Now
+    </a>
+    <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order!" target="_blank" class="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-semibold flex-1 justify-center">
+      <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Order
+    </a>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
