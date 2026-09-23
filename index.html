@@ -44,19 +44,19 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased pb-28 md:pb-10">
 
-  <!-- ================= FIRST-VISIT IN-STORE OFFER BANNER ================= -->
+  <!-- ================= FIRST-VISIT OFFER BANNER ================= -->
   <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-slate-950 py-3 px-4 shadow-lg border-b border-amber-400/30">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
       <div class="flex items-center gap-3">
         <span class="text-2xl animate-bounce">🎁</span>
         <div>
           <span class="font-extrabold text-sm sm:text-base uppercase tracking-wide text-white">First Time Visiting Our Restaurant?</span>
-          <p class="text-xs font-semibold text-amber-100">Sign in with Google & get a <strong>Flat ₹50 OFF In-Store Dine-in Voucher</strong>!</p>
+          <p class="text-xs font-semibold text-amber-100">Sign in with Google & get <strong>₹30 OFF on orders above ₹299</strong>!</p>
         </div>
       </div>
       <button onclick="handleVoucherButtonClick()" id="voucher-banner-btn" class="px-5 py-2 bg-slate-950 hover:bg-slate-900 text-amber-400 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2">
         <i class="fa-brands fa-google"></i>
-        <span>Claim My ₹50 Voucher</span>
+        <span>Claim My ₹30 Voucher</span>
       </button>
     </div>
   </div>
@@ -133,48 +133,21 @@
         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">🔥 Special Offers</h2>
       </div>
 
-      <!-- [MODE 1: NO OFFER FOR TODAY] (ACTIVE BY DEFAULT) -->
       <div id="no-offer-box" class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
         <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-3xl">
           🏷️
         </div>
-        <h3 class="text-2xl font-serif font-bold text-white mb-2">No Offer For Today</h3>
+        <h3 class="text-2xl font-serif font-bold text-white mb-2">First-Time Customer Offer</h3>
         <p class="text-slate-400 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
-          There are no special promotional offers running right now. However, our signature biryani, rolls, and chaap are freshly prepared every day at our regular pocket-friendly prices!
+          Get <strong>₹30 OFF</strong> on orders above ₹299! Sign in with Google at the top of the page to claim your welcome voucher.
         </p>
         
         <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
           <a href="#menu" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition">
             Explore Regular Menu
           </a>
-          <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20do%20you%20have%20any%20deals%20today?" target="_blank" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold rounded-xl border border-slate-700 transition">
-            Ask on WhatsApp
-          </a>
         </div>
       </div>
-
-      <!-- [MODE 2: BANNER OFFER ACTIVE] -->
-      <div id="active-offer-box" class="hidden bg-slate-900 border-2 border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl">
-        <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-[420px] overflow-hidden bg-slate-950">
-          <img src="images/offer-banner.jpg" alt="Today's Special Offer Banner" class="w-full h-full object-cover">
-          <span class="absolute top-4 left-4 bg-red-600 text-white text-xs font-black uppercase tracking-wider px-3 py-1 rounded-md shadow-lg animate-pulse">
-            🔥 Limited Time Deal
-          </span>
-        </div>
-
-        <div class="p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900">
-          <div class="text-center sm:text-left">
-            <h3 class="text-2xl font-serif font-bold text-white">Special Combo Offer!</h3>
-            <p class="text-slate-300 text-sm mt-1">Show this banner or mention it on WhatsApp to claim your discount.</p>
-          </div>
-
-          <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20saw%20your%20website%20offer%20banner%20and%20want%20to%20claim%20it!" target="_blank" class="w-full sm:w-auto px-7 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/40 transition flex-shrink-0">
-            <i class="fa-brands fa-whatsapp text-lg"></i>
-            <span>Claim Offer on WhatsApp</span>
-          </a>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -186,21 +159,18 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <!-- 1. Biryani -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍚</div>
         <h3 class="font-bold text-white text-xl">Biryani</h3>
         <p class="text-sm text-slate-400 mt-1">Chicken & Mutton Dum</p>
       </a>
 
-      <!-- 2. Rolls -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🌯</div>
         <h3 class="font-bold text-white text-xl">Rolls</h3>
         <p class="text-sm text-slate-400 mt-1">Egg & Chicken Kathi Rolls</p>
       </a>
 
-      <!-- 3. Chicken Chaap -->
       <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
         <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍗</div>
         <h3 class="font-bold text-white text-xl">Chicken Chaap</h3>
@@ -209,7 +179,7 @@
     </div>
   </section>
 
-  <!-- ================= OUR MENU (MULTI-ITEM CART) ================= -->
+  <!-- ================= OUR MENU ================= -->
   <section id="menu" class="py-16 bg-slate-900/50 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
@@ -223,9 +193,7 @@
         </a>
       </div>
 
-      <!-- Menu Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        
         <!-- 1. Chicken Dum Biryani -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
           <div>
@@ -252,7 +220,7 @@
             <div class="p-5">
               <div class="flex justify-between items-start">
                 <h3 class="font-bold text-lg text-white">Special Mutton Biryani</h3>
-                <span class="text-amber-400 font-bold text-lg">₹180</span>
+                <span class="text-amber-400 font-bold text-lg">₹170</span>
               </div>
               <p class="text-xs text-slate-400 mt-1">Slow-cooked tender juicy mutton piece with royal spices.</p>
             </div>
@@ -309,7 +277,7 @@
             <div class="p-5">
               <div class="flex justify-between items-start">
                 <h3 class="font-bold text-lg text-white">Chicken Hakka Chowmein</h3>
-                <span class="text-amber-400 font-bold text-lg">₹80</span>
+                <span class="text-amber-400 font-bold text-lg">₹100</span>
               </div>
               <p class="text-xs text-slate-400 mt-1">Wok tossed noodles with shredded chicken and veggies.</p>
             </div>
@@ -347,7 +315,7 @@
             <div class="p-5">
               <div class="flex justify-between items-start">
                 <h3 class="font-bold text-lg text-white">Chicken Roll</h3>
-                <span class="text-amber-400 font-bold text-lg">₹70</span>
+                <span class="text-amber-400 font-bold text-lg">₹75</span>
               </div>
               <p class="text-xs text-slate-400 mt-1">Tender spiced chicken chunks tossed with sliced onions, lime juice & green chilies wrapped in crispy paratha.</p>
             </div>
@@ -358,7 +326,6 @@
             </button>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -371,111 +338,49 @@
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
-        <img src="images/hero-biryani.jpg" alt="Gallery Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-      </div>
-      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
-        <img src="images/restaurant-front.jpg" alt="Restaurant Front" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-      </div>
-      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
-        <img src="images/restaurant-inside.jpg" alt="Dining Area" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-      </div>
-      <div class="rounded-xl overflow-hidden h-48 sm:h-64">
-        <img src="images/packaging.jpg" alt="Takeaway Packing" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526367790999-0150786686a2?w=600&q=80';" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-      </div>
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64"><img src="images/hero-biryani.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-full object-cover"></div>
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64"><img src="images/restaurant-front.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80';" class="w-full h-full object-cover"></div>
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64"><img src="images/restaurant-inside.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80';" class="w-full h-full object-cover"></div>
+      <div class="rounded-xl overflow-hidden h-48 sm:h-64"><img src="images/packaging.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526367790999-0150786686a2?w=600&q=80';" class="w-full h-full object-cover"></div>
     </div>
   </section>
 
   <!-- ================= AMBIENCE & NATURE AROUND US ================= -->
   <section id="ambience" class="py-16 bg-slate-900/40 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
-      
       <div class="text-center max-w-2xl mx-auto mb-12">
         <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase flex items-center justify-center gap-2">
           <span>🌿</span> Relax & Dine In Peace
         </span>
-        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-2">
-          Ambience & Nature Around Us
-        </h2>
-        <p class="text-slate-400 text-sm sm:text-base mt-2">
-          Enjoy mouth-watering biryani surrounded by refreshing natural greenery and fresh open air.
-        </p>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-2">Ambience & Nature Around Us</h2>
+        <p class="text-slate-400 text-sm sm:text-base mt-2">Enjoy mouth-watering biryani surrounded by refreshing natural greenery and fresh open air.</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        
-        <!-- Nature Photo 1 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden">
-            <img src="images/nature-1.jpg" alt="Nature View 1" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511497584788-87676104235f?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-          </div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
-            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 1</span>
-            <h3 class="text-white font-bold text-base mt-0.5">Green Surroundings</h3>
-            <p class="text-xs text-slate-400 mt-1">Peaceful greenery and trees outside our restaurant.</p>
-          </div>
+          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-1.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511497584788-87676104235f?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Green Surroundings</h3><p class="text-xs text-slate-400 mt-1">Peaceful greenery and trees outside our restaurant.</p></div>
         </div>
-
-        <!-- Nature Photo 2 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden">
-            <img src="images/nature-2.jpg" alt="Nature View 2" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-          </div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
-            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 2</span>
-            <h3 class="text-white font-bold text-base mt-0.5">Open Sky & Fresh Air</h3>
-            <p class="text-xs text-slate-400 mt-1">Wide open space away from dusty roads and noise.</p>
-          </div>
+          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-2.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Open Sky & Fresh Air</h3><p class="text-xs text-slate-400 mt-1">Wide open space away from dusty roads and noise.</p></div>
         </div>
-
-        <!-- Nature Photo 3 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden">
-            <img src="images/nature-3.jpg" alt="Nature View 3" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-          </div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
-            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 3</span>
-            <h3 class="text-white font-bold text-base mt-0.5">Outdoor Pathway</h3>
-            <p class="text-xs text-slate-400 mt-1">Clean and calm pathway leading into our dining area.</p>
-          </div>
+          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-3.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Outdoor Pathway</h3><p class="text-xs text-slate-400 mt-1">Clean and calm pathway leading into our dining area.</p></div>
         </div>
-
-        <!-- Nature Photo 4 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden">
-            <img src="images/nature-4.jpg" alt="Nature View 4" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-          </div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
-            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 4</span>
-            <h3 class="text-white font-bold text-base mt-0.5">Evening Sunset Ambience</h3>
-            <p class="text-xs text-slate-400 mt-1">Beautiful golden hour sunset view while enjoying hot rolls.</p>
-          </div>
+          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-4.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Evening Sunset Ambience</h3><p class="text-xs text-slate-400 mt-1">Beautiful golden hour sunset view while enjoying hot rolls.</p></div>
         </div>
-
-        <!-- Nature Photo 5 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden">
-            <img src="images/nature-5.jpg" alt="Nature View 5" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-          </div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
-            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 5</span>
-            <h3 class="text-white font-bold text-base mt-0.5">Garden Corner</h3>
-            <p class="text-xs text-slate-400 mt-1">Lush plants and decorative flowers around the seating area.</p>
-          </div>
+          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-5.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Garden Corner</h3><p class="text-xs text-slate-400 mt-1">Lush plants and decorative flowers around the seating area.</p></div>
         </div>
-
-        <!-- Nature Photo 6 -->
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden">
-            <img src="images/nature-6.jpg" alt="Nature View 6" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-          </div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80">
-            <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold">Photo 6</span>
-            <h3 class="text-white font-bold text-base mt-0.5">Night Lights & Breeze</h3>
-            <p class="text-xs text-slate-400 mt-1">Cozy lighting making outdoor dinners warm and memorable.</p>
-          </div>
+          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-6.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Night Lights & Breeze</h3><p class="text-xs text-slate-400 mt-1">Cozy lighting making outdoor dinners warm and memorable.</p></div>
         </div>
-
       </div>
     </div>
   </section>
@@ -487,31 +392,16 @@
         <div>
           <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Our Story</span>
           <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">👨‍🍳 About Unique Biryani</h2>
-          <p class="text-slate-300 mt-4 leading-relaxed">
-            Welcome to <strong class="text-white">Unique Biryani & Restaurant</strong>. We started with one mission: to serve the most authentic, aromatic, and comforting Biryani crafted with hand-ground spices and fresh meats.
-          </p>
-          <p class="text-slate-400 mt-3 leading-relaxed">
-            Every handi is dum-cooked slowly over a sealed flame so that every grain of rice absorbs the rich essence of saffron, spices, and soft melt-in-the-mouth potatoes.
-          </p>
-
+          <p class="text-slate-300 mt-4 leading-relaxed">Welcome to <strong class="text-white">Unique Biryani & Restaurant</strong>. We started with one mission: to serve the most authentic, aromatic, and comforting Biryani crafted with hand-ground spices and fresh meats.</p>
+          <p class="text-slate-400 mt-3 leading-relaxed">Every handi is dum-cooked slowly over a sealed flame so that every grain of rice absorbs the rich essence of saffron, spices, and soft melt-in-the-mouth potatoes.</p>
           <div class="mt-6 grid grid-cols-3 gap-4 border-t border-slate-800 pt-6">
-            <div>
-              <div class="text-2xl font-bold text-amber-400">100%</div>
-              <div class="text-xs text-slate-400">Fresh Ingredients</div>
-            </div>
-            <div>
-              <div class="text-2xl font-bold text-amber-400">unique🤫</div>
-              <div class="text-xs text-slate-400">Cooking Style</div>
-            </div>
-            <div>
-              <div class="text-2xl font-bold text-amber-400">Fast</div>
-              <div class="text-xs text-slate-400">Takeaway & Dine-in</div>
-            </div>
+            <div><div class="text-2xl font-bold text-amber-400">100%</div><div class="text-xs text-slate-400">Fresh Ingredients</div></div>
+            <div><div class="text-2xl font-bold text-amber-400">unique🤫</div><div class="text-xs text-slate-400">Cooking Style</div></div>
+            <div><div class="text-2xl font-bold text-amber-400">Fast</div><div class="text-xs text-slate-400">Takeaway & Dine-in</div></div>
           </div>
         </div>
-
         <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
-          <img src="images/chef.jpg" alt="Our Chef" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80';" class="w-full h-80 lg:h-96 object-cover">
+          <img src="images/chef.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80';" class="w-full h-80 lg:h-96 object-cover">
         </div>
       </div>
     </div>
@@ -523,117 +413,60 @@
       <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">What People Say</span>
       <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Customer Reviews</h2>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
-        <div class="flex text-amber-400 mb-3 text-sm">
-          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-        </div>
+        <div class="flex text-amber-400 mb-3 text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
         <p class="text-slate-300 text-sm">"The ₹120 Chicken Biryani is pure value for money! Potato was so soft and chicken was properly cooked. Best in this area."</p>
         <div class="mt-4 font-semibold text-white text-sm">— Rahul Roy</div>
       </div>
-
       <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
-        <div class="flex text-amber-400 mb-3 text-sm">
-          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-        </div>
+        <div class="flex text-amber-400 mb-3 text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
         <p class="text-slate-300 text-sm">"Chicken Chaap with their rolls and Biryani is a deadly combination. Packaging was clean and food arrived piping hot."</p>
         <div class="mt-4 font-semibold text-white text-sm">— Sayan Banerjee</div>
       </div>
-
       <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
-        <div class="flex text-amber-400 mb-3 text-sm">
-          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-        </div>
+        <div class="flex text-amber-400 mb-3 text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
         <p class="text-slate-300 text-sm">"Authentic aroma! Light and not overly oily like other shops. We order every weekend on WhatsApp."</p>
         <div class="mt-4 font-semibold text-white text-sm">— Anirban Das</div>
       </div>
     </div>
   </section>
 
-  <!-- ================= FIND US / CONTACT / GOOGLE MAP ================= -->
+  <!-- ================= CONTACT & MAP ================= -->
   <section id="contact" class="py-16 bg-slate-900/40 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center mb-12">
         <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Reach Us</span>
-        <h2 class="text-3xl font-serif font-bold text-white mt-1">📍 Find Us & Order</h2>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">📍 Find Us & Order</h2>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <div class="space-y-6">
-          <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-            <h3 class="text-xl font-bold text-white mb-4">Contact Info</h3>
-            
-            <div class="space-y-4">
-              <a href="tel:+917074155166" class="flex items-center gap-4 text-slate-300 hover:text-amber-400 transition">
-                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
-                  <i class="fa-solid fa-phone"></i>
-                </div>
-                <div>
-                  <div class="text-xs text-slate-500 uppercase">Call for Orders</div>
-                  <div class="font-semibold text-lg text-white">+91 70741 55166</div>
-                </div>
-              </a>
-
-              <a href="https://wa.me/917074155166" target="_blank" class="flex items-center gap-4 text-slate-300 hover:text-emerald-400 transition">
-                <div class="w-10 h-10 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <i class="fa-brands fa-whatsapp"></i>
-                </div>
-                <div>
-                  <div class="text-xs text-slate-500 uppercase">Chat & WhatsApp Booking</div>
-                  <div class="font-semibold text-lg text-white">+91 70741 55166</div>
-                </div>
-              </a>
-
-              <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400">
-                  <i class="fa-solid fa-location-dot"></i>
-                </div>
-                <div>
-                  <div class="text-xs text-slate-500 uppercase">Address</div>
-                  <div class="font-semibold text-white">Main Road, Near krishnaganj MathaBhanga River setu(bridge), Unique Biryani & Restaurant</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-            <h3 class="text-xl font-bold text-white mb-3">🕒 Opening Hours</h3>
-            <div class="space-y-2 text-sm text-slate-300">
-              <div class="flex justify-between border-b border-slate-800 pb-2">
-                <span>Monday – Sunday</span>
-                <span class="text-amber-400 font-semibold">01:00 PM – 11:30 PM</span>
-              </div>
-              <div class="flex justify-between pt-1">
-                <span>Biryani Dum Opening</span>
-                <span class="text-emerald-400 font-semibold">Ready by 04:00 PM & 11:00 PM</span>
-              </div>
-            </div>
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+          <h3 class="text-xl font-bold text-white mb-2">Contact Info</h3>
+          <a href="tel:+917074155166" class="flex items-center gap-4 text-slate-300 hover:text-amber-400 transition">
+            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400"><i class="fa-solid fa-phone"></i></div>
+            <div><div class="text-xs text-slate-500 uppercase">Call for Orders</div><div class="font-semibold text-lg text-white">+91 70741 55166</div></div>
+          </a>
+          <a href="https://wa.me/917074155166" target="_blank" class="flex items-center gap-4 text-slate-300 hover:text-emerald-400 transition">
+            <div class="w-10 h-10 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400"><i class="fa-brands fa-whatsapp"></i></div>
+            <div><div class="text-xs text-slate-500 uppercase">WhatsApp Booking</div><div class="font-semibold text-lg text-white">+91 70741 55166</div></div>
+          </a>
+          <div class="flex items-center gap-4 text-slate-300">
+            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400"><i class="fa-solid fa-location-dot"></i></div>
+            <div><div class="text-xs text-slate-500 uppercase">Address</div><div class="font-semibold text-white">Main Road, Near krishnaganj MathaBhanga River setu(bridge)</div></div>
           </div>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl overflow-hidden h-[380px]">
-          <iframe 
-            src="https://maps.google.com/maps?q=Krishnaganj+Mathabhanga+River+Bridge,+West+Bengal&t=&z=14&ie=UTF8&iwloc=&output=embed" 
-            class="w-full h-full rounded-xl border-0" 
-            allowfullscreen="" 
-            loading="lazy">
-          </iframe>
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-2xl overflow-hidden h-[340px]">
+          <iframe src="https://maps.google.com/maps?q=Krishnaganj+Mathabhanga+River+Bridge,+West+Bengal&t=&z=14&ie=UTF8&iwloc=&output=embed" class="w-full h-full rounded-xl border-0" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ================= FOOTER ================= -->
-  <footer class="bg-slate-950 border-t border-slate-900 py-10 text-center text-sm text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 space-y-4">
-      <div class="flex justify-center items-center gap-6 text-xl text-slate-400">
-        <a href="https://instagram.com" target="_blank" class="hover:text-pink-400 transition"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://facebook.com" target="_blank" class="hover:text-blue-400 transition"><i class="fa-brands fa-facebook"></i></a>
-        <a href="https://wa.me/917074155166" target="_blank" class="hover:text-emerald-400 transition"><i class="fa-brands fa-whatsapp"></i></a>
-      </div>
-      <p>© <span id="year"></span> Unique Biryani & Restaurant. All Rights Reserved.</p>
-    </div>
+  <footer class="bg-slate-950 border-t border-slate-900 py-8 text-center text-sm text-slate-500">
+    <p>© <span id="year"></span> Unique Biryani & Restaurant. All Rights Reserved.</p>
   </footer>
 
   <!-- ================= MOBILE FIXED BOTTOM ACTION BAR ================= -->
@@ -649,20 +482,17 @@
     </a>
   </div>
 
-  <!-- ================= FLOATING CART BAR (APPEARS ON ITEM ADD) ================= -->
+  <!-- ================= FLOATING CART BAR ================= -->
   <div id="floating-cart-bar" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 p-4 rounded-2xl shadow-2xl shadow-amber-500/30 flex items-center justify-between cursor-pointer transform translate-y-28 opacity-0 transition-all duration-300 pointer-events-none" onclick="toggleCartDrawer(true)">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-slate-950/20 flex items-center justify-center text-xl font-bold">
-        🛒
-      </div>
+      <div class="w-10 h-10 rounded-xl bg-slate-950/20 flex items-center justify-center text-xl font-bold">🛒</div>
       <div>
         <div class="font-extrabold text-sm uppercase tracking-wide leading-none" id="float-cart-count">0 Items Added</div>
         <div class="text-xs font-semibold text-slate-900 mt-1">Total: <span id="float-cart-total" class="font-black text-base text-slate-950">₹0</span></div>
       </div>
     </div>
     <div class="flex items-center gap-1 font-bold text-sm bg-slate-950 text-white px-4 py-2 rounded-xl ml-4">
-      <span>View Plate</span>
-      <i class="fa-solid fa-arrow-right text-xs"></i>
+      <span>View Plate</span> <i class="fa-solid fa-arrow-right text-xs"></i>
     </div>
   </div>
 
@@ -670,8 +500,6 @@
   <div id="cart-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300" onclick="toggleCartDrawer(false)"></div>
 
   <div id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-slate-900 z-50 shadow-2xl border-l border-slate-800 flex flex-col transform translate-x-full transition-transform duration-300">
-    
-    <!-- Drawer Header -->
     <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
       <div class="flex items-center gap-2.5">
         <span class="text-2xl">🥘</span>
@@ -685,103 +513,103 @@
       </button>
     </div>
 
-    <!-- Items List (Scrollable) -->
+    <!-- Items Container -->
     <div class="flex-1 overflow-y-auto p-5 space-y-4" id="cart-items-container"></div>
 
-    <!-- Empty State -->
     <div id="cart-empty-state" class="hidden flex-1 flex-col items-center justify-center p-8 text-center">
       <span class="text-5xl mb-3">🍽️</span>
       <h4 class="text-lg font-bold text-white">Your plate is empty</h4>
-      <p class="text-sm text-slate-400 mt-1">Browse our menu and pick delicious biryani and snacks!</p>
+      <p class="text-sm text-slate-400 mt-1">Browse our menu and pick delicious items!</p>
       <button onclick="toggleCartDrawer(false)" class="mt-5 px-5 py-2 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl">Explore Menu</button>
     </div>
 
-    <!-- Drawer Footer / Checkout Form -->
-    <div id="cart-footer" class="p-5 border-t border-slate-800 bg-slate-950 space-y-4">
-      <div class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Name *</label>
-          <input type="text" id="cust-name" placeholder="Enter your full name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
-        </div>
+    <!-- Checkout Footer -->
+    <div id="cart-footer" class="p-5 border-t border-slate-800 bg-slate-950 space-y-3">
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Name *</label>
+        <input type="text" id="cust-name" placeholder="Enter your full name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+      </div>
 
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Order Type</label>
-            <select id="cust-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-              <option value="Home Delivery">Home Delivery</option>
-              <option value="Takeaway / Parcel">Takeaway Parcel</option>
-              <option value="Dine-in (At Table)">Dine-in (Table)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Phone (Optional)</label>
-            <input type="tel" id="cust-phone" placeholder="Phone number" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
-          </div>
-        </div>
-
+      <div class="grid grid-cols-2 gap-2">
         <div>
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Delivery Address / Table No. *</label>
-          <input type="text" id="cust-address" placeholder="Room/Street/Landmark or Table No." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Order Type</label>
+          <select id="cust-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+            <option value="Home Delivery">Home Delivery</option>
+            <option value="Takeaway / Parcel">Takeaway Parcel</option>
+            <option value="Dine-in (At Table)">Dine-in (Table)</option>
+          </select>
         </div>
-
         <div>
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Cooking Note / Extra (Optional)</label>
-          <input type="text" id="cust-note" placeholder="E.g. Extra salad, less spicy, extra spoons" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Phone (Optional)</label>
+          <input type="tel" id="cust-phone" placeholder="Phone number" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
         </div>
       </div>
 
-      <div class="border-t border-slate-800 pt-3 space-y-1.5 text-sm">
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Delivery Address / Table No. *</label>
+        <input type="text" id="cust-address" placeholder="Room/Street/Landmark or Table No." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+      </div>
+
+      <!-- GPS Location & Delivery Charge Button -->
+      <div>
+        <button type="button" onclick="calculateDeliveryAndLocation()" id="geo-btn" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-location-crosshairs"></i>
+          <span id="geo-btn-text">📍 Auto-Detect Location & Calculate Delivery Fee</span>
+        </button>
+        <input type="hidden" id="cust-gps" value="">
+        <input type="hidden" id="delivery-fee-input" value="0">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Cooking Note (Optional)</label>
+        <input type="text" id="cust-note" placeholder="E.g. Extra spicy, extra spoons" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+      </div>
+
+      <!-- Totals Breakdown -->
+      <div class="border-t border-slate-800 pt-2 space-y-1 text-sm">
         <div class="flex justify-between text-slate-400">
-          <span>Subtotal</span>
+          <span>Items Subtotal</span>
           <span id="cart-subtotal" class="font-medium text-white">₹0</span>
         </div>
-        <div class="flex justify-between text-base font-bold text-white pt-1">
+        <div class="flex justify-between text-slate-400">
+          <span>Delivery Charge <span id="delivery-distance-label" class="text-xs text-amber-500"></span></span>
+          <span id="cart-delivery-fee" class="font-medium text-white">₹0</span>
+        </div>
+        <div class="flex justify-between text-base font-bold text-white pt-1 border-t border-slate-800/60 mt-1">
           <span>Total Payable</span>
           <span id="cart-grandtotal" class="text-amber-400 text-xl font-black">₹0</span>
         </div>
       </div>
 
-      <button onclick="sendWhatsAppOrder()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 text-base shadow-xl shadow-emerald-950">
+      <button onclick="sendWhatsAppOrder()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 text-base shadow-xl">
         <i class="fa-brands fa-whatsapp text-xl"></i>
         <span>Place Complete Order on WhatsApp</span>
       </button>
     </div>
   </div>
 
-  <!-- ================= VOUCHER POPUP MODAL ================= -->
+  <!-- ================= VOUCHER MODAL ================= -->
   <div id="voucher-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl overflow-hidden">
-      
-      <!-- Close Button -->
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
       <button onclick="toggleVoucherModal(false)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
-      <!-- STATE 1: NOT LOGGED IN -->
       <div id="voucher-login-state" class="text-center py-4">
-        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mx-auto mb-4">
-          🎟️
-        </div>
-        <h3 class="text-2xl font-serif font-bold text-white">First-Visit Welcome Gift</h3>
-        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-          Sign in with Google to generate your personal <strong>Flat ₹50 OFF</strong> in-store voucher. Show it at our restaurant counter during your dine-in meal.
-        </p>
+        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mx-auto mb-4">🎟️</div>
+        <h3 class="text-2xl font-serif font-bold text-white">First-Visit Welcome Offer</h3>
+        <p class="text-slate-400 text-sm mt-2">Sign in with Google to get <strong>₹30 OFF on orders above ₹299</strong>!</p>
         <div class="mt-6">
-          <button onclick="loginWithGoogle()" class="w-full py-3.5 px-4 bg-white hover:bg-slate-100 text-slate-900 font-bold rounded-xl transition flex items-center justify-center gap-3 shadow-lg">
+          <button onclick="loginWithGoogle()" class="w-full py-3.5 px-4 bg-white text-slate-900 font-bold rounded-xl transition flex items-center justify-center gap-3 shadow-lg">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
             <span>Continue with Google</span>
           </button>
         </div>
-        <p class="text-[11px] text-slate-500 mt-4">One voucher per Google account. Valid on first physical dine-in visit only.</p>
       </div>
 
-      <!-- STATE 2: ACTIVE VOUCHER (FOR STORE COUNTER) -->
       <div id="voucher-card-state" class="hidden text-center">
         <div class="border-2 border-dashed border-amber-500/60 rounded-2xl p-5 bg-slate-950/60 relative">
-          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 text-[10px] font-black uppercase tracking-widest px-3 py-0.5 rounded-full shadow">
-            In-Store Dine-in Pass
-          </span>
-
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 text-[10px] font-black uppercase px-3 py-0.5 rounded-full">First-Time Customer Pass</span>
           <div class="flex items-center justify-center gap-3 mt-2 mb-3">
             <img id="user-avatar" src="" class="w-10 h-10 rounded-full border border-amber-400 object-cover" alt="User">
             <div class="text-left">
@@ -789,50 +617,40 @@
               <span class="text-xs text-slate-400" id="user-email"></span>
             </div>
           </div>
-
           <div class="py-2 my-2 border-y border-slate-800">
-            <div class="text-4xl font-extrabold text-amber-400 font-serif">FLAT ₹50 OFF</div>
-            <p class="text-xs text-slate-400 mt-0.5">Valid on your dine-in visit at restaurant counter</p>
+            <div class="text-3xl font-extrabold text-amber-400 font-serif">₹30 OFF</div>
+            <p class="text-xs text-slate-400 mt-0.5">Valid on orders above ₹299</p>
           </div>
-
-          <!-- Generated QR Code -->
           <div class="my-4 flex justify-center">
             <div class="p-2.5 bg-white rounded-xl shadow-inner">
               <img id="voucher-qr" src="" alt="Voucher QR" class="w-36 h-36">
             </div>
           </div>
-
           <div class="bg-slate-900 py-2 px-3 rounded-xl border border-slate-800">
-            <div class="text-[10px] uppercase tracking-wider text-slate-400">Voucher Code</div>
-            <div id="voucher-code-display" class="text-xl font-mono font-bold tracking-widest text-amber-400 select-all"></div>
+            <div class="text-[10px] uppercase text-slate-400">Voucher Code</div>
+            <div id="voucher-code-display" class="text-xl font-mono font-bold tracking-widest text-amber-400"></div>
           </div>
         </div>
-
         <div id="voucher-status-pill" class="mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2"></div>
-
-        <p class="text-[11px] text-slate-400 mt-3">
-          Show this screen or take a screenshot to present at <strong>Unique Biryani & Restaurant</strong> counter during payment.
-        </p>
       </div>
-
     </div>
   </div>
 
-  <!-- Toast Notification -->
   <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded-full shadow-2xl transition-all duration-300 opacity-0 pointer-events-none text-sm flex items-center gap-2">
-    <span>✅</span>
-    <span id="toast-message">Item added to plate!</span>
+    <span>✅</span> <span id="toast-message">Item added to plate!</span>
   </div>
 
-  <!-- ================= JAVASCRIPT LOGIC ENGINE ================= -->
+  <!-- ================= JAVASCRIPT ================= -->
   <script>
-    // 1. RESTAURANT WHATSAPP NUMBER
     const RESTAURANT_WHATSAPP = "917074155166";
+    const RESTAURANT_LAT = 23.4025;
+    const RESTAURANT_LON = 88.7981;
 
-    // Set Copyright Year
+    let deliveryFee = 0;
+    let customerGPSLink = "";
+
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 2. YOUR REAL FIREBASE KEYS (PRE-CONNECTED!)
     const firebaseConfig = {
       apiKey: "AIzaSyBjHFiJmNNBLY3YKe2VWlvZavjhT4gGH7c",
       authDomain: "unique-biryani.firebaseapp.com",
@@ -852,14 +670,13 @@
         auth = firebase.auth();
         db = firebase.firestore();
 
-        // Listen for user login state
         auth.onAuthStateChanged(async (user) => {
           const bannerBtn = document.getElementById('voucher-banner-btn');
           if (user) {
             if (bannerBtn) bannerBtn.innerHTML = `<span>My Voucher</span>`;
             await checkAndLoadVoucher(user);
           } else {
-            if (bannerBtn) bannerBtn.innerHTML = `<i class="fa-brands fa-google"></i><span>Claim My ₹50 Voucher</span>`;
+            if (bannerBtn) bannerBtn.innerHTML = `<i class="fa-brands fa-google"></i><span>Claim My ₹30 Voucher</span>`;
           }
         });
       }
@@ -867,65 +684,112 @@
       console.error("Firebase init error:", e);
     }
 
-    // Voucher Modal Helpers
-    function handleVoucherButtonClick() {
-      toggleVoucherModal(true);
+    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
     }
 
+    function calculateDeliveryAndLocation() {
+      const btnText = document.getElementById('geo-btn-text');
+      const gpsInput = document.getElementById('cust-gps');
+      const orderType = document.getElementById('cust-type').value;
+
+      if (orderType !== "Home Delivery") {
+        deliveryFee = 0;
+        document.getElementById('delivery-fee-input').value = 0;
+        document.getElementById('delivery-distance-label').textContent = "(Dine-in / Pickup)";
+        renderCart();
+        alert("Selected order type is Dine-in/Pickup. Delivery charge is ₹0.");
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+      }
+
+      btnText.textContent = "Calculating distance...";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLat = position.coords.latitude;
+          const userLon = position.coords.longitude;
+          customerGPSLink = `https://www.google.com/maps?q=${userLat},${userLon}`;
+          gpsInput.value = customerGPSLink;
+
+          const distanceKm = calculateDistanceKm(RESTAURANT_LAT, RESTAURANT_LON, userLat, userLon);
+
+          if (distanceKm <= 4) {
+            deliveryFee = 10;
+            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
+          } else if (distanceKm <= 8) {
+            deliveryFee = 25;
+            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
+          } else {
+            deliveryFee = 40;
+            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
+          }
+
+          document.getElementById('delivery-fee-input').value = deliveryFee;
+          renderCart();
+
+          btnText.textContent = `✅ Location Set! Delivery: ₹${deliveryFee}`;
+          document.getElementById('geo-btn').className = "w-full py-2.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2";
+        },
+        (error) => {
+          alert("Unable to retrieve location. Please check GPS permissions.");
+          btnText.textContent = "📍 Auto-Detect Location & Calculate Delivery Fee";
+        }
+      );
+    }
+
+    function handleVoucherButtonClick() { toggleVoucherModal(true); }
     function toggleVoucherModal(show) {
       const modal = document.getElementById('voucher-modal');
-      if (show) {
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-      } else {
-        modal.classList.add('opacity-0', 'pointer-events-none');
-      }
+      if (show) modal.classList.remove('opacity-0', 'pointer-events-none');
+      else modal.classList.add('opacity-0', 'pointer-events-none');
     }
 
     async function loginWithGoogle() {
-      if (!auth) {
-        alert("Firebase is initializing. Please try again in 3 seconds.");
-        return;
-      }
+      if (!auth) { alert("Firebase initializing..."); return; }
       const provider = new firebase.auth.GoogleAuthProvider();
       try {
         const result = await auth.signInWithPopup(provider);
         await checkAndLoadVoucher(result.user);
-      } catch (error) {
-        alert("Sign-in error: " + error.message);
-      }
+      } catch (error) { alert("Sign-in error: " + error.message); }
     }
 
     async function checkAndLoadVoucher(user) {
       if (!db) return;
       const userRef = db.collection('vouchers').doc(user.uid);
       const doc = await userRef.get();
-
       let voucherData;
       if (!doc.exists) {
         const uniqueCode = "UB-" + Math.random().toString(36).substring(2, 7).toUpperCase();
         voucherData = {
           uid: user.uid,
-          name: user.displayName || "Valued Customer",
+          name: user.displayName || "Customer",
           email: user.email,
-          photoURL: user.photoURL || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100",
+          photoURL: user.photoURL || "",
           code: uniqueCode,
-          discount: "₹50 OFF",
+          discount: "₹30 OFF (Above ₹299)",
           isRedeemed: false,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          redeemedAt: null
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         };
         await userRef.set(voucherData);
-      } else {
-        voucherData = doc.data();
-      }
-
+      } else { voucherData = doc.data(); }
       renderVoucherCard(voucherData);
     }
 
     function renderVoucherCard(data) {
       document.getElementById('voucher-login-state').classList.add('hidden');
       document.getElementById('voucher-card-state').classList.remove('hidden');
-
       document.getElementById('user-avatar').src = data.photoURL;
       document.getElementById('user-name').textContent = data.name;
       document.getElementById('user-email').textContent = data.email;
@@ -938,20 +802,15 @@
         statusPill.innerHTML = `<span>❌ ALREADY REDEEMED</span>`;
       } else {
         statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-emerald-950/60 text-emerald-300 border border-emerald-500/40";
-        statusPill.innerHTML = `<span>✅ VALID FOR FIRST VISIT</span>`;
+        statusPill.innerHTML = `<span>✅ VALID FOR FIRST VISIT (ABOVE ₹299)</span>`;
       }
     }
 
-    // 3. MULTI-ITEM CART & WHATSAPP ENGINE
     let cart = [];
-
     function addToCart(name, price) {
       const existing = cart.find(item => item.name === name);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({ name: name, price: price, quantity: 1 });
-      }
+      if (existing) existing.quantity += 1;
+      else cart.push({ name: name, price: price, quantity: 1 });
       renderCart();
       showToast(`Added ${name} to your plate!`);
     }
@@ -959,26 +818,18 @@
     function changeQty(index, delta) {
       if (cart[index]) {
         cart[index].quantity += delta;
-        if (cart[index].quantity <= 0) {
-          cart.splice(index, 1);
-        }
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
       }
       renderCart();
     }
 
-    function removeItem(index) {
-      cart.splice(index, 1);
-      renderCart();
-    }
+    function removeItem(index) { cart.splice(index, 1); renderCart(); }
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-message');
-      toastMsg.textContent = msg;
+      document.getElementById('toast-message').textContent = msg;
       toast.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none');
-      }, 2200);
+      setTimeout(() => toast.classList.add('opacity-0', 'pointer-events-none'), 2200);
     }
 
     function renderCart() {
@@ -991,30 +842,26 @@
       const floatTotal = document.getElementById('float-cart-total');
 
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const grandTotal = subtotal + Number(deliveryFee);
 
       if (navCount) navCount.textContent = totalItems;
-
       if (floatBar) {
         if (totalItems > 0) {
           floatBar.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
-          floatCount.textContent = `${totalItems} ${totalItems === 1 ? 'Item' : 'Items'} in Plate`;
+          floatCount.textContent = `${totalItems} Items in Plate`;
           floatTotal.textContent = `₹${grandTotal}`;
-        } else {
-          floatBar.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
-        }
+        } else { floatBar.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none'); }
       }
 
       if (cart.length === 0) {
         container.innerHTML = '';
-        emptyState.classList.remove('hidden');
-        emptyState.classList.add('flex');
+        emptyState.classList.remove('hidden'); emptyState.classList.add('flex');
         footer.classList.add('hidden');
         return;
       }
 
-      emptyState.classList.add('hidden');
-      emptyState.classList.remove('flex');
+      emptyState.classList.add('hidden'); emptyState.classList.remove('flex');
       footer.classList.remove('hidden');
 
       container.innerHTML = cart.map((item, idx) => `
@@ -1026,18 +873,17 @@
           </div>
           <div class="flex items-center gap-2">
             <div class="flex items-center bg-slate-900 border border-slate-700 rounded-lg overflow-hidden">
-              <button onclick="changeQty(${idx}, -1)" class="w-7 h-7 flex items-center justify-center text-slate-300 hover:bg-slate-800 active:scale-90 transition font-bold">−</button>
+              <button onclick="changeQty(${idx}, -1)" class="w-7 h-7 flex items-center justify-center text-slate-300 font-bold">−</button>
               <span class="w-8 text-center text-xs font-bold text-white">${item.quantity}</span>
-              <button onclick="changeQty(${idx}, 1)" class="w-7 h-7 flex items-center justify-center text-slate-300 hover:bg-slate-800 active:scale-90 transition font-bold">+</button>
+              <button onclick="changeQty(${idx}, 1)" class="w-7 h-7 flex items-center justify-center text-slate-300 font-bold">+</button>
             </div>
-            <button onclick="removeItem(${idx})" class="w-7 h-7 text-slate-500 hover:text-red-400 flex items-center justify-center transition">
-              <i class="fa-solid fa-trash-can text-xs"></i>
-            </button>
+            <button onclick="removeItem(${idx})" class="w-7 h-7 text-slate-500 hover:text-red-400 flex items-center justify-center"><i class="fa-solid fa-trash-can text-xs"></i></button>
           </div>
         </div>
       `).join('');
 
-      document.getElementById('cart-subtotal').textContent = `₹${grandTotal}`;
+      document.getElementById('cart-subtotal').textContent = `₹${subtotal}`;
+      document.getElementById('cart-delivery-fee').textContent = `₹${deliveryFee}`;
       document.getElementById('cart-grandtotal').textContent = `₹${grandTotal}`;
     }
 
@@ -1056,52 +902,41 @@
     }
 
     function sendWhatsAppOrder() {
-      if (cart.length === 0) {
-        alert("Your plate is empty! Please select dishes first.");
-        return;
-      }
-
+      if (cart.length === 0) { alert("Your plate is empty!"); return; }
       const name = document.getElementById('cust-name').value.trim();
       const type = document.getElementById('cust-type').value;
       const phone = document.getElementById('cust-phone').value.trim();
       const address = document.getElementById('cust-address').value.trim();
       const note = document.getElementById('cust-note').value.trim();
+      const gpsLink = document.getElementById('cust-gps').value;
 
-      if (!name) {
-        alert("Please enter your Name before sending the order.");
-        document.getElementById('cust-name').focus();
-        return;
-      }
+      if (!name) { alert("Please enter your name."); document.getElementById('cust-name').focus(); return; }
+      if (!address) { alert("Please enter your delivery address."); document.getElementById('cust-address').focus(); return; }
 
-      if (!address) {
-        alert("Please provide your Delivery Address or Dine-in Table Number.");
-        document.getElementById('cust-address').focus();
-        return;
-      }
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const grandTotal = subtotal + Number(deliveryFee);
 
-      const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-      let msg = `🛍️ *NEW ORDER - UNIQUE BIRYANI & RESTAURANT*\n`;
+      let msg = `🛍️ *NEW ORDER - UNIQUE BIRYANI*\n`;
       msg += `━━━━━━━━━━━━━━━━━━━━\n`;
       msg += `👤 *Customer:* ${name}\n`;
       if (phone) msg += `📞 *Phone:* ${phone}\n`;
       msg += `📍 *Order Type:* ${type}\n`;
-      msg += `🏠 *Address / Table:* ${address}\n`;
+      msg += `🏠 *Address:* ${address}\n`;
+      if (gpsLink) msg += `🗺️ *GPS Location:* ${gpsLink}\n`;
       msg += `━━━━━━━━━━━━━━━━━━━━\n`;
       msg += `📋 *ITEMS ORDERED:*\n`;
-
-      cart.forEach((item) => {
+      cart.forEach(item => {
         msg += `• ${item.quantity}x ${item.name} (₹${item.price}) = ₹${item.price * item.quantity}\n`;
       });
-
       msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `🥘 *Items Subtotal:* ₹${subtotal}\n`;
+      msg += `🚚 *Delivery Charge:* ₹${deliveryFee}\n`;
       msg += `💰 *GRAND TOTAL:* ₹${grandTotal}\n`;
-      if (note) msg += `📝 *Special Instructions:* ${note}\n`;
+      if (note) msg += `📝 *Note:* ${note}\n`;
       msg += `━━━━━━━━━━━━━━━━━━━━\n`;
       msg += `_Order placed via website_`;
 
-      const encodedURL = `https://wa.me/${RESTAURANT_WHATSAPP}?text=${encodeURIComponent(msg)}`;
-      window.open(encodedURL, '_blank');
+      window.open(`https://wa.me/${RESTAURANT_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     renderCart();
