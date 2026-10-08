@@ -17,7 +17,6 @@
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
   <script>
@@ -44,20 +43,26 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased pb-28 md:pb-10">
 
-  <!-- ================= FIRST-VISIT OFFER BANNER ================= -->
-  <div id="top-offer-banner" class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-slate-950 py-3 px-4 shadow-lg border-b border-amber-400/30">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-      <div class="flex items-center gap-3">
-        <span class="text-2xl animate-bounce">🎁</span>
-        <div>
-          <span id="top-banner-title" class="font-extrabold text-sm sm:text-base uppercase tracking-wide text-white">First Time Visiting Our Restaurant?</span>
-          <p id="top-banner-sub" class="text-xs font-semibold text-amber-100">Sign in with Google & get <strong>₹30 OFF on orders above ₹299</strong>!</p>
-        </div>
-      </div>
-      <button onclick="handleVoucherButtonClick()" id="voucher-banner-btn" class="px-5 py-2 bg-slate-950 hover:bg-slate-900 text-amber-400 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2">
-        <i class="fa-brands fa-google"></i>
-        <span>Claim My ₹30 Voucher</span>
+  <!-- ================= FLOATING ON-OPEN OFFER BANNER POPUP ================= -->
+  <div id="floating-offer-popup" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative max-w-lg w-full bg-slate-900 border border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl p-3 sm:p-4 text-center">
+      <!-- Cut / Close Button -->
+      <button onclick="closeFloatingOfferPopup()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-950/85 hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-700 flex items-center justify-center transition shadow-lg">
+        <i class="fa-solid fa-xmark text-lg"></i>
       </button>
+
+      <div class="rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center max-h-[70vh]">
+        <img id="popup-banner-img" src="" alt="Today's Special Offer" class="w-full h-auto max-h-[70vh] object-contain rounded-2xl">
+      </div>
+
+      <div class="mt-4 flex items-center justify-center gap-3">
+        <a href="#menu" onclick="closeFloatingOfferPopup()" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-md">
+          Explore Menu
+        </a>
+        <button onclick="closeFloatingOfferPopup()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl transition">
+          Continue to Website
+        </button>
+      </div>
     </div>
   </div>
 
@@ -113,7 +118,7 @@
     <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-8">
       <div class="inline-flex items-center gap-2 py-1 px-4 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold uppercase tracking-wider mb-4">
         <span>✨ Fresh Dum Cooked Every Day</span>
-        <span id="hero-delivery-badge" class="ml-2 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">Delivery Available</span>
+        <span id="hero-delivery-badge" class="ml-2 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">Delivery Up to 8 KM</span>
       </div>
       <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-extrabold text-white leading-tight">
         UNIQUE BIRYANI <br/>
@@ -154,9 +159,7 @@
       <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Popular Choices</h2>
     </div>
 
-    <div id="popular-choices-container" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <!-- Rendered dynamically from Firestore -->
-    </div>
+    <div id="popular-choices-container" class="grid grid-cols-1 sm:grid-cols-3 gap-6"></div>
   </section>
 
   <!-- ================= OUR MENU (REALTIME FIRESTORE POWERED) ================= -->
@@ -193,19 +196,14 @@
       <div>
         <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">What People Say</span>
         <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Verified Customer Reviews</h2>
-        <p class="text-xs text-slate-400 mt-1">Only authentic reviews verified by our restaurant team are published.</p>
+        <p class="text-xs text-slate-400 mt-1">Real feedback approved by restaurant management.</p>
       </div>
       <button onclick="toggleReviewModal(true)" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
         <i class="fa-solid fa-pen-nib"></i> Write a Review
       </button>
     </div>
 
-    <div id="public-reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="col-span-full text-center py-8 text-slate-500">
-        <i class="fa-solid fa-spinner fa-spin text-xl text-amber-500 mb-2"></i>
-        <p>Loading customer reviews...</p>
-      </div>
-    </div>
+    <div id="public-reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </section>
 
   <!-- ================= FOOD GALLERY ================= -->
@@ -258,8 +256,8 @@
         <div>
           <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Our Story</span>
           <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">👨‍🍳 About Unique Biryani</h2>
-          <p class="text-slate-300 mt-4 leading-relaxed">Welcome to <strong class="text-white">Unique Biryani & Restaurant</strong>. We started with one mission: to serve the most authentic, aromatic, and comforting Biryani crafted with hand-ground spices and fresh meats.</p>
-          <p class="text-slate-400 mt-3 leading-relaxed">Every handi is dum-cooked slowly over a sealed flame so that every grain of rice absorbs the rich essence of saffron, spices, and soft melt-in-the-mouth potatoes.</p>
+          <p class="text-slate-300 mt-4 leading-relaxed">Welcome to <strong class="text-white">Unique Biryani & Restaurant</strong>. We serve authentic, aromatic, and comforting Dum Biryani crafted with hand-ground spices and fresh ingredients.</p>
+          <p class="text-slate-400 mt-3 leading-relaxed">Every handi is dum-cooked slowly over a sealed flame so that every grain of rice absorbs the rich essence of saffron and spices.</p>
         </div>
         <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
           <img src="images/chef.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80';" class="w-full h-80 lg:h-96 object-cover">
@@ -289,7 +287,7 @@
           </a>
           <div class="flex items-center gap-4 text-slate-300">
             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400"><i class="fa-solid fa-location-dot"></i></div>
-            <div><div class="text-xs text-slate-500 uppercase">Address</div><div class="font-semibold text-white">Main Road, Near krishnaganj MathaBhanga River setu(bridge)</div></div>
+            <div><div class="text-xs text-slate-500 uppercase">Address & Delivery Limit</div><div class="font-semibold text-white">Main Road, Near krishnaganj MathaBhanga River bridge (Delivery within 8 KM)</div></div>
           </div>
         </div>
 
@@ -373,7 +371,7 @@
         <div>
           <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Order Type</label>
           <select id="cust-type" onchange="handleOrderTypeChange()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            <option id="opt-delivery" value="Home Delivery">Home Delivery</option>
+            <option id="opt-delivery" value="Home Delivery">Home Delivery (Max 8 KM)</option>
             <option value="Takeaway / Parcel">Takeaway Parcel</option>
             <option value="Dine-in (At Table)">Dine-in (Table)</option>
           </select>
@@ -392,7 +390,7 @@
       <div id="geo-location-container">
         <button type="button" onclick="calculateDeliveryAndLocation()" id="geo-btn" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
           <i class="fa-solid fa-location-crosshairs"></i>
-          <span id="geo-btn-text">📍 Auto-Detect Location & Calculate Delivery Fee</span>
+          <span id="geo-btn-text">📍 Auto-Detect Location & Check 8 KM Limit</span>
         </button>
         <input type="hidden" id="cust-gps" value="">
         <input type="hidden" id="delivery-fee-input" value="0">
@@ -425,7 +423,7 @@
     </div>
   </div>
 
-  <!-- ================= CUSTOMER SUBMIT REVIEW MODAL ================= -->
+  <!-- ================= CUSTOMER REVIEW MODAL ================= -->
   <div id="review-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
     <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
       <button onclick="toggleReviewModal(false)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
@@ -435,89 +433,41 @@
       <div class="text-center mb-6">
         <div class="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mx-auto mb-3">✍️</div>
         <h3 class="text-2xl font-serif font-bold text-white">Share Your Dining Experience</h3>
-        <p class="text-xs text-slate-400 mt-1">Your honest review helps others taste the best food.</p>
+        <p class="text-xs text-slate-400 mt-1">Your review will be verified by management before appearing live.</p>
       </div>
 
       <form onsubmit="handleCustomerReviewSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Real Name *</label>
-          <input type="text" id="review-cust-name" required placeholder="e.g. Suman Roy" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Full Name *</label>
+          <input type="text" id="review-cust-name" required placeholder="e.g. Joydeb Ghosh" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Rating *</label>
           <div class="flex items-center gap-2 text-2xl text-slate-600" id="star-rating-picker">
-            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(1)"></i>
-            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(2)"></i>
-            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(3)"></i>
-            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(4)"></i>
-            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(5)"></i>
+            <i class="fa-solid fa-star text-amber-400 cursor-pointer" onclick="setReviewRating(1)"></i>
+            <i class="fa-solid fa-star text-amber-400 cursor-pointer" onclick="setReviewRating(2)"></i>
+            <i class="fa-solid fa-star text-amber-400 cursor-pointer" onclick="setReviewRating(3)"></i>
+            <i class="fa-solid fa-star text-amber-400 cursor-pointer" onclick="setReviewRating(4)"></i>
+            <i class="fa-solid fa-star text-amber-400 cursor-pointer" onclick="setReviewRating(5)"></i>
           </div>
           <input type="hidden" id="review-cust-rating" value="5">
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Review Comments *</label>
-          <textarea id="review-cust-text" rows="3" required placeholder="What did you love about our food and service?" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></textarea>
+          <textarea id="review-cust-text" rows="3" required placeholder="Tell us how the food and taste was..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></textarea>
         </div>
 
         <button type="submit" id="submit-review-btn" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2">
-          <i class="fa-solid fa-paper-plane"></i> Submit Review for Verification
+          <i class="fa-solid fa-paper-plane"></i> Submit Review
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ================= VOUCHER MODAL ================= -->
-  <div id="voucher-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
-      <button onclick="toggleVoucherModal(false)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
-        <i class="fa-solid fa-xmark text-lg"></i>
-      </button>
-
-      <div id="voucher-login-state" class="text-center py-4">
-        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mx-auto mb-4">🎟️</div>
-        <h3 class="text-2xl font-serif font-bold text-white">First-Visit Welcome Offer</h3>
-        <p class="text-slate-400 text-sm mt-2">Sign in with Google to get <strong>₹30 OFF on orders above ₹299</strong>!</p>
-        <div class="mt-6">
-          <button onclick="loginWithGoogle()" class="w-full py-3.5 px-4 bg-white text-slate-900 font-bold rounded-xl transition flex items-center justify-center gap-3 shadow-lg">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
-            <span>Continue with Google</span>
-          </button>
-        </div>
-      </div>
-
-      <div id="voucher-card-state" class="hidden text-center">
-        <div class="border-2 border-dashed border-amber-500/60 rounded-2xl p-5 bg-slate-950/60 relative">
-          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 text-[10px] font-black uppercase px-3 py-0.5 rounded-full">First-Time Customer Pass</span>
-          <div class="flex items-center justify-center gap-3 mt-2 mb-3">
-            <img id="user-avatar" src="" class="w-10 h-10 rounded-full border border-amber-400 object-cover" alt="User">
-            <div class="text-left">
-              <h4 id="user-name" class="text-white font-bold text-sm"></h4>
-              <span class="text-xs text-slate-400" id="user-email"></span>
-            </div>
-          </div>
-          <div class="py-2 my-2 border-y border-slate-800">
-            <div class="text-3xl font-extrabold text-amber-400 font-serif">₹30 OFF</div>
-            <p class="text-xs text-slate-400 mt-0.5">Valid on orders above ₹299</p>
-          </div>
-          <div class="my-4 flex justify-center">
-            <div class="p-2.5 bg-white rounded-xl shadow-inner">
-              <img id="voucher-qr" src="" alt="Voucher QR" class="w-36 h-36">
-            </div>
-          </div>
-          <div class="bg-slate-900 py-2 px-3 rounded-xl border border-slate-800">
-            <div class="text-[10px] uppercase text-slate-400">Voucher Code</div>
-            <div id="voucher-code-display" class="text-xl font-mono font-bold tracking-widest text-amber-400"></div>
-          </div>
-        </div>
-        <div id="voucher-status-pill" class="mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- ================= ADMIN AUTH & CONTROL CENTER ================= -->
-  <!-- 1. Admin Password Login Modal -->
+  <!-- 1. Admin Login Modal -->
   <div id="admin-login-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
     <div class="bg-slate-900 border border-amber-500/50 rounded-3xl max-w-sm w-full p-6 sm:p-8 relative shadow-2xl">
       <button onclick="toggleAdminLoginModal(false)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
@@ -525,11 +475,9 @@
       </button>
 
       <div class="text-center">
-        <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-3xl mx-auto mb-4">
-          🔐
-        </div>
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-3xl mx-auto mb-4">🔐</div>
         <h3 class="text-2xl font-serif font-bold text-white">Owner / Admin Portal</h3>
-        <p class="text-xs text-slate-400 mt-1">Manage Menu, Popular Choices, Reviews & Delivery</p>
+        <p class="text-xs text-slate-400 mt-1">Manage Menu, Offer Banner, Reviews & Delivery</p>
       </div>
 
       <form onsubmit="handleAdminLogin(event)" class="mt-6 space-y-4">
@@ -579,6 +527,9 @@
         <button onclick="switchAdminTab('menu-tab')" id="tab-btn-menu-tab" class="py-3 px-3 text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-utensils"></i> Menu Items
         </button>
+        <button onclick="switchAdminTab('offers-tab')" id="tab-btn-offers-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-bullhorn"></i> Floating Offer Banner
+        </button>
         <button onclick="switchAdminTab('reviews-tab')" id="tab-btn-reviews-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-star-half-stroke"></i> Reviews Moderation
           <span id="pending-reviews-count" class="hidden px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 text-[10px] font-black">0</span>
@@ -588,9 +539,6 @@
         </button>
         <button onclick="switchAdminTab('delivery-tab')" id="tab-btn-delivery-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-motorcycle"></i> Daily Delivery
-        </button>
-        <button onclick="switchAdminTab('offers-tab')" id="tab-btn-offers-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
-          <i class="fa-solid fa-tags"></i> Special Offers
         </button>
       </div>
 
@@ -610,7 +558,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div class="sm:col-span-2">
                   <label class="block text-xs text-slate-400 mb-1">Item Name *</label>
-                  <input type="text" id="item-name" required placeholder="e.g. Special Chicken Biryani / Paneer Roll / Crispy Chicken" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                  <input type="text" id="item-name" required placeholder="e.g. Special Chicken Dum Biryani" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">Price (₹) *</label>
@@ -623,24 +571,23 @@
                 <input type="text" id="item-desc" placeholder="Tender chicken, aromatic rice, royal spices" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
               </div>
 
-              <!-- Photo Upload or Direct URL -->
               <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Item Photo (Upload or Paste URL)</span>
+                  <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Item Photo</span>
                   <div id="image-preview-container" class="hidden items-center gap-2">
                     <img id="image-preview" src="" class="w-8 h-8 rounded-lg object-cover border border-amber-500">
-                    <span class="text-xs text-emerald-400">Image Ready</span>
+                    <span class="text-xs text-emerald-400">Photo Ready</span>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
                   <div>
-                    <label class="block text-[11px] text-slate-400 mb-1">Option A: Direct Image URL</label>
+                    <label class="block text-[11px] text-slate-400 mb-1">Option A: Image URL</label>
                     <input type="url" id="item-image-url" placeholder="https://... or images/biryani.jpg" oninput="previewImageFromUrl(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
                   </div>
                   <div>
-                    <label class="block text-[11px] text-slate-400 mb-1">Option B: Choose from phone/computer</label>
-                    <input type="file" id="item-image-file" accept="image/*" onchange="handleImageFileUpload(event, 'final-image-data', 'image-preview', 'image-preview-container')" class="w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-400 cursor-pointer">
+                    <label class="block text-[11px] text-slate-400 mb-1">Option B: Upload from Device</label>
+                    <input type="file" id="item-image-file" accept="image/*" onchange="handleImageFileUpload(event, 'final-image-data', 'image-preview', 'image-preview-container')" class="w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 cursor-pointer">
                   </div>
                 </div>
                 <input type="hidden" id="final-image-data" value="">
@@ -653,7 +600,6 @@
             </form>
           </div>
 
-          <!-- Existing Items Live List -->
           <div>
             <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3">Live Items in Database</h4>
             <div id="admin-menu-list" class="space-y-2">
@@ -662,14 +608,87 @@
           </div>
         </div>
 
-        <!-- TAB 2: REVIEWS MODERATION (APPROVE / REJECT) -->
+        <!-- TAB 2: FLOATING POPUP OFFER BANNER (ON LOAD) -->
+        <div id="admin-panel-offers-tab" class="space-y-6 hidden">
+          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-5">
+            <div>
+              <h4 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>📢</span> Floating Offer Banner (Auto-Popup on Website Open)
+              </h4>
+              <p class="text-xs text-slate-400 mt-1">This banner floats on screen when visitors open your website. They click "✕" to close it.</p>
+            </div>
+
+            <!-- Toggle Switch -->
+            <div class="flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl">
+              <div>
+                <span class="font-bold text-white text-sm block">Enable Floating Offer Popup On Open</span>
+                <span class="text-xs text-slate-400">If toggled ON, the popup banner will display when anyone opens the website.</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="popup-offer-switch" class="sr-only peer">
+                <div class="w-14 h-7 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-amber-500"></div>
+              </label>
+            </div>
+
+            <!-- Upload / Image URL for Popup -->
+            <div class="space-y-3 p-4 bg-slate-900 border border-slate-800 rounded-xl">
+              <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider block">Offer Banner Graphic</span>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Option A: Image URL</label>
+                  <input type="text" id="popup-banner-url-input" placeholder="https://... or images/offer.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Option B: Upload Banner Photo</label>
+                  <input type="file" id="popup-banner-file-input" accept="image/*" onchange="handleImageFileUpload(event, 'popup-banner-final-data', 'admin-popup-preview-img', 'admin-popup-preview-box')" class="w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 cursor-pointer">
+                </div>
+              </div>
+              <input type="hidden" id="popup-banner-final-data" value="">
+
+              <div id="admin-popup-preview-box" class="hidden items-center gap-3 p-2 bg-slate-950 border border-slate-800 rounded-xl">
+                <img id="admin-popup-preview-img" src="" class="w-20 h-16 object-cover rounded-lg border border-amber-500">
+                <span class="text-xs text-emerald-400">Banner ready to publish</span>
+              </div>
+            </div>
+
+            <!-- Additional Details for Homepage Offers section -->
+            <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-3">
+              <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider block">Homepage "Special Deals" Section Text</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs text-slate-400 mb-1">Deal Badge</label>
+                  <input type="text" id="offer-badge" placeholder="Today's Festival Offer" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                </div>
+                <div>
+                  <label class="block text-xs text-slate-400 mb-1">Discount Highlight</label>
+                  <input type="text" id="offer-discount" placeholder="Flat ₹40 OFF on Biryani Combos!" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Deal Title</label>
+                <input type="text" id="offer-title" placeholder="Dum Biryani Special Deal" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Conditions / Description</label>
+                <textarea id="offer-description" rows="2" placeholder="Order above ₹300 and get free sweets or direct discount!" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white"></textarea>
+              </div>
+            </div>
+
+            <button onclick="saveOfferSettings()" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Save & Publish Offer Banner
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 3: REVIEWS MODERATION -->
         <div id="admin-panel-reviews-tab" class="space-y-6 hidden">
           <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
             <div>
               <h4 class="text-lg font-bold text-white flex items-center gap-2">
                 <span>⭐</span> Customer Reviews Approval Queue
               </h4>
-              <p class="text-xs text-slate-400 mt-1">Verify customer reviews before they are published to your website.</p>
+              <p class="text-xs text-slate-400 mt-1">Approve genuine reviews to display them on the website or delete spam.</p>
             </div>
 
             <div id="admin-reviews-list" class="space-y-3">
@@ -678,15 +697,12 @@
           </div>
         </div>
 
-        <!-- TAB 3: MENU CARD & POPULAR CHOICES EDITOR -->
+        <!-- TAB 4: MENU CARD & POPULAR CHOICES EDITOR -->
         <div id="admin-panel-custom-tab" class="space-y-6 hidden">
-          <!-- 1. Menu Card Link / Upload -->
           <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
             <h4 class="text-base font-bold text-white flex items-center gap-2">
               <span>📄</span> Update "View Full Menu Card" Photo
             </h4>
-            <p class="text-xs text-slate-400">Provide an image link or upload a new photo of your restaurant menu card.</p>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Option A: Image URL</label>
@@ -709,77 +725,41 @@
             </button>
           </div>
 
-          <!-- 2. Popular Choices Editor (3 cards) -->
           <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
             <h4 class="text-base font-bold text-white flex items-center gap-2">
               <span>⭐</span> Edit 3 Popular Choices Cards
             </h4>
-            <p class="text-xs text-slate-400">Change the icon emoji, title, and description for the 3 featured popular items.</p>
-
-            <div class="space-y-4" id="popular-edit-fields">
-              <!-- Item 1 -->
+            <div class="space-y-4">
               <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 1 Emoji</label>
-                  <input type="text" id="pop-emoji-0" value="🍚" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 1 Title</label>
-                  <input type="text" id="pop-title-0" value="Biryani Delights" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 1 Subtitle</label>
-                  <input type="text" id="pop-sub-0" value="Chicken & Mutton Dum" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 1 Emoji</label><input type="text" id="pop-emoji-0" value="🍚" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 1 Title</label><input type="text" id="pop-title-0" value="Biryani Delights" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 1 Subtitle</label><input type="text" id="pop-sub-0" value="Chicken & Mutton Dum" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
               </div>
-
-              <!-- Item 2 -->
               <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 2 Emoji</label>
-                  <input type="text" id="pop-emoji-1" value="🌯" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 2 Title</label>
-                  <input type="text" id="pop-title-1" value="Kolkata Rolls" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 2 Subtitle</label>
-                  <input type="text" id="pop-sub-1" value="Crispy Golden Parathas" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 2 Emoji</label><input type="text" id="pop-emoji-1" value="🌯" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 2 Title</label><input type="text" id="pop-title-1" value="Kolkata Rolls" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 2 Subtitle</label><input type="text" id="pop-sub-1" value="Crispy Golden Parathas" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
               </div>
-
-              <!-- Item 3 -->
               <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 3 Emoji</label>
-                  <input type="text" id="pop-emoji-2" value="🍗" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 3 Title</label>
-                  <input type="text" id="pop-title-2" value="Sides & Starters" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
-                <div>
-                  <label class="block text-[11px] text-slate-400 mb-1">Card 3 Subtitle</label>
-                  <input type="text" id="pop-sub-2" value="Mughlai Chaap & Snacks" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
-                </div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 3 Emoji</label><input type="text" id="pop-emoji-2" value="🍗" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 3 Title</label><input type="text" id="pop-title-2" value="Sides & Starters" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
+                <div><label class="block text-[11px] text-slate-400 mb-1">Card 3 Subtitle</label><input type="text" id="pop-sub-2" value="Mughlai Chaap & Snacks" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white"></div>
               </div>
             </div>
-
             <button onclick="savePopularChoicesSettings()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-2">
               <i class="fa-solid fa-floppy-disk"></i> Save Popular Choices
             </button>
           </div>
         </div>
 
-        <!-- TAB 4: DAILY DELIVERY TOGGLE & RIDER -->
+        <!-- TAB 5: DAILY DELIVERY TOGGLE & RIDER -->
         <div id="admin-panel-delivery-tab" class="space-y-6 hidden">
           <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-6">
             <div>
               <h4 class="text-lg font-bold text-white flex items-center gap-2">
-                <span>🛵</span> Daily Delivery Service Management
+                <span>🛵</span> Daily Delivery Service Management (8 KM Limit)
               </h4>
-              <p class="text-xs text-slate-400 mt-1">Control whether customers can order Home Delivery today. Changes save instantly.</p>
+              <p class="text-xs text-slate-400 mt-1">Control daily home delivery status. Delivery is strictly limited up to 8 KM.</p>
             </div>
 
             <div class="flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl">
@@ -795,7 +775,7 @@
 
             <div class="space-y-2">
               <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Today's Delivery Incharge / Notice Note</label>
-              <input type="text" id="delivery-staff-note" placeholder="E.g. Delivery is ACTIVE today! Delivered by Joydeb" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+              <input type="text" id="delivery-staff-note" placeholder="E.g. Delivery is ACTIVE today up to 8 KM! Delivered by Joydeb" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
               <p class="text-[11px] text-slate-500">This note displays at the top of the website when delivery is active.</p>
             </div>
 
@@ -805,65 +785,16 @@
           </div>
         </div>
 
-        <!-- TAB 5: PUBLISH SPECIAL OFFERS -->
-        <div id="admin-panel-offers-tab" class="space-y-6 hidden">
-          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
-            <div>
-              <h4 class="text-lg font-bold text-white flex items-center gap-2">
-                <span>🔥</span> Publish Today's Special Offer
-              </h4>
-              <p class="text-xs text-slate-400 mt-1">Switching this OFF will immediately hide both the top promo bar and the Special Offers card.</p>
-            </div>
-
-            <div class="flex items-center justify-between p-3.5 bg-slate-900 border border-slate-800 rounded-xl">
-              <div>
-                <span class="font-bold text-white text-sm block">Display Special Offers On Website</span>
-                <span class="text-xs text-slate-400">Controls top header banner & homepage offer card</span>
-              </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="offer-active-switch" onchange="handleOfferToggleChange()" class="sr-only peer" checked>
-                <div class="w-12 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[3px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
-              </label>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Badge / Tag</label>
-                <input type="text" id="offer-badge" placeholder="Today's Special Deal" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-              </div>
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Discount Highlight (Big text)</label>
-                <input type="text" id="offer-discount" placeholder="Flat ₹40 OFF on Biryani Combos!" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Offer Title</label>
-              <input type="text" id="offer-title" placeholder="Weekend Special Feast" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Offer Description & Conditions</label>
-              <textarea id="offer-description" rows="3" placeholder="Order 2 Mutton Biryanis and get 1 Chicken Chaap free! Valid for today only." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
-            </div>
-
-            <button onclick="saveSpecialOffer(true)" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center gap-2">
-              <i class="fa-solid fa-bullhorn"></i> Publish Offer to Website
-            </button>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
 
   <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded-full shadow-2xl transition-all duration-300 opacity-0 pointer-events-none text-sm flex items-center gap-2">
-    <span>✅</span> <span id="toast-message">Item added to plate!</span>
+    <span>✅</span> <span id="toast-message">Action successful!</span>
   </div>
 
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
-    // Updated Restaurant Contact Details
     const RESTAURANT_WHATSAPP = "919242173148";
     const RESTAURANT_LAT = 23.4025;
     const RESTAURANT_LON = 88.7981;
@@ -872,6 +803,7 @@
 
     let deliveryFee = 0;
     let customerGPSLink = "";
+    let customerDistanceKm = 0;
     let isDeliveryAvailable = true;
     let menuItems = [];
     let allReviews = [];
@@ -888,25 +820,12 @@
       measurementId: "G-GLJRZBN0GD"
     };
 
-    let auth = null;
     let db = null;
 
     try {
       if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
-        auth = firebase.auth();
         db = firebase.firestore();
-
-        auth.onAuthStateChanged(async (user) => {
-          const bannerBtn = document.getElementById('voucher-banner-btn');
-          if (user) {
-            if (bannerBtn) bannerBtn.innerHTML = `<span>My Voucher</span>`;
-            await checkAndLoadVoucher(user);
-          } else {
-            if (bannerBtn) bannerBtn.innerHTML = `<i class="fa-brands fa-google"></i><span>Claim My ₹30 Voucher</span>`;
-          }
-        });
-
         initFirestoreData();
       }
     } catch (e) {
@@ -950,15 +869,14 @@
         renderAdminMenuList(menuItems);
       });
 
-      // 2. Settings (Delivery, Offers, Menu Card Link, Popular choices)
+      // 2. Settings (Delivery, Floating Offer, Menu Card, Popular Choices)
       db.collection('settings').doc('config').onSnapshot((doc) => {
         if (doc.exists) {
           const config = doc.data();
           if (config.adminPassword) CURRENT_ADMIN_PASS = config.adminPassword;
           applyDeliveryState(config.deliveryAvailable !== false, config.deliveryStaffNote || "");
-          applySpecialOfferState(config.specialOffer);
+          applyOfferSettings(config.specialOffer);
 
-          // Menu Card link
           if (config.menuCardUrl) {
             const menuLink = document.getElementById('view-menu-card-link');
             if (menuLink) menuLink.href = config.menuCardUrl;
@@ -966,30 +884,29 @@
             if (adminCardInput) adminCardInput.value = config.menuCardUrl;
           }
 
-          // Popular choices
           renderPopularChoices(config.popularChoices || DEFAULT_POPULAR_CHOICES);
         } else {
           db.collection('settings').doc('config').set({
             deliveryAvailable: true,
-            deliveryStaffNote: "Delivery is ACTIVE today! Free delivery on selected distances.",
+            deliveryStaffNote: "Home Delivery is ACTIVE today up to 8 KM!",
             adminPassword: CURRENT_ADMIN_PASS,
             menuCardUrl: "images/menu.jpg",
             popularChoices: DEFAULT_POPULAR_CHOICES,
             specialOffer: {
-              active: true,
-              badge: "First-Time Customer Offer",
-              discount: "₹30 OFF",
-              title: "Welcome Discount Pass",
-              description: "Get ₹30 OFF on orders above ₹299! Sign in with Google at the top of the page to claim your welcome voucher."
+              popupActive: false,
+              popupBannerUrl: "",
+              badge: "Today's Special Deal",
+              discount: "Flat ₹40 OFF",
+              title: "Weekend Feast Deal",
+              description: "Order fresh Kolkata Biryani & get special complimentary sides!"
             }
           });
         }
       });
 
-      // 3. Customer Reviews Listener (Real-time)
+      // 3. Customer Reviews Listener
       db.collection('reviews').orderBy('createdAt', 'desc').onSnapshot(async (snapshot) => {
         if (snapshot.empty) {
-          // Default approved review seeds
           const seedReviews = [
             { name: "Rahul Roy", rating: 5, text: "The ₹120 Chicken Biryani is pure value for money! Potato was so soft and chicken was properly cooked. Best in this area.", approved: true },
             { name: "Sayan Banerjee", rating: 5, text: "Chicken Chaap with their rolls and Biryani is a deadly combination. Packaging was clean and food arrived piping hot.", approved: true },
@@ -1007,6 +924,111 @@
         renderPublicReviews(allReviews.filter(r => r.approved === true));
         renderAdminReviews(allReviews);
       });
+    }
+
+    /* ================= FLOATING ON-OPEN BANNER LOGIC ================= */
+    function checkAndShowOfferPopup(offer) {
+      if (!offer) return;
+      const isPopupActive = offer.popupActive === true;
+      const bannerUrl = offer.popupBannerUrl || offer.imageUrl;
+
+      if (isPopupActive && bannerUrl) {
+        // Only show once per session so customers aren't annoyed on every click
+        const alreadySeen = sessionStorage.getItem('promoPopupSeen');
+        if (!alreadySeen) {
+          document.getElementById('popup-banner-img').src = bannerUrl;
+          const popup = document.getElementById('floating-offer-popup');
+          popup.classList.remove('opacity-0', 'pointer-events-none');
+          sessionStorage.setItem('promoPopupSeen', 'true');
+        }
+      }
+    }
+
+    function closeFloatingOfferPopup() {
+      const popup = document.getElementById('floating-offer-popup');
+      popup.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function applyOfferSettings(offer) {
+      if (!offer) return;
+
+      // Check on-open popup
+      checkAndShowOfferPopup(offer);
+
+      // Prepopulate Admin inputs
+      const switchEl = document.getElementById('popup-offer-switch');
+      const urlInput = document.getElementById('popup-banner-url-input');
+      const badgeInput = document.getElementById('offer-badge');
+      const discInput = document.getElementById('offer-discount');
+      const titleInput = document.getElementById('offer-title');
+      const descInput = document.getElementById('offer-description');
+
+      if (switchEl) switchEl.checked = offer.popupActive === true;
+      if (urlInput) urlInput.value = offer.popupBannerUrl || "";
+      if (badgeInput) badgeInput.value = offer.badge || "";
+      if (discInput) discInput.value = offer.discount || "";
+      if (titleInput) titleInput.value = offer.title || "";
+      if (descInput) descInput.value = offer.description || "";
+
+      // Homepage section render
+      const offersSection = document.getElementById('offers');
+      const navOfferLink = document.getElementById('nav-offers-link');
+      const heroOfferBtn = document.getElementById('hero-offer-btn');
+      const container = document.getElementById('dynamic-offers-container');
+
+      if (!offer.title && !offer.popupBannerUrl) {
+        if (offersSection) offersSection.classList.add('hidden');
+        if (navOfferLink) navOfferLink.classList.add('hidden');
+        if (heroOfferBtn) heroOfferBtn.classList.add('hidden');
+        return;
+      }
+
+      if (offersSection) offersSection.classList.remove('hidden');
+      if (navOfferLink) navOfferLink.classList.remove('hidden');
+      if (heroOfferBtn) heroOfferBtn.classList.remove('hidden');
+
+      if (container) {
+        container.innerHTML = `
+          <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl">🏷️</div>
+            <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full mb-2 uppercase tracking-wide">
+              ${offer.badge || "Special Offer"}
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">${offer.title || "Today's Deal"}</h3>
+            ${offer.discount ? `<div class="text-3xl sm:text-4xl font-extrabold text-amber-400 font-serif my-2">${offer.discount}</div>` : ''}
+            <p class="text-slate-300 max-w-md mx-auto text-sm sm:text-base leading-relaxed mt-2">${offer.description || ""}</p>
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+              <a href="#menu" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition">Order This Now</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    async function saveOfferSettings() {
+      if (!db) return;
+      const popupActive = document.getElementById('popup-offer-switch').checked;
+      const uploadedBanner = document.getElementById('popup-banner-final-data').value;
+      const urlBanner = document.getElementById('popup-banner-url-input').value.trim();
+      const popupBannerUrl = uploadedBanner || urlBanner || "";
+
+      const badge = document.getElementById('offer-badge').value.trim();
+      const discount = document.getElementById('offer-discount').value.trim();
+      const title = document.getElementById('offer-title').value.trim();
+      const description = document.getElementById('offer-description').value.trim();
+
+      await db.collection('settings').doc('config').set({
+        specialOffer: {
+          popupActive,
+          popupBannerUrl,
+          badge,
+          discount,
+          title,
+          description
+        }
+      }, { merge: true });
+
+      showToast("Offer banner & popup settings saved!");
     }
 
     /* ================= CUSTOMER MENU RENDER ================= */
@@ -1069,7 +1091,6 @@
         </a>
       `).join('');
 
-      // Prepopulate admin fields
       list.forEach((item, idx) => {
         const eInput = document.getElementById(`pop-emoji-${idx}`);
         const tInput = document.getElementById(`pop-title-${idx}`);
@@ -1111,10 +1132,10 @@
       const finalMenuCard = uploadedFileBase64 || urlText || 'images/menu.jpg';
 
       await db.collection('settings').doc('config').set({ menuCardUrl: finalMenuCard }, { merge: true });
-      showToast("Full Menu Card link updated successfully!");
+      showToast("Full Menu Card photo updated!");
     }
 
-    /* ================= CUSTOMER REVIEWS & APPROVAL WORKFLOW ================= */
+    /* ================= CUSTOMER REVIEWS ================= */
     function toggleReviewModal(show) {
       const modal = document.getElementById('review-modal');
       if (show) modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -1147,7 +1168,7 @@
           name: name,
           rating: rating,
           text: text,
-          approved: false, // Default to pending verification
+          approved: false,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
@@ -1155,12 +1176,12 @@
         document.getElementById('review-cust-name').value = '';
         document.getElementById('review-cust-text').value = '';
         setReviewRating(5);
-        alert("Thank you, " + name + "! Your review has been submitted for verification. It will appear on the website once approved by our management.");
+        alert("Thank you, " + name + "! Your review has been submitted for verification. It will appear on the website once approved.");
       } catch (err) {
         alert("Failed to submit review: " + err.message);
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Submit Review for Verification`;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Submit Review`;
       }
     }
 
@@ -1225,11 +1246,11 @@
           <div class="flex items-center gap-2 shrink-0">
             ${!r.approved ? `
               <button onclick="approveReview('${r.id}', true)" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
-                <i class="fa-solid fa-check"></i> Approve & Publish
+                <i class="fa-solid fa-check"></i> Approve
               </button>
             ` : `
               <button onclick="approveReview('${r.id}', false)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
-                <i class="fa-solid fa-eye-slash"></i> Hide from Site
+                <i class="fa-solid fa-eye-slash"></i> Hide
               </button>
             `}
             <button onclick="deleteReview('${r.id}')" class="p-2 bg-red-950/70 hover:bg-red-900 text-red-300 border border-red-700/50 rounded-lg text-xs transition" title="Delete Review">
@@ -1247,13 +1268,13 @@
     }
 
     async function deleteReview(id) {
-      if (!confirm("Are you sure you want to permanently delete this customer review?")) return;
+      if (!confirm("Permanently delete this customer review?")) return;
       if (!db) return;
       await db.collection('reviews').doc(id).delete();
       showToast("Review deleted.");
     }
 
-    /* ================= DELIVERY STATUS & SPECIAL OFFERS ================= */
+    /* ================= DELIVERY (STRICT 8 KM RADIUS) ================= */
     function applyDeliveryState(isAvailable, note) {
       isDeliveryAvailable = isAvailable;
       const alertBar = document.getElementById('delivery-alert-bar');
@@ -1268,16 +1289,16 @@
       if (isAvailable) {
         if (alertBar) {
           alertBar.className = "bg-emerald-950/80 border-b border-emerald-500/40 text-emerald-300 py-2 px-4 text-center text-xs font-semibold flex items-center justify-center gap-2";
-          alertBar.innerHTML = `<span>🛵</span> <span>${note || "Home Delivery is ACTIVE today! Place your order online."}</span>`;
+          alertBar.innerHTML = `<span>🛵</span> <span>${note || "Home Delivery is ACTIVE today up to 8 KM!"}</span>`;
           alertBar.classList.remove('hidden');
         }
         if (heroBadge) {
           heroBadge.className = "ml-2 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
-          heroBadge.textContent = "Delivery Available Today";
+          heroBadge.textContent = "Delivery Available (Max 8 KM)";
         }
         if (optDelivery) {
           optDelivery.disabled = false;
-          optDelivery.textContent = "Home Delivery";
+          optDelivery.textContent = "Home Delivery (Max 8 KM)";
         }
       } else {
         let closedNotice = note;
@@ -1315,7 +1336,7 @@
         }
       } else {
         if (!noteInput.value || noteInput.value.toLowerCase().includes('closed')) {
-          noteInput.value = "Delivery is ACTIVE today! Free delivery on selected distances.";
+          noteInput.value = "Home Delivery is ACTIVE today up to 8 KM!";
         }
       }
       await saveDeliverySettings(false);
@@ -1331,7 +1352,7 @@
         note = "Home Delivery is CLOSED for today. Dine-in and Takeaway available!";
         document.getElementById('delivery-staff-note').value = note;
       } else if (isAvailable && (!note || note.toLowerCase().includes('closed'))) {
-        note = "Delivery is ACTIVE today! Free delivery on selected distances.";
+        note = "Home Delivery is ACTIVE today up to 8 KM!";
         document.getElementById('delivery-staff-note').value = note;
       }
 
@@ -1343,84 +1364,81 @@
       if (showToastMsg) showToast(isAvailable ? "Delivery set to ACTIVE & saved!" : "Delivery set to CLOSED & saved!");
     }
 
-    function applySpecialOfferState(offer) {
-      const topBanner = document.getElementById('top-offer-banner');
-      const offersSection = document.getElementById('offers');
-      const navOfferLink = document.getElementById('nav-offers-link');
-      const heroOfferBtn = document.getElementById('hero-offer-btn');
+    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
 
-      const activeSwitch = document.getElementById('offer-active-switch');
-      const badgeInput = document.getElementById('offer-badge');
-      const discInput = document.getElementById('offer-discount');
-      const titleInput = document.getElementById('offer-title');
-      const descInput = document.getElementById('offer-description');
+    function calculateDeliveryAndLocation() {
+      const btnText = document.getElementById('geo-btn-text');
+      const gpsInput = document.getElementById('cust-gps');
+      const orderType = document.getElementById('cust-type').value;
 
-      const isOfferActive = offer && offer.active !== false;
-
-      if (activeSwitch) activeSwitch.checked = isOfferActive;
-      if (badgeInput && offer) badgeInput.value = offer.badge || "";
-      if (discInput && offer) discInput.value = offer.discount || "";
-      if (titleInput && offer) titleInput.value = offer.title || "";
-      if (descInput && offer) descInput.value = offer.description || "";
-
-      if (!isOfferActive) {
-        if (topBanner) topBanner.classList.add('hidden');
-        if (offersSection) offersSection.classList.add('hidden');
-        if (navOfferLink) navOfferLink.classList.add('hidden');
-        if (heroOfferBtn) heroOfferBtn.classList.add('hidden');
+      if (orderType !== "Home Delivery") {
+        deliveryFee = 0;
+        document.getElementById('delivery-fee-input').value = 0;
+        document.getElementById('delivery-distance-label').textContent = "(Dine-in / Pickup)";
+        renderCart();
+        alert("Selected order type is Dine-in/Pickup. Delivery charge is ₹0.");
         return;
       }
 
-      if (topBanner) topBanner.classList.remove('hidden');
-      if (offersSection) offersSection.classList.remove('hidden');
-      if (navOfferLink) navOfferLink.classList.remove('hidden');
-      if (heroOfferBtn) heroOfferBtn.classList.remove('hidden');
-
-      const topTitle = document.getElementById('top-banner-title');
-      const topSub = document.getElementById('top-banner-sub');
-      if (topTitle && offer.title) topTitle.textContent = offer.title;
-      if (topSub && (offer.discount || offer.description)) {
-        topSub.innerHTML = `<strong>${offer.discount || ''}</strong> ${offer.description ? '— ' + offer.description : ''}`;
+      if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
       }
 
-      const container = document.getElementById('dynamic-offers-container');
-      if (container) {
-        container.innerHTML = `
-          <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl">🏷️</div>
-            <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full mb-2 uppercase tracking-wide">
-              ${offer.badge || "Limited Time Offer"}
-            </span>
-            <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">${offer.title || "Special Deal"}</h3>
-            ${offer.discount ? `<div class="text-3xl sm:text-4xl font-extrabold text-amber-400 font-serif my-2">${offer.discount}</div>` : ''}
-            <p class="text-slate-300 max-w-md mx-auto text-sm sm:text-base leading-relaxed mt-2">${offer.description || ""}</p>
-            <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
-              <a href="#menu" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition">Order This Now</a>
-            </div>
-          </div>
-        `;
-      }
-    }
+      btnText.textContent = "Calculating distance...";
 
-    async function handleOfferToggleChange() {
-      const active = document.getElementById('offer-active-switch').checked;
-      await saveSpecialOffer(false);
-      showToast(active ? "Special Offer Activated!" : "Special Offer Turned OFF!");
-    }
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLat = position.coords.latitude;
+          const userLon = position.coords.longitude;
+          customerGPSLink = `https://www.google.com/maps?q=${userLat},${userLon}`;
+          gpsInput.value = customerGPSLink;
 
-    async function saveSpecialOffer(showToastMsg = true) {
-      if (!db) return;
-      const active = document.getElementById('offer-active-switch').checked;
-      const badge = document.getElementById('offer-badge').value.trim();
-      const discount = document.getElementById('offer-discount').value.trim();
-      const title = document.getElementById('offer-title').value.trim();
-      const description = document.getElementById('offer-description').value.trim();
+          const distanceKm = calculateDistanceKm(RESTAURANT_LAT, RESTAURANT_LON, userLat, userLon);
+          customerDistanceKm = distanceKm;
 
-      await db.collection('settings').doc('config').set({
-        specialOffer: { active, badge, discount, title, description }
-      }, { merge: true });
+          // STRICT CHECK: NO DELIVERY ABOVE 8 KM
+          if (distanceKm > 8) {
+            deliveryFee = 0;
+            document.getElementById('delivery-fee-input').value = 0;
+            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km - Too far)`;
+            btnText.textContent = `❌ Beyond 8 KM (~${distanceKm.toFixed(1)} km) - Delivery Not Possible`;
+            document.getElementById('geo-btn').className = "w-full py-2.5 bg-red-950/80 text-red-300 border border-red-500/50 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2";
+            
+            alert(`Sorry! We only deliver within 8 km. Your location is ~${distanceKm.toFixed(1)} km away. Switching your order type to Takeaway.`);
+            document.getElementById('cust-type').value = "Takeaway / Parcel";
+            handleOrderTypeChange();
+            return;
+          }
 
-      if (showToastMsg) showToast(active ? "Special offer published live!" : "Offer turned off successfully!");
+          if (distanceKm <= 4) {
+            deliveryFee = 10;
+            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
+          } else {
+            deliveryFee = 25;
+            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
+          }
+
+          document.getElementById('delivery-fee-input').value = deliveryFee;
+          renderCart();
+
+          btnText.textContent = `✅ Within Zone (~${distanceKm.toFixed(1)} km) • Delivery: ₹${deliveryFee}`;
+          document.getElementById('geo-btn').className = "w-full py-2.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2";
+        },
+        () => {
+          alert("Unable to retrieve location. Please check GPS permissions.");
+          btnText.textContent = "📍 Auto-Detect Location & Check 8 KM Limit";
+        }
+      );
     }
 
     /* ================= ADMIN AUTH & TABS ================= */
@@ -1495,7 +1513,7 @@
     }
 
     function switchAdminTab(tabId) {
-      ['menu-tab', 'reviews-tab', 'custom-tab', 'delivery-tab', 'offers-tab'].forEach(tab => {
+      ['menu-tab', 'offers-tab', 'reviews-tab', 'custom-tab', 'delivery-tab'].forEach(tab => {
         const panel = document.getElementById(`admin-panel-${tab}`);
         const btn = document.getElementById(`tab-btn-${tab}`);
         if (tab === tabId) {
@@ -1554,9 +1572,7 @@
           const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
           document.getElementById(targetHiddenId).value = compressedBase64;
           
-          if (targetPreviewImgId) {
-            document.getElementById(targetPreviewImgId).src = compressedBase64;
-          }
+          if (targetPreviewImgId) document.getElementById(targetPreviewImgId).src = compressedBase64;
           if (targetBoxId) {
             const box = document.getElementById(targetBoxId);
             box.classList.remove('hidden');
@@ -1739,71 +1755,6 @@
       renderCart();
     }
 
-    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * (Math.PI / 180);
-      const dLon = (lon2 - lon1) * (Math.PI / 180);
-      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
-    }
-
-    function calculateDeliveryAndLocation() {
-      const btnText = document.getElementById('geo-btn-text');
-      const gpsInput = document.getElementById('cust-gps');
-      const orderType = document.getElementById('cust-type').value;
-
-      if (orderType !== "Home Delivery") {
-        deliveryFee = 0;
-        document.getElementById('delivery-fee-input').value = 0;
-        document.getElementById('delivery-distance-label').textContent = "(Dine-in / Pickup)";
-        renderCart();
-        alert("Selected order type is Dine-in/Pickup. Delivery charge is ₹0.");
-        return;
-      }
-
-      if (!navigator.geolocation) {
-        alert("Geolocation is not supported by your browser.");
-        return;
-      }
-
-      btnText.textContent = "Calculating distance...";
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const userLat = position.coords.latitude;
-          const userLon = position.coords.longitude;
-          customerGPSLink = `https://www.google.com/maps?q=${userLat},${userLon}`;
-          gpsInput.value = customerGPSLink;
-
-          const distanceKm = calculateDistanceKm(RESTAURANT_LAT, RESTAURANT_LON, userLat, userLon);
-
-          if (distanceKm <= 4) {
-            deliveryFee = 10;
-            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
-          } else if (distanceKm <= 8) {
-            deliveryFee = 25;
-            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
-          } else {
-            deliveryFee = 40;
-            document.getElementById('delivery-distance-label').textContent = `(~${distanceKm.toFixed(1)} km away)`;
-          }
-
-          document.getElementById('delivery-fee-input').value = deliveryFee;
-          renderCart();
-
-          btnText.textContent = `✅ Location Set! Delivery: ₹${deliveryFee}`;
-          document.getElementById('geo-btn').className = "w-full py-2.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2";
-        },
-        () => {
-          alert("Unable to retrieve location. Please check GPS permissions.");
-          btnText.textContent = "📍 Auto-Detect Location & Calculate Delivery Fee";
-        }
-      );
-    }
-
     function renderCart() {
       const container = document.getElementById('cart-items-container');
       const emptyState = document.getElementById('cart-empty-state');
@@ -1883,11 +1834,17 @@
       const gpsLink = document.getElementById('cust-gps').value;
 
       if (!name) { alert("Please enter your name."); document.getElementById('cust-name').focus(); return; }
-      if (!address) { alert("Please enter your delivery address."); document.getElementById('cust-address').focus(); return; }
+      if (!address) { alert("Please enter your delivery address / table number."); document.getElementById('cust-address').focus(); return; }
 
-      if (type === "Home Delivery" && !isDeliveryAvailable) {
-        alert("Home delivery is paused today. Please change order type to Takeaway or Dine-in.");
-        return;
+      if (type === "Home Delivery") {
+        if (!isDeliveryAvailable) {
+          alert("Home delivery is paused today. Please change order type to Takeaway or Dine-in.");
+          return;
+        }
+        if (customerDistanceKm > 8) {
+          alert("Delivery cannot be placed because your location is beyond 8 km. Please select Takeaway or Dine-in.");
+          return;
+        }
       }
 
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -1914,64 +1871,6 @@
       msg += `_Order placed via website_`;
 
       window.open(`https://wa.me/${RESTAURANT_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    /* ================= VOUCHER AUTH ================= */
-    function handleVoucherButtonClick() { toggleVoucherModal(true); }
-    function toggleVoucherModal(show) {
-      const modal = document.getElementById('voucher-modal');
-      if (show) modal.classList.remove('opacity-0', 'pointer-events-none');
-      else modal.classList.add('opacity-0', 'pointer-events-none');
-    }
-
-    async function loginWithGoogle() {
-      if (!auth) { alert("Firebase initializing..."); return; }
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        const result = await auth.signInWithPopup(provider);
-        await checkAndLoadVoucher(result.user);
-      } catch (error) { alert("Sign-in error: " + error.message); }
-    }
-
-    async function checkAndLoadVoucher(user) {
-      if (!db) return;
-      const userRef = db.collection('vouchers').doc(user.uid);
-      const doc = await userRef.get();
-      let voucherData;
-      if (!doc.exists) {
-        const uniqueCode = "UB-" + Math.random().toString(36).substring(2, 7).toUpperCase();
-        voucherData = {
-          uid: user.uid,
-          name: user.displayName || "Customer",
-          email: user.email,
-          photoURL: user.photoURL || "",
-          code: uniqueCode,
-          discount: "₹30 OFF (Above ₹299)",
-          isRedeemed: false,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        await userRef.set(voucherData);
-      } else { voucherData = doc.data(); }
-      renderVoucherCard(voucherData);
-    }
-
-    function renderVoucherCard(data) {
-      document.getElementById('voucher-login-state').classList.add('hidden');
-      document.getElementById('voucher-card-state').classList.remove('hidden');
-      document.getElementById('user-avatar').src = data.photoURL;
-      document.getElementById('user-name').textContent = data.name;
-      document.getElementById('user-email').textContent = data.email;
-      document.getElementById('voucher-code-display').textContent = data.code;
-      document.getElementById('voucher-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(data.code)}`;
-
-      const statusPill = document.getElementById('voucher-status-pill');
-      if (data.isRedeemed) {
-        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-red-900/60 text-red-300 border border-red-500/40";
-        statusPill.innerHTML = `<span>❌ ALREADY REDEEMED</span>`;
-      } else {
-        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-emerald-950/60 text-emerald-300 border border-emerald-500/40";
-        statusPill.innerHTML = `<span>✅ VALID FOR FIRST VISIT (ABOVE ₹299)</span>`;
-      }
     }
 
     renderCart();
