@@ -15,7 +15,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Firebase SDKs for Google Sign-in & Vouchers -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -45,13 +45,13 @@
 <body class="bg-slate-950 text-slate-100 font-sans antialiased pb-28 md:pb-10">
 
   <!-- ================= FIRST-VISIT OFFER BANNER ================= -->
-  <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-slate-950 py-3 px-4 shadow-lg border-b border-amber-400/30">
+  <div id="top-offer-banner" class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-slate-950 py-3 px-4 shadow-lg border-b border-amber-400/30">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
       <div class="flex items-center gap-3">
         <span class="text-2xl animate-bounce">🎁</span>
         <div>
-          <span class="font-extrabold text-sm sm:text-base uppercase tracking-wide text-white">First Time Visiting Our Restaurant?</span>
-          <p class="text-xs font-semibold text-amber-100">Sign in with Google & get <strong>₹30 OFF on orders above ₹299</strong>!</p>
+          <span id="top-banner-title" class="font-extrabold text-sm sm:text-base uppercase tracking-wide text-white">First Time Visiting Our Restaurant?</span>
+          <p id="top-banner-sub" class="text-xs font-semibold text-amber-100">Sign in with Google & get <strong>₹30 OFF on orders above ₹299</strong>!</p>
         </div>
       </div>
       <button onclick="handleVoucherButtonClick()" id="voucher-banner-btn" class="px-5 py-2 bg-slate-950 hover:bg-slate-900 text-amber-400 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2">
@@ -60,6 +60,9 @@
       </button>
     </div>
   </div>
+
+  <!-- ================= DELIVERY STATUS BANNER ================= -->
+  <div id="delivery-alert-bar" class="hidden py-2 px-4 text-center text-xs font-semibold"></div>
 
   <!-- ================= NAVBAR ================= -->
   <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
@@ -73,23 +76,30 @@
       </a>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-7 font-medium text-slate-300 text-sm">
+      <nav class="hidden md:flex items-center gap-6 font-medium text-slate-300 text-sm">
         <a href="#home" class="hover:text-amber-400 transition-colors">Home</a>
-        <a href="#offers" class="hover:text-amber-400 transition-colors">Offers</a>
+        <a href="#offers" id="nav-offers-link" class="hover:text-amber-400 transition-colors">Offers</a>
         <a href="#popular" class="hover:text-amber-400 transition-colors">Popular</a>
         <a href="#menu" class="hover:text-amber-400 transition-colors">Menu</a>
+        <a href="#reviews" class="hover:text-amber-400 transition-colors">Reviews</a>
         <a href="#ambience" class="hover:text-amber-400 transition-colors">Ambience</a>
         <a href="#gallery" class="hover:text-amber-400 transition-colors">Gallery</a>
-        <a href="#about" class="hover:text-amber-400 transition-colors">About Us</a>
         <a href="#contact" class="hover:text-amber-400 transition-colors">Contact</a>
       </nav>
 
-      <!-- Cart Button in Header -->
-      <button onclick="toggleCartDrawer(true)" class="relative inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2.5 rounded-full transition shadow-lg shadow-amber-500/20">
-        <i class="fa-solid fa-bag-shopping text-lg"></i>
-        <span>My Plate</span>
-        <span id="nav-cart-count" class="bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold ml-1">0</span>
-      </button>
+      <div class="flex items-center gap-3">
+        <!-- Admin Dashboard Trigger -->
+        <button onclick="openAdminPortal()" title="Admin Control Panel" class="w-10 h-10 rounded-full bg-slate-900 border border-slate-700 hover:border-amber-500 text-slate-300 hover:text-amber-400 flex items-center justify-center transition">
+          <i class="fa-solid fa-lock text-sm"></i>
+        </button>
+
+        <!-- Cart Button -->
+        <button onclick="toggleCartDrawer(true)" class="relative inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 sm:px-5 py-2.5 rounded-full transition shadow-lg shadow-amber-500/20 text-sm">
+          <i class="fa-solid fa-bag-shopping text-base"></i>
+          <span class="hidden sm:inline">My Plate</span>
+          <span id="nav-cart-count" class="bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -101,9 +111,10 @@
     </div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-4 text-center pt-8">
-      <span class="inline-block py-1 px-4 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold uppercase tracking-wider mb-4">
-        ✨ Fresh Dum Cooked Every Day
-      </span>
+      <div class="inline-flex items-center gap-2 py-1 px-4 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold uppercase tracking-wider mb-4">
+        <span>✨ Fresh Dum Cooked Every Day</span>
+        <span id="hero-delivery-badge" class="ml-2 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">Delivery Available</span>
+      </div>
       <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-extrabold text-white leading-tight">
         UNIQUE BIRYANI <br/>
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">& RESTAURANT</span>
@@ -116,7 +127,7 @@
         <a href="#menu" class="w-full sm:w-auto px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/20 text-center">
           View Full Menu
         </a>
-        <a href="#offers" class="w-full sm:w-auto px-8 py-3.5 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-700 transition-all text-center">
+        <a href="#offers" id="hero-offer-btn" class="w-full sm:w-auto px-8 py-3.5 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-700 transition-all text-center">
           Today's Special Offer
         </a>
       </div>
@@ -127,59 +138,28 @@
   <section id="offers" class="py-16 bg-gradient-to-b from-slate-950 to-slate-900 border-y border-slate-800/80 relative">
     <span id="special" class="absolute -top-24"></span>
     <div class="max-w-4xl mx-auto px-4">
-      
       <div class="text-center mb-8">
         <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Deals & Discounts</span>
         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">🔥 Special Offers</h2>
       </div>
 
-      <div id="no-offer-box" class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
-        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-3xl">
-          🏷️
-        </div>
-        <h3 class="text-2xl font-serif font-bold text-white mb-2">First-Time Customer Offer</h3>
-        <p class="text-slate-400 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
-          Get <strong>₹30 OFF</strong> on orders above ₹299! Sign in with Google at the top of the page to claim your welcome voucher.
-        </p>
-        
-        <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
-          <a href="#menu" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition">
-            Explore Regular Menu
-          </a>
-        </div>
-      </div>
+      <div id="dynamic-offers-container" class="space-y-6"></div>
     </div>
   </section>
 
-  <!-- ================= POPULAR CATEGORIES ================= -->
+  <!-- ================= POPULAR CHOICES (DYNAMIC) ================= -->
   <section id="popular" class="py-14 max-w-5xl mx-auto px-4">
     <div class="text-center mb-10">
       <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Customer Favorites</span>
-      <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Popular Categories</h2>
+      <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Popular Choices</h2>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
-        <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍚</div>
-        <h3 class="font-bold text-white text-xl">Biryani</h3>
-        <p class="text-sm text-slate-400 mt-1">Chicken & Mutton Dum</p>
-      </a>
-
-      <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
-        <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🌯</div>
-        <h3 class="font-bold text-white text-xl">Rolls</h3>
-        <p class="text-sm text-slate-400 mt-1">Egg & Chicken Kathi Rolls</p>
-      </a>
-
-      <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
-        <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🍗</div>
-        <h3 class="font-bold text-white text-xl">Chicken Chaap</h3>
-        <p class="text-sm text-slate-400 mt-1">Mughlai Royal Gravy</p>
-      </a>
+    <div id="popular-choices-container" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <!-- Rendered dynamically from Firestore -->
     </div>
   </section>
 
-  <!-- ================= OUR MENU ================= -->
+  <!-- ================= OUR MENU (REALTIME FIRESTORE POWERED) ================= -->
   <section id="menu" class="py-16 bg-slate-900/50 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
@@ -188,150 +168,48 @@
           <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">📋 Our Menu</h2>
           <p class="text-xs text-slate-400 mt-1">Click "+ Add to Plate" to pick multiple items together!</p>
         </div>
-        <a href="images/menu.jpg" target="_blank" class="inline-flex items-center gap-2 text-sm bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 px-4 py-2.5 rounded-lg transition font-medium">
-  <i class="fa-solid fa-image text-amber-500"></i> View Full Menu Card
-</a>
+        <div class="flex items-center gap-3">
+          <button id="admin-quick-add-btn" onclick="openAdminPortal('menu-tab')" class="hidden sm:inline-flex items-center gap-2 text-xs bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 px-3.5 py-2 rounded-lg font-semibold transition">
+            <i class="fa-solid fa-plus"></i> Add Item (Admin)
+          </button>
+          <a id="view-menu-card-link" href="images/menu.jpg" target="_blank" class="inline-flex items-center gap-2 text-sm bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 px-4 py-2.5 rounded-lg transition font-medium">
+            <i class="fa-solid fa-image text-amber-500"></i> View Full Menu Card
+          </a>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- 1. Chicken Dum Biryani -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
-          <div>
-            <img src="images/chicken-biryani.jpg" alt="Chicken Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <div class="flex justify-between items-start">
-                <h3 class="font-bold text-lg text-white">Chicken Dum Biryani</h3>
-                <span class="text-amber-400 font-bold text-lg">₹120</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Rich spices, tender chicken, soft potato, aromatic rice.</p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <button onclick="addToCart('Chicken Dum Biryani', 120)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
-              <i class="fa-solid fa-plus"></i> Add to Plate
-            </button>
-          </div>
-        </div>
-
-        <!-- 2. Special Mutton Biryani -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
-          <div>
-            <img src="images/mutton-biryani.jpg" alt="Mutton Biryani" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600&q=80';" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <div class="flex justify-between items-start">
-                <h3 class="font-bold text-lg text-white">Special Mutton Biryani</h3>
-                <span class="text-amber-400 font-bold text-lg">₹170</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Slow-cooked tender juicy mutton piece with royal spices.</p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <button onclick="addToCart('Special Mutton Biryani', 180)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
-              <i class="fa-solid fa-plus"></i> Add to Plate
-            </button>
-          </div>
-        </div>
-
-        <!-- 3. Mughlai Chicken Chaap -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
-          <div>
-            <img src="images/chicken-chap.jpg" alt="Chicken Chaap" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <div class="flex justify-between items-start">
-                <h3 class="font-bold text-lg text-white">Mughlai Chicken Chaap</h3>
-                <span class="text-amber-400 font-bold text-lg">₹60</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Mughlai style slow cooked thick poppy-seed and cashew gravy.</p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <button onclick="addToCart('Mughlai Chicken Chaap', 60)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
-              <i class="fa-solid fa-plus"></i> Add to Plate
-            </button>
-          </div>
-        </div>
-
-        <!-- 4. Chicken Lollipop -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
-          <div>
-            <img src="images/chicken-lollipop.jpg" alt="Chicken Lollipop" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1527477378378-00d04c4051b8?w=600&q=80';" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <div class="flex justify-between items-start">
-                <h3 class="font-bold text-lg text-white">Chicken Lollipop (4 pcs)</h3>
-                <span class="text-amber-400 font-bold text-lg">₹110</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Crispy spiced winglets tossed with hot garlic dip.</p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <button onclick="addToCart('Chicken Lollipop (4 pcs)', 110)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
-              <i class="fa-solid fa-plus"></i> Add to Plate
-            </button>
-          </div>
-        </div>
-
-        <!-- 5. Chicken Hakka Chowmein -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
-          <div>
-            <img src="images/chowmein.jpg" alt="Chicken Chowmein" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=80';" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <div class="flex justify-between items-start">
-                <h3 class="font-bold text-lg text-white">Chicken Hakka Chowmein</h3>
-                <span class="text-amber-400 font-bold text-lg">₹100</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Wok tossed noodles with shredded chicken and veggies.</p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <button onclick="addToCart('Chicken Hakka Chowmein', 80)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
-              <i class="fa-solid fa-plus"></i> Add to Plate
-            </button>
-          </div>
-        </div>
-
-        <!-- 6. Crispy Egg Roll -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
-          <div>
-            <img src="images/egg-roll.jpg" alt="Egg Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <div class="flex justify-between items-start">
-                <h3 class="font-bold text-lg text-white">Crispy Egg Roll</h3>
-                <span class="text-amber-400 font-bold text-lg">₹40</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Crispy flaky golden paratha rolled with seasoned double egg, onions & tangy sauce.</p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <button onclick="addToCart('Crispy Egg Roll', 40)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
-              <i class="fa-solid fa-plus"></i> Add to Plate
-            </button>
-          </div>
-        </div>
-
-        <!-- 7. Kolkata Chicken Roll -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/40 transition flex flex-col justify-between">
-          <div>
-            <img src="images/chicken-roll.jpg" alt="Chicken Roll" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=600&q=80';" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <div class="flex justify-between items-start">
-                <h3 class="font-bold text-lg text-white">Chicken Roll</h3>
-                <span class="text-amber-400 font-bold text-lg">₹75</span>
-              </div>
-              <p class="text-xs text-slate-400 mt-1">Tender spiced chicken chunks tossed with sliced onions, lime juice & green chilies wrapped in crispy paratha.</p>
-            </div>
-          </div>
-          <div class="p-5 pt-0">
-            <button onclick="addToCart('Chicken Roll', 70)" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
-              <i class="fa-solid fa-plus"></i> Add to Plate
-            </button>
-          </div>
+      <div id="menu-items-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-12 text-slate-500">
+          <i class="fa-solid fa-spinner fa-spin text-2xl text-amber-500 mb-2"></i>
+          <p>Loading fresh delicious menu...</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ================= CUSTOMER REVIEWS (VERIFIED & MODERATED) ================= -->
+  <section id="reviews" class="py-16 max-w-7xl mx-auto px-4">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+      <div>
+        <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">What People Say</span>
+        <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Verified Customer Reviews</h2>
+        <p class="text-xs text-slate-400 mt-1">Only authentic reviews verified by our restaurant team are published.</p>
+      </div>
+      <button onclick="toggleReviewModal(true)" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
+        <i class="fa-solid fa-pen-nib"></i> Write a Review
+      </button>
+    </div>
+
+    <div id="public-reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="col-span-full text-center py-8 text-slate-500">
+        <i class="fa-solid fa-spinner fa-spin text-xl text-amber-500 mb-2"></i>
+        <p>Loading customer reviews...</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= FOOD GALLERY ================= -->
-  <section id="gallery" class="py-16 max-w-7xl mx-auto px-4">
+  <section id="gallery" class="py-16 max-w-7xl mx-auto px-4 border-t border-slate-800">
     <div class="text-center mb-12">
       <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Visual Treats</span>
       <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">📸 Food Gallery</h2>
@@ -345,7 +223,7 @@
     </div>
   </section>
 
-  <!-- ================= AMBIENCE & NATURE AROUND US ================= -->
+  <!-- ================= AMBIENCE & NATURE ================= -->
   <section id="ambience" class="py-16 bg-slate-900/40 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center max-w-2xl mx-auto mb-12">
@@ -356,30 +234,18 @@
         <p class="text-slate-400 text-sm sm:text-base mt-2">Enjoy mouth-watering biryani surrounded by refreshing natural greenery and fresh open air.</p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-1.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511497584788-87676104235f?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Green Surroundings</h3><p class="text-xs text-slate-400 mt-1">Peaceful greenery and trees outside our restaurant.</p></div>
+          <div class="h-64 overflow-hidden"><img src="images/nature-1.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511497584788-87676104235f?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Green Surroundings</h3><p class="text-xs text-slate-400 mt-1">Peaceful greenery outside our restaurant.</p></div>
         </div>
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-2.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Open Sky & Fresh Air</h3><p class="text-xs text-slate-400 mt-1">Wide open space away from dusty roads and noise.</p></div>
+          <div class="h-64 overflow-hidden"><img src="images/nature-2.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Open Sky & Fresh Air</h3><p class="text-xs text-slate-400 mt-1">Wide open space away from dusty roads.</p></div>
         </div>
         <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-3.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Outdoor Pathway</h3><p class="text-xs text-slate-400 mt-1">Clean and calm pathway leading into our dining area.</p></div>
-        </div>
-        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-4.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Evening Sunset Ambience</h3><p class="text-xs text-slate-400 mt-1">Beautiful golden hour sunset view while enjoying hot rolls.</p></div>
-        </div>
-        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-5.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Garden Corner</h3><p class="text-xs text-slate-400 mt-1">Lush plants and decorative flowers around the seating area.</p></div>
-        </div>
-        <div class="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-          <div class="h-64 sm:h-72 overflow-hidden"><img src="images/nature-6.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
-          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Night Lights & Breeze</h3><p class="text-xs text-slate-400 mt-1">Cozy lighting making outdoor dinners warm and memorable.</p></div>
+          <div class="h-64 overflow-hidden"><img src="images/nature-3.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80';" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
+          <div class="p-4 bg-slate-900/90 border-t border-slate-800/80"><h3 class="text-white font-bold text-base">Outdoor Pathway</h3><p class="text-xs text-slate-400 mt-1">Calm pathway leading into our dining area.</p></div>
         </div>
       </div>
     </div>
@@ -394,40 +260,10 @@
           <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">👨‍🍳 About Unique Biryani</h2>
           <p class="text-slate-300 mt-4 leading-relaxed">Welcome to <strong class="text-white">Unique Biryani & Restaurant</strong>. We started with one mission: to serve the most authentic, aromatic, and comforting Biryani crafted with hand-ground spices and fresh meats.</p>
           <p class="text-slate-400 mt-3 leading-relaxed">Every handi is dum-cooked slowly over a sealed flame so that every grain of rice absorbs the rich essence of saffron, spices, and soft melt-in-the-mouth potatoes.</p>
-          <div class="mt-6 grid grid-cols-3 gap-4 border-t border-slate-800 pt-6">
-            <div><div class="text-2xl font-bold text-amber-400">100%</div><div class="text-xs text-slate-400">Fresh Ingredients</div></div>
-            <div><div class="text-2xl font-bold text-amber-400">unique🤫</div><div class="text-xs text-slate-400">Cooking Style</div></div>
-            <div><div class="text-2xl font-bold text-amber-400">Fast</div><div class="text-xs text-slate-400">Takeaway & Dine-in</div></div>
-          </div>
         </div>
         <div class="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
           <img src="images/chef.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80';" class="w-full h-80 lg:h-96 object-cover">
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CUSTOMER REVIEWS ================= -->
-  <section class="py-16 max-w-7xl mx-auto px-4">
-    <div class="text-center mb-10">
-      <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">What People Say</span>
-      <h2 class="text-3xl font-serif font-bold text-white mt-1">⭐ Customer Reviews</h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
-        <div class="flex text-amber-400 mb-3 text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p class="text-slate-300 text-sm">"The ₹120 Chicken Biryani is pure value for money! Potato was so soft and chicken was properly cooked. Best in this area."</p>
-        <div class="mt-4 font-semibold text-white text-sm">— Rahul Roy</div>
-      </div>
-      <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
-        <div class="flex text-amber-400 mb-3 text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p class="text-slate-300 text-sm">"Chicken Chaap with their rolls and Biryani is a deadly combination. Packaging was clean and food arrived piping hot."</p>
-        <div class="mt-4 font-semibold text-white text-sm">— Sayan Banerjee</div>
-      </div>
-      <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
-        <div class="flex text-amber-400 mb-3 text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p class="text-slate-300 text-sm">"Authentic aroma! Light and not overly oily like other shops. We order every weekend on WhatsApp."</p>
-        <div class="mt-4 font-semibold text-white text-sm">— Anirban Das</div>
       </div>
     </div>
   </section>
@@ -443,13 +279,13 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
           <h3 class="text-xl font-bold text-white mb-2">Contact Info</h3>
-          <a href="tel:+917074155166" class="flex items-center gap-4 text-slate-300 hover:text-amber-400 transition">
+          <a href="tel:+919242173148" class="flex items-center gap-4 text-slate-300 hover:text-amber-400 transition">
             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400"><i class="fa-solid fa-phone"></i></div>
-            <div><div class="text-xs text-slate-500 uppercase">Call for Orders</div><div class="font-semibold text-lg text-white">+91 70741 55166</div></div>
+            <div><div class="text-xs text-slate-500 uppercase">Call for Orders</div><div class="font-semibold text-lg text-white">+91 92421 73148</div></div>
           </a>
-          <a href="https://wa.me/917074155166" target="_blank" class="flex items-center gap-4 text-slate-300 hover:text-emerald-400 transition">
+          <a href="https://wa.me/919242173148" target="_blank" class="flex items-center gap-4 text-slate-300 hover:text-emerald-400 transition">
             <div class="w-10 h-10 rounded-full bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-emerald-400"><i class="fa-brands fa-whatsapp"></i></div>
-            <div><div class="text-xs text-slate-500 uppercase">WhatsApp Booking</div><div class="font-semibold text-lg text-white">+91 70741 55166</div></div>
+            <div><div class="text-xs text-slate-500 uppercase">WhatsApp Booking</div><div class="font-semibold text-lg text-white">+91 92421 73148</div></div>
           </a>
           <div class="flex items-center gap-4 text-slate-300">
             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-amber-400"><i class="fa-solid fa-location-dot"></i></div>
@@ -467,17 +303,22 @@
   <!-- ================= FOOTER ================= -->
   <footer class="bg-slate-950 border-t border-slate-900 py-8 text-center text-sm text-slate-500">
     <p>© <span id="year"></span> Unique Biryani & Restaurant. All Rights Reserved.</p>
+    <div class="mt-2">
+      <button onclick="openAdminPortal()" class="text-xs text-slate-600 hover:text-amber-500 transition underline">
+        <i class="fa-solid fa-shield-halved mr-1"></i> Admin Portal Login
+      </button>
+    </div>
   </footer>
 
   <!-- ================= MOBILE FIXED BOTTOM ACTION BAR ================= -->
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-2.5 flex items-center justify-around md:hidden">
-    <a href="tel:+917074155166" class="flex items-center gap-2 px-4 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-semibold flex-1 justify-center mr-2">
+    <a href="tel:+919242173148" class="flex items-center gap-2 px-4 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-semibold flex-1 justify-center mr-2">
       <i class="fa-solid fa-phone text-amber-400"></i> Call Now
     </a>
     <button onclick="toggleCartDrawer(true)" class="flex items-center gap-2 px-4 py-2.5 bg-amber-500 text-slate-950 rounded-xl text-xs font-bold flex-1 justify-center mr-2">
       <i class="fa-solid fa-bag-shopping"></i> My Plate
     </button>
-    <a href="https://wa.me/917074155166?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order!" target="_blank" class="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-semibold flex-1 justify-center">
+    <a href="https://wa.me/919242173148?text=Hello%20Unique%20Biryani,%20I%20want%20to%20order!" target="_blank" class="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-semibold flex-1 justify-center">
       <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
     </a>
   </div>
@@ -513,7 +354,6 @@
       </button>
     </div>
 
-    <!-- Items Container -->
     <div class="flex-1 overflow-y-auto p-5 space-y-4" id="cart-items-container"></div>
 
     <div id="cart-empty-state" class="hidden flex-1 flex-col items-center justify-center p-8 text-center">
@@ -523,7 +363,6 @@
       <button onclick="toggleCartDrawer(false)" class="mt-5 px-5 py-2 bg-amber-500 text-slate-950 font-bold text-sm rounded-xl">Explore Menu</button>
     </div>
 
-    <!-- Checkout Footer -->
     <div id="cart-footer" class="p-5 border-t border-slate-800 bg-slate-950 space-y-3">
       <div>
         <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Name *</label>
@@ -533,8 +372,8 @@
       <div class="grid grid-cols-2 gap-2">
         <div>
           <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Order Type</label>
-          <select id="cust-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            <option value="Home Delivery">Home Delivery</option>
+          <select id="cust-type" onchange="handleOrderTypeChange()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+            <option id="opt-delivery" value="Home Delivery">Home Delivery</option>
             <option value="Takeaway / Parcel">Takeaway Parcel</option>
             <option value="Dine-in (At Table)">Dine-in (Table)</option>
           </select>
@@ -550,8 +389,7 @@
         <input type="text" id="cust-address" placeholder="Room/Street/Landmark or Table No." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
       </div>
 
-      <!-- GPS Location & Delivery Charge Button -->
-      <div>
+      <div id="geo-location-container">
         <button type="button" onclick="calculateDeliveryAndLocation()" id="geo-btn" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
           <i class="fa-solid fa-location-crosshairs"></i>
           <span id="geo-btn-text">📍 Auto-Detect Location & Calculate Delivery Fee</span>
@@ -565,7 +403,6 @@
         <input type="text" id="cust-note" placeholder="E.g. Extra spicy, extra spoons" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
       </div>
 
-      <!-- Totals Breakdown -->
       <div class="border-t border-slate-800 pt-2 space-y-1 text-sm">
         <div class="flex justify-between text-slate-400">
           <span>Items Subtotal</span>
@@ -585,6 +422,49 @@
         <i class="fa-brands fa-whatsapp text-xl"></i>
         <span>Place Complete Order on WhatsApp</span>
       </button>
+    </div>
+  </div>
+
+  <!-- ================= CUSTOMER SUBMIT REVIEW MODAL ================= -->
+  <div id="review-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="toggleReviewModal(false)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mx-auto mb-3">✍️</div>
+        <h3 class="text-2xl font-serif font-bold text-white">Share Your Dining Experience</h3>
+        <p class="text-xs text-slate-400 mt-1">Your honest review helps others taste the best food.</p>
+      </div>
+
+      <form onsubmit="handleCustomerReviewSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Real Name *</label>
+          <input type="text" id="review-cust-name" required placeholder="e.g. Suman Roy" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Your Rating *</label>
+          <div class="flex items-center gap-2 text-2xl text-slate-600" id="star-rating-picker">
+            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(1)"></i>
+            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(2)"></i>
+            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(3)"></i>
+            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(4)"></i>
+            <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setReviewRating(5)"></i>
+          </div>
+          <input type="hidden" id="review-cust-rating" value="5">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Review Comments *</label>
+          <textarea id="review-cust-text" rows="3" required placeholder="What did you love about our food and service?" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"></textarea>
+        </div>
+
+        <button type="submit" id="submit-review-btn" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> Submit Review for Verification
+        </button>
+      </form>
     </div>
   </div>
 
@@ -636,18 +516,365 @@
     </div>
   </div>
 
+  <!-- ================= ADMIN AUTH & CONTROL CENTER ================= -->
+  <!-- 1. Admin Password Login Modal -->
+  <div id="admin-login-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-slate-900 border border-amber-500/50 rounded-3xl max-w-sm w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="toggleAdminLoginModal(false)" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center">
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-3xl mx-auto mb-4">
+          🔐
+        </div>
+        <h3 class="text-2xl font-serif font-bold text-white">Owner / Admin Portal</h3>
+        <p class="text-xs text-slate-400 mt-1">Manage Menu, Popular Choices, Reviews & Delivery</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="mt-6 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Admin Password</label>
+          <div class="relative">
+            <input type="password" id="admin-pass-input" placeholder="Enter admin password" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 font-mono">
+            <button type="button" onclick="togglePassVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-white">
+              <i class="fa-solid fa-eye" id="pass-toggle-icon"></i>
+            </button>
+          </div>
+        </div>
+        <p id="admin-error-msg" class="text-red-400 text-xs hidden text-center font-medium"></p>
+        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2">
+          <i class="fa-solid fa-right-to-bracket"></i> Login to Admin
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Admin Management Modal / Dashboard -->
+  <div id="admin-dashboard-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-4xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Admin Header -->
+      <div class="p-4 sm:p-5 border-b border-slate-800 bg-slate-950 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">⚙️</span>
+          <div>
+            <h3 class="font-bold text-lg text-white">Admin Control Center</h3>
+            <span class="text-xs text-emerald-400 flex items-center gap-1.5 font-medium">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Live Firestore Connected
+            </span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="adminLogout()" class="px-3 py-1.5 bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-700/50 rounded-xl text-xs font-semibold transition">
+            <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Logout
+          </button>
+          <button onclick="toggleAdminDashboard(false)" class="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex border-b border-slate-800 bg-slate-950/60 px-4 gap-2 overflow-x-auto text-sm font-semibold">
+        <button onclick="switchAdminTab('menu-tab')" id="tab-btn-menu-tab" class="py-3 px-3 text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-utensils"></i> Menu Items
+        </button>
+        <button onclick="switchAdminTab('reviews-tab')" id="tab-btn-reviews-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-star-half-stroke"></i> Reviews Moderation
+          <span id="pending-reviews-count" class="hidden px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 text-[10px] font-black">0</span>
+        </button>
+        <button onclick="switchAdminTab('custom-tab')" id="tab-btn-custom-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-sliders"></i> Menu Card & Popular
+        </button>
+        <button onclick="switchAdminTab('delivery-tab')" id="tab-btn-delivery-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-motorcycle"></i> Daily Delivery
+        </button>
+        <button onclick="switchAdminTab('offers-tab')" id="tab-btn-offers-tab" class="py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-tags"></i> Special Offers
+        </button>
+      </div>
+
+      <!-- Tab Content Container -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-900/90 space-y-6">
+
+        <!-- TAB 1: MENU ITEMS MANAGER -->
+        <div id="admin-panel-menu-tab" class="space-y-6">
+          <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800">
+            <h4 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+              <span id="menu-form-title">➕ Add New Menu Item</span>
+              <button id="cancel-edit-btn" onclick="resetMenuForm()" class="hidden text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-lg hover:bg-slate-700">Cancel Edit</button>
+            </h4>
+            <form onsubmit="handleSaveMenuItem(event)" class="space-y-4">
+              <input type="hidden" id="item-edit-id" value="">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="sm:col-span-2">
+                  <label class="block text-xs text-slate-400 mb-1">Item Name *</label>
+                  <input type="text" id="item-name" required placeholder="e.g. Special Chicken Biryani / Paneer Roll / Crispy Chicken" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="block text-xs text-slate-400 mb-1">Price (₹) *</label>
+                  <input type="number" id="item-price" required min="1" placeholder="120" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Item Description (Optional)</label>
+                <input type="text" id="item-desc" placeholder="Tender chicken, aromatic rice, royal spices" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+              </div>
+
+              <!-- Photo Upload or Direct URL -->
+              <div class="p-3 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Item Photo (Upload or Paste URL)</span>
+                  <div id="image-preview-container" class="hidden items-center gap-2">
+                    <img id="image-preview" src="" class="w-8 h-8 rounded-lg object-cover border border-amber-500">
+                    <span class="text-xs text-emerald-400">Image Ready</span>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+                  <div>
+                    <label class="block text-[11px] text-slate-400 mb-1">Option A: Direct Image URL</label>
+                    <input type="url" id="item-image-url" placeholder="https://... or images/biryani.jpg" oninput="previewImageFromUrl(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] text-slate-400 mb-1">Option B: Choose from phone/computer</label>
+                    <input type="file" id="item-image-file" accept="image/*" onchange="handleImageFileUpload(event, 'final-image-data', 'image-preview', 'image-preview-container')" class="w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-400 cursor-pointer">
+                  </div>
+                </div>
+                <input type="hidden" id="final-image-data" value="">
+              </div>
+
+              <button type="submit" id="save-item-btn" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition text-sm flex items-center justify-center gap-2">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span id="save-btn-label">Publish to Menu</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Existing Items Live List -->
+          <div>
+            <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3">Live Items in Database</h4>
+            <div id="admin-menu-list" class="space-y-2">
+              <div class="text-slate-500 text-sm py-4 text-center">Loading items...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: REVIEWS MODERATION (APPROVE / REJECT) -->
+        <div id="admin-panel-reviews-tab" class="space-y-6 hidden">
+          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+            <div>
+              <h4 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>⭐</span> Customer Reviews Approval Queue
+              </h4>
+              <p class="text-xs text-slate-400 mt-1">Verify customer reviews before they are published to your website.</p>
+            </div>
+
+            <div id="admin-reviews-list" class="space-y-3">
+              <div class="text-slate-500 text-sm py-4 text-center">Loading customer reviews...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: MENU CARD & POPULAR CHOICES EDITOR -->
+        <div id="admin-panel-custom-tab" class="space-y-6 hidden">
+          <!-- 1. Menu Card Link / Upload -->
+          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span>📄</span> Update "View Full Menu Card" Photo
+            </h4>
+            <p class="text-xs text-slate-400">Provide an image link or upload a new photo of your restaurant menu card.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Option A: Image URL</label>
+                <input type="text" id="admin-menucard-url" placeholder="images/menu.jpg or https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Option B: Upload Photo</label>
+                <input type="file" id="admin-menucard-file" accept="image/*" onchange="handleImageFileUpload(event, 'admin-menucard-final', 'menucard-preview-img', 'menucard-preview-box')" class="w-full text-xs text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 cursor-pointer">
+              </div>
+            </div>
+            <input type="hidden" id="admin-menucard-final" value="">
+
+            <div id="menucard-preview-box" class="hidden items-center gap-3 p-2 bg-slate-900 border border-slate-800 rounded-xl">
+              <img id="menucard-preview-img" src="" class="w-12 h-12 object-cover rounded-lg border border-amber-500">
+              <span class="text-xs text-emerald-400">New Menu Card photo selected</span>
+            </div>
+
+            <button onclick="saveMenuCardSettings()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i> Update Menu Card Link
+            </button>
+          </div>
+
+          <!-- 2. Popular Choices Editor (3 cards) -->
+          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+            <h4 class="text-base font-bold text-white flex items-center gap-2">
+              <span>⭐</span> Edit 3 Popular Choices Cards
+            </h4>
+            <p class="text-xs text-slate-400">Change the icon emoji, title, and description for the 3 featured popular items.</p>
+
+            <div class="space-y-4" id="popular-edit-fields">
+              <!-- Item 1 -->
+              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 1 Emoji</label>
+                  <input type="text" id="pop-emoji-0" value="🍚" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 1 Title</label>
+                  <input type="text" id="pop-title-0" value="Biryani Delights" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 1 Subtitle</label>
+                  <input type="text" id="pop-sub-0" value="Chicken & Mutton Dum" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 2 Emoji</label>
+                  <input type="text" id="pop-emoji-1" value="🌯" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 2 Title</label>
+                  <input type="text" id="pop-title-1" value="Kolkata Rolls" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 2 Subtitle</label>
+                  <input type="text" id="pop-sub-1" value="Crispy Golden Parathas" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 3 Emoji</label>
+                  <input type="text" id="pop-emoji-2" value="🍗" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 3 Title</label>
+                  <input type="text" id="pop-title-2" value="Sides & Starters" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Card 3 Subtitle</label>
+                  <input type="text" id="pop-sub-2" value="Mughlai Chaap & Snacks" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white">
+                </div>
+              </div>
+            </div>
+
+            <button onclick="savePopularChoicesSettings()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition flex items-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i> Save Popular Choices
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 4: DAILY DELIVERY TOGGLE & RIDER -->
+        <div id="admin-panel-delivery-tab" class="space-y-6 hidden">
+          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-6">
+            <div>
+              <h4 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>🛵</span> Daily Delivery Service Management
+              </h4>
+              <p class="text-xs text-slate-400 mt-1">Control whether customers can order Home Delivery today. Changes save instantly.</p>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl">
+              <div>
+                <span class="font-bold text-white text-base block">Enable Home Delivery Today</span>
+                <span class="text-xs text-slate-400">If toggled OFF, customers can only choose Dine-in or Takeaway.</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="delivery-toggle-switch" onchange="handleDeliveryToggleChange()" class="sr-only peer">
+                <div class="w-14 h-7 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+              </label>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Today's Delivery Incharge / Notice Note</label>
+              <input type="text" id="delivery-staff-note" placeholder="E.g. Delivery is ACTIVE today! Delivered by Joydeb" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+              <p class="text-[11px] text-slate-500">This note displays at the top of the website when delivery is active.</p>
+            </div>
+
+            <button onclick="saveDeliverySettings(true)" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i> Save Delivery Status
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 5: PUBLISH SPECIAL OFFERS -->
+        <div id="admin-panel-offers-tab" class="space-y-6 hidden">
+          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+            <div>
+              <h4 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>🔥</span> Publish Today's Special Offer
+              </h4>
+              <p class="text-xs text-slate-400 mt-1">Switching this OFF will immediately hide both the top promo bar and the Special Offers card.</p>
+            </div>
+
+            <div class="flex items-center justify-between p-3.5 bg-slate-900 border border-slate-800 rounded-xl">
+              <div>
+                <span class="font-bold text-white text-sm block">Display Special Offers On Website</span>
+                <span class="text-xs text-slate-400">Controls top header banner & homepage offer card</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="offer-active-switch" onchange="handleOfferToggleChange()" class="sr-only peer" checked>
+                <div class="w-12 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[3px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+              </label>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Badge / Tag</label>
+                <input type="text" id="offer-badge" placeholder="Today's Special Deal" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Discount Highlight (Big text)</label>
+                <input type="text" id="offer-discount" placeholder="Flat ₹40 OFF on Biryani Combos!" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Offer Title</label>
+              <input type="text" id="offer-title" placeholder="Weekend Special Feast" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Offer Description & Conditions</label>
+              <textarea id="offer-description" rows="3" placeholder="Order 2 Mutton Biryanis and get 1 Chicken Chaap free! Valid for today only." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <button onclick="saveSpecialOffer(true)" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center gap-2">
+              <i class="fa-solid fa-bullhorn"></i> Publish Offer to Website
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded-full shadow-2xl transition-all duration-300 opacity-0 pointer-events-none text-sm flex items-center gap-2">
     <span>✅</span> <span id="toast-message">Item added to plate!</span>
   </div>
 
-  <!-- ================= JAVASCRIPT ================= -->
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
-    const RESTAURANT_WHATSAPP = "917074155166";
+    // Updated Restaurant Contact Details
+    const RESTAURANT_WHATSAPP = "919242173148";
     const RESTAURANT_LAT = 23.4025;
     const RESTAURANT_LON = 88.7981;
+    
+    let CURRENT_ADMIN_PASS = "unique2026";
 
     let deliveryFee = 0;
     let customerGPSLink = "";
+    let isDeliveryAvailable = true;
+    let menuItems = [];
+    let allReviews = [];
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -679,9 +906,837 @@
             if (bannerBtn) bannerBtn.innerHTML = `<i class="fa-brands fa-google"></i><span>Claim My ₹30 Voucher</span>`;
           }
         });
+
+        initFirestoreData();
       }
     } catch (e) {
       console.error("Firebase init error:", e);
+    }
+
+    const DEFAULT_POPULAR_CHOICES = [
+      { emoji: "🍚", title: "Biryani Delights", sub: "Chicken & Mutton Dum" },
+      { emoji: "🌯", title: "Kolkata Rolls", sub: "Crispy Golden Parathas" },
+      { emoji: "🍗", title: "Sides & Starters", sub: "Mughlai Chaap & Snacks" }
+    ];
+
+    const DEFAULT_MENU_SEED = [
+      { name: "Chicken Dum Biryani", price: 120, desc: "Rich spices, tender chicken, soft potato, aromatic rice.", imageUrl: "images/chicken-biryani.jpg", available: true },
+      { name: "Special Mutton Biryani", price: 170, desc: "Slow-cooked tender juicy mutton piece with royal spices.", imageUrl: "images/mutton-biryani.jpg", available: true },
+      { name: "Mughlai Chicken Chaap", price: 60, desc: "Mughlai style slow cooked thick poppy-seed and cashew gravy.", imageUrl: "images/chicken-chap.jpg", available: true },
+      { name: "Chicken Lollipop (4 pcs)", price: 110, desc: "Crispy spiced winglets tossed with hot garlic dip.", imageUrl: "images/chicken-lollipop.jpg", available: true },
+      { name: "Chicken Hakka Chowmein", price: 100, desc: "Wok tossed noodles with shredded chicken and veggies.", imageUrl: "images/chowmein.jpg", available: true },
+      { name: "Crispy Egg Roll", price: 40, desc: "Crispy flaky golden paratha rolled with seasoned double egg, onions & tangy sauce.", imageUrl: "images/egg-roll.jpg", available: true },
+      { name: "Kolkata Chicken Roll", price: 75, desc: "Tender spiced chicken chunks tossed with sliced onions, lime juice & green chilies wrapped in crispy paratha.", imageUrl: "images/chicken-roll.jpg", available: true }
+    ];
+
+    function initFirestoreData() {
+      if (!db) return;
+
+      // 1. Menu Listener
+      db.collection('menu').orderBy('createdAt', 'desc').onSnapshot(async (snapshot) => {
+        if (snapshot.empty) {
+          for (const item of DEFAULT_MENU_SEED) {
+            await db.collection('menu').add({
+              ...item,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+          return;
+        }
+
+        menuItems = [];
+        snapshot.forEach(doc => menuItems.push({ id: doc.id, ...doc.data() }));
+        renderCustomerMenu(menuItems);
+        renderAdminMenuList(menuItems);
+      });
+
+      // 2. Settings (Delivery, Offers, Menu Card Link, Popular choices)
+      db.collection('settings').doc('config').onSnapshot((doc) => {
+        if (doc.exists) {
+          const config = doc.data();
+          if (config.adminPassword) CURRENT_ADMIN_PASS = config.adminPassword;
+          applyDeliveryState(config.deliveryAvailable !== false, config.deliveryStaffNote || "");
+          applySpecialOfferState(config.specialOffer);
+
+          // Menu Card link
+          if (config.menuCardUrl) {
+            const menuLink = document.getElementById('view-menu-card-link');
+            if (menuLink) menuLink.href = config.menuCardUrl;
+            const adminCardInput = document.getElementById('admin-menucard-url');
+            if (adminCardInput) adminCardInput.value = config.menuCardUrl;
+          }
+
+          // Popular choices
+          renderPopularChoices(config.popularChoices || DEFAULT_POPULAR_CHOICES);
+        } else {
+          db.collection('settings').doc('config').set({
+            deliveryAvailable: true,
+            deliveryStaffNote: "Delivery is ACTIVE today! Free delivery on selected distances.",
+            adminPassword: CURRENT_ADMIN_PASS,
+            menuCardUrl: "images/menu.jpg",
+            popularChoices: DEFAULT_POPULAR_CHOICES,
+            specialOffer: {
+              active: true,
+              badge: "First-Time Customer Offer",
+              discount: "₹30 OFF",
+              title: "Welcome Discount Pass",
+              description: "Get ₹30 OFF on orders above ₹299! Sign in with Google at the top of the page to claim your welcome voucher."
+            }
+          });
+        }
+      });
+
+      // 3. Customer Reviews Listener (Real-time)
+      db.collection('reviews').orderBy('createdAt', 'desc').onSnapshot(async (snapshot) => {
+        if (snapshot.empty) {
+          // Default approved review seeds
+          const seedReviews = [
+            { name: "Rahul Roy", rating: 5, text: "The ₹120 Chicken Biryani is pure value for money! Potato was so soft and chicken was properly cooked. Best in this area.", approved: true },
+            { name: "Sayan Banerjee", rating: 5, text: "Chicken Chaap with their rolls and Biryani is a deadly combination. Packaging was clean and food arrived piping hot.", approved: true },
+            { name: "Anirban Das", rating: 5, text: "Authentic aroma! Light and not overly oily like other shops. We order every weekend on WhatsApp.", approved: true }
+          ];
+          for (const rev of seedReviews) {
+            await db.collection('reviews').add({ ...rev, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+          }
+          return;
+        }
+
+        allReviews = [];
+        snapshot.forEach(doc => allReviews.push({ id: doc.id, ...doc.data() }));
+
+        renderPublicReviews(allReviews.filter(r => r.approved === true));
+        renderAdminReviews(allReviews);
+      });
+    }
+
+    /* ================= CUSTOMER MENU RENDER ================= */
+    function renderCustomerMenu(items) {
+      const grid = document.getElementById('menu-items-grid');
+      if (!grid) return;
+
+      if (items.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400">No items available right now.</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        const isOutOfStock = item.available === false;
+        const fallbackImg = 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80';
+        const img = item.imageUrl || fallbackImg;
+
+        return `
+          <div class="bg-slate-900 border ${isOutOfStock ? 'border-slate-800 opacity-60' : 'border-slate-800 hover:border-amber-500/40'} rounded-2xl overflow-hidden transition flex flex-col justify-between">
+            <div>
+              <div class="relative h-48 overflow-hidden bg-slate-950">
+                <img src="${img}" alt="${item.name}" onerror="this.onerror=null; this.src='${fallbackImg}';" class="w-full h-full object-cover">
+                ${isOutOfStock ? `<span class="absolute top-3 right-3 bg-red-600 text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-md">Sold Out Today</span>` : ''}
+              </div>
+              <div class="p-5">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg text-white">${item.name}</h3>
+                  <span class="text-amber-400 font-bold text-lg">₹${item.price}</span>
+                </div>
+                <p class="text-xs text-slate-400 mt-1">${item.desc || 'Prepared fresh daily with authentic spices.'}</p>
+              </div>
+            </div>
+            <div class="p-5 pt-0">
+              <button 
+                onclick="addToCart('${escapeQuotes(item.name)}', ${item.price})" 
+                ${isOutOfStock ? 'disabled' : ''} 
+                class="w-full py-2.5 ${isOutOfStock ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-amber-500 hover:bg-amber-400 text-slate-950'} font-bold text-xs uppercase tracking-wider rounded-lg transition flex items-center justify-center gap-2 shadow-md">
+                <i class="fa-solid fa-plus"></i> ${isOutOfStock ? 'Currently Unavailable' : 'Add to Plate'}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeQuotes(str) {
+      return (str || '').replace(/'/g, "\\'");
+    }
+
+    /* ================= POPULAR CHOICES LOGIC ================= */
+    function renderPopularChoices(list) {
+      const container = document.getElementById('popular-choices-container');
+      if (!container) return;
+
+      container.innerHTML = list.map(item => `
+        <a href="#menu" class="p-8 bg-slate-900 border border-slate-800 rounded-2xl text-center hover:border-amber-500/50 hover:bg-slate-800/60 transition group shadow-lg">
+          <div class="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">${item.emoji || '🍚'}</div>
+          <h3 class="font-bold text-white text-xl">${item.title || 'Popular Choice'}</h3>
+          <p class="text-sm text-slate-400 mt-1">${item.sub || ''}</p>
+        </a>
+      `).join('');
+
+      // Prepopulate admin fields
+      list.forEach((item, idx) => {
+        const eInput = document.getElementById(`pop-emoji-${idx}`);
+        const tInput = document.getElementById(`pop-title-${idx}`);
+        const sInput = document.getElementById(`pop-sub-${idx}`);
+        if (eInput) eInput.value = item.emoji || '';
+        if (tInput) tInput.value = item.title || '';
+        if (sInput) sInput.value = item.sub || '';
+      });
+    }
+
+    async function savePopularChoicesSettings() {
+      if (!db) return;
+      const updatedChoices = [
+        {
+          emoji: document.getElementById('pop-emoji-0').value.trim() || '🍚',
+          title: document.getElementById('pop-title-0').value.trim() || 'Biryani Delights',
+          sub: document.getElementById('pop-sub-0').value.trim() || 'Chicken & Mutton Dum'
+        },
+        {
+          emoji: document.getElementById('pop-emoji-1').value.trim() || '🌯',
+          title: document.getElementById('pop-title-1').value.trim() || 'Kolkata Rolls',
+          sub: document.getElementById('pop-sub-1').value.trim() || 'Crispy Golden Parathas'
+        },
+        {
+          emoji: document.getElementById('pop-emoji-2').value.trim() || '🍗',
+          title: document.getElementById('pop-title-2').value.trim() || 'Sides & Starters',
+          sub: document.getElementById('pop-sub-2').value.trim() || 'Mughlai Chaap & Snacks'
+        }
+      ];
+
+      await db.collection('settings').doc('config').set({ popularChoices: updatedChoices }, { merge: true });
+      showToast("Popular choices updated!");
+    }
+
+    async function saveMenuCardSettings() {
+      if (!db) return;
+      const uploadedFileBase64 = document.getElementById('admin-menucard-final').value;
+      const urlText = document.getElementById('admin-menucard-url').value.trim();
+      const finalMenuCard = uploadedFileBase64 || urlText || 'images/menu.jpg';
+
+      await db.collection('settings').doc('config').set({ menuCardUrl: finalMenuCard }, { merge: true });
+      showToast("Full Menu Card link updated successfully!");
+    }
+
+    /* ================= CUSTOMER REVIEWS & APPROVAL WORKFLOW ================= */
+    function toggleReviewModal(show) {
+      const modal = document.getElementById('review-modal');
+      if (show) modal.classList.remove('opacity-0', 'pointer-events-none');
+      else modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function setReviewRating(rating) {
+      document.getElementById('review-cust-rating').value = rating;
+      const stars = document.getElementById('star-rating-picker').children;
+      for (let i = 0; i < stars.length; i++) {
+        if (i < rating) stars[i].className = "fa-solid fa-star text-amber-400 cursor-pointer";
+        else stars[i].className = "fa-solid fa-star text-slate-600 cursor-pointer hover:text-amber-400";
+      }
+    }
+
+    async function handleCustomerReviewSubmit(e) {
+      e.preventDefault();
+      if (!db) { alert("Database connection error"); return; }
+
+      const name = document.getElementById('review-cust-name').value.trim();
+      const rating = Number(document.getElementById('review-cust-rating').value) || 5;
+      const text = document.getElementById('review-cust-text').value.trim();
+
+      const btn = document.getElementById('submit-review-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
+
+      try {
+        await db.collection('reviews').add({
+          name: name,
+          rating: rating,
+          text: text,
+          approved: false, // Default to pending verification
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        toggleReviewModal(false);
+        document.getElementById('review-cust-name').value = '';
+        document.getElementById('review-cust-text').value = '';
+        setReviewRating(5);
+        alert("Thank you, " + name + "! Your review has been submitted for verification. It will appear on the website once approved by our management.");
+      } catch (err) {
+        alert("Failed to submit review: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Submit Review for Verification`;
+      }
+    }
+
+    function renderPublicReviews(approvedReviews) {
+      const container = document.getElementById('public-reviews-container');
+      if (!container) return;
+
+      if (approvedReviews.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-6 text-slate-500 text-sm">Be the first to leave a verified review! Click "Write a Review".</div>`;
+        return;
+      }
+
+      container.innerHTML = approvedReviews.map(r => `
+        <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex text-amber-400 mb-3 text-sm">
+              ${Array.from({ length: r.rating || 5 }).map(() => '<i class="fa-solid fa-star"></i>').join('')}
+            </div>
+            <p class="text-slate-300 text-sm italic">"${r.text}"</p>
+          </div>
+          <div class="mt-4 font-semibold text-white text-sm flex items-center justify-between border-t border-slate-800/80 pt-3">
+            <span>— ${r.name}</span>
+            <span class="text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-full">Verified Customer</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAdminReviews(reviews) {
+      const container = document.getElementById('admin-reviews-list');
+      const badge = document.getElementById('pending-reviews-count');
+      if (!container) return;
+
+      const pendingCount = reviews.filter(r => !r.approved).length;
+      if (badge) {
+        if (pendingCount > 0) {
+          badge.textContent = pendingCount;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+
+      if (reviews.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 text-sm text-center py-4">No reviews submitted yet.</p>`;
+        return;
+      }
+
+      container.innerHTML = reviews.map(r => `
+        <div class="bg-slate-950 border ${r.approved ? 'border-slate-800' : 'border-amber-500/50'} rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-white text-sm">${r.name}</span>
+              <span class="text-amber-400 text-xs">${Array.from({ length: r.rating || 5 }).map(() => '★').join('')}</span>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded ${r.approved ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/30' : 'bg-amber-950 text-amber-300 border border-amber-500/40 animate-pulse'}">
+                ${r.approved ? 'Live on Site' : 'Pending Verification'}
+              </span>
+            </div>
+            <p class="text-xs text-slate-300 italic">"${r.text}"</p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            ${!r.approved ? `
+              <button onclick="approveReview('${r.id}', true)" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
+                <i class="fa-solid fa-check"></i> Approve & Publish
+              </button>
+            ` : `
+              <button onclick="approveReview('${r.id}', false)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                <i class="fa-solid fa-eye-slash"></i> Hide from Site
+              </button>
+            `}
+            <button onclick="deleteReview('${r.id}')" class="p-2 bg-red-950/70 hover:bg-red-900 text-red-300 border border-red-700/50 rounded-lg text-xs transition" title="Delete Review">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function approveReview(id, status) {
+      if (!db) return;
+      await db.collection('reviews').doc(id).update({ approved: status });
+      showToast(status ? "Review approved and published!" : "Review hidden from site.");
+    }
+
+    async function deleteReview(id) {
+      if (!confirm("Are you sure you want to permanently delete this customer review?")) return;
+      if (!db) return;
+      await db.collection('reviews').doc(id).delete();
+      showToast("Review deleted.");
+    }
+
+    /* ================= DELIVERY STATUS & SPECIAL OFFERS ================= */
+    function applyDeliveryState(isAvailable, note) {
+      isDeliveryAvailable = isAvailable;
+      const alertBar = document.getElementById('delivery-alert-bar');
+      const heroBadge = document.getElementById('hero-delivery-badge');
+      const optDelivery = document.getElementById('opt-delivery');
+      const deliverySwitch = document.getElementById('delivery-toggle-switch');
+      const deliveryNoteInput = document.getElementById('delivery-staff-note');
+
+      if (deliverySwitch) deliverySwitch.checked = isAvailable;
+      if (deliveryNoteInput) deliveryNoteInput.value = note;
+
+      if (isAvailable) {
+        if (alertBar) {
+          alertBar.className = "bg-emerald-950/80 border-b border-emerald-500/40 text-emerald-300 py-2 px-4 text-center text-xs font-semibold flex items-center justify-center gap-2";
+          alertBar.innerHTML = `<span>🛵</span> <span>${note || "Home Delivery is ACTIVE today! Place your order online."}</span>`;
+          alertBar.classList.remove('hidden');
+        }
+        if (heroBadge) {
+          heroBadge.className = "ml-2 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+          heroBadge.textContent = "Delivery Available Today";
+        }
+        if (optDelivery) {
+          optDelivery.disabled = false;
+          optDelivery.textContent = "Home Delivery";
+        }
+      } else {
+        let closedNotice = note;
+        if (!closedNotice || closedNotice.toLowerCase().includes('active') || closedNotice.toLowerCase().includes('free delivery')) {
+          closedNotice = "Home Delivery is CLOSED for today. Takeaway & Dine-in orders are open!";
+        }
+        if (alertBar) {
+          alertBar.className = "bg-amber-950/90 border-b border-amber-500/40 text-amber-300 py-2 px-4 text-center text-xs font-semibold flex items-center justify-center gap-2";
+          alertBar.innerHTML = `<span>⚠️</span> <span>${closedNotice}</span>`;
+          alertBar.classList.remove('hidden');
+        }
+        if (heroBadge) {
+          heroBadge.className = "ml-2 px-2 py-0.5 rounded-full text-[10px] bg-red-500/20 text-red-400 border border-red-500/40";
+          heroBadge.textContent = "Delivery Paused Today";
+        }
+        if (optDelivery) {
+          optDelivery.disabled = true;
+          optDelivery.textContent = "Home Delivery (Paused Today)";
+        }
+        const custType = document.getElementById('cust-type');
+        if (custType && custType.value === "Home Delivery") {
+          custType.value = "Takeaway / Parcel";
+          handleOrderTypeChange();
+        }
+      }
+    }
+
+    async function handleDeliveryToggleChange() {
+      const isChecked = document.getElementById('delivery-toggle-switch').checked;
+      const noteInput = document.getElementById('delivery-staff-note');
+
+      if (!isChecked) {
+        if (!noteInput.value || noteInput.value.toLowerCase().includes('active')) {
+          noteInput.value = "Home Delivery is CLOSED for today. Dine-in and Takeaway available!";
+        }
+      } else {
+        if (!noteInput.value || noteInput.value.toLowerCase().includes('closed')) {
+          noteInput.value = "Delivery is ACTIVE today! Free delivery on selected distances.";
+        }
+      }
+      await saveDeliverySettings(false);
+      showToast(isChecked ? "Delivery is now ACTIVE!" : "Delivery is now CLOSED!");
+    }
+
+    async function saveDeliverySettings(showToastMsg = true) {
+      if (!db) return;
+      const isAvailable = document.getElementById('delivery-toggle-switch').checked;
+      let note = document.getElementById('delivery-staff-note').value.trim();
+
+      if (!isAvailable && (!note || note.toLowerCase().includes('active'))) {
+        note = "Home Delivery is CLOSED for today. Dine-in and Takeaway available!";
+        document.getElementById('delivery-staff-note').value = note;
+      } else if (isAvailable && (!note || note.toLowerCase().includes('closed'))) {
+        note = "Delivery is ACTIVE today! Free delivery on selected distances.";
+        document.getElementById('delivery-staff-note').value = note;
+      }
+
+      await db.collection('settings').doc('config').set({
+        deliveryAvailable: isAvailable,
+        deliveryStaffNote: note
+      }, { merge: true });
+
+      if (showToastMsg) showToast(isAvailable ? "Delivery set to ACTIVE & saved!" : "Delivery set to CLOSED & saved!");
+    }
+
+    function applySpecialOfferState(offer) {
+      const topBanner = document.getElementById('top-offer-banner');
+      const offersSection = document.getElementById('offers');
+      const navOfferLink = document.getElementById('nav-offers-link');
+      const heroOfferBtn = document.getElementById('hero-offer-btn');
+
+      const activeSwitch = document.getElementById('offer-active-switch');
+      const badgeInput = document.getElementById('offer-badge');
+      const discInput = document.getElementById('offer-discount');
+      const titleInput = document.getElementById('offer-title');
+      const descInput = document.getElementById('offer-description');
+
+      const isOfferActive = offer && offer.active !== false;
+
+      if (activeSwitch) activeSwitch.checked = isOfferActive;
+      if (badgeInput && offer) badgeInput.value = offer.badge || "";
+      if (discInput && offer) discInput.value = offer.discount || "";
+      if (titleInput && offer) titleInput.value = offer.title || "";
+      if (descInput && offer) descInput.value = offer.description || "";
+
+      if (!isOfferActive) {
+        if (topBanner) topBanner.classList.add('hidden');
+        if (offersSection) offersSection.classList.add('hidden');
+        if (navOfferLink) navOfferLink.classList.add('hidden');
+        if (heroOfferBtn) heroOfferBtn.classList.add('hidden');
+        return;
+      }
+
+      if (topBanner) topBanner.classList.remove('hidden');
+      if (offersSection) offersSection.classList.remove('hidden');
+      if (navOfferLink) navOfferLink.classList.remove('hidden');
+      if (heroOfferBtn) heroOfferBtn.classList.remove('hidden');
+
+      const topTitle = document.getElementById('top-banner-title');
+      const topSub = document.getElementById('top-banner-sub');
+      if (topTitle && offer.title) topTitle.textContent = offer.title;
+      if (topSub && (offer.discount || offer.description)) {
+        topSub.innerHTML = `<strong>${offer.discount || ''}</strong> ${offer.description ? '— ' + offer.description : ''}`;
+      }
+
+      const container = document.getElementById('dynamic-offers-container');
+      if (container) {
+        container.innerHTML = `
+          <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl">🏷️</div>
+            <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full mb-2 uppercase tracking-wide">
+              ${offer.badge || "Limited Time Offer"}
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-2">${offer.title || "Special Deal"}</h3>
+            ${offer.discount ? `<div class="text-3xl sm:text-4xl font-extrabold text-amber-400 font-serif my-2">${offer.discount}</div>` : ''}
+            <p class="text-slate-300 max-w-md mx-auto text-sm sm:text-base leading-relaxed mt-2">${offer.description || ""}</p>
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+              <a href="#menu" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm rounded-xl transition">Order This Now</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    async function handleOfferToggleChange() {
+      const active = document.getElementById('offer-active-switch').checked;
+      await saveSpecialOffer(false);
+      showToast(active ? "Special Offer Activated!" : "Special Offer Turned OFF!");
+    }
+
+    async function saveSpecialOffer(showToastMsg = true) {
+      if (!db) return;
+      const active = document.getElementById('offer-active-switch').checked;
+      const badge = document.getElementById('offer-badge').value.trim();
+      const discount = document.getElementById('offer-discount').value.trim();
+      const title = document.getElementById('offer-title').value.trim();
+      const description = document.getElementById('offer-description').value.trim();
+
+      await db.collection('settings').doc('config').set({
+        specialOffer: { active, badge, discount, title, description }
+      }, { merge: true });
+
+      if (showToastMsg) showToast(active ? "Special offer published live!" : "Offer turned off successfully!");
+    }
+
+    /* ================= ADMIN AUTH & TABS ================= */
+    function openAdminPortal(tabToOpen) {
+      const isAuthed = sessionStorage.getItem('isAdminLoggedIn') === 'true';
+      if (isAuthed) {
+        toggleAdminDashboard(true);
+        if (tabToOpen) switchAdminTab(tabToOpen);
+      } else {
+        toggleAdminLoginModal(true);
+      }
+    }
+
+    function toggleAdminLoginModal(show) {
+      const modal = document.getElementById('admin-login-modal');
+      const err = document.getElementById('admin-error-msg');
+      if (err) err.classList.add('hidden');
+      if (show) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        document.getElementById('admin-pass-input').value = '';
+        setTimeout(() => document.getElementById('admin-pass-input').focus(), 150);
+      } else {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function toggleAdminDashboard(show) {
+      const modal = document.getElementById('admin-dashboard-modal');
+      if (show) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = 'hidden';
+      } else {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const enteredPass = document.getElementById('admin-pass-input').value;
+      const errorMsg = document.getElementById('admin-error-msg');
+
+      if (enteredPass === CURRENT_ADMIN_PASS) {
+        sessionStorage.setItem('isAdminLoggedIn', 'true');
+        toggleAdminLoginModal(false);
+        toggleAdminDashboard(true);
+        showToast("Welcome Admin! Access granted.");
+        document.getElementById('admin-quick-add-btn').classList.remove('hidden');
+      } else {
+        errorMsg.textContent = "Incorrect admin password! Please retry.";
+        errorMsg.classList.remove('hidden');
+      }
+    }
+
+    function adminLogout() {
+      sessionStorage.removeItem('isAdminLoggedIn');
+      toggleAdminDashboard(false);
+      document.getElementById('admin-quick-add-btn').classList.add('hidden');
+      showToast("Logged out from Admin portal.");
+    }
+
+    function togglePassVisibility() {
+      const input = document.getElementById('admin-pass-input');
+      const icon = document.getElementById('pass-toggle-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function switchAdminTab(tabId) {
+      ['menu-tab', 'reviews-tab', 'custom-tab', 'delivery-tab', 'offers-tab'].forEach(tab => {
+        const panel = document.getElementById(`admin-panel-${tab}`);
+        const btn = document.getElementById(`tab-btn-${tab}`);
+        if (tab === tabId) {
+          panel.classList.remove('hidden');
+          btn.className = "py-3 px-3 text-amber-400 border-b-2 border-amber-400 flex items-center gap-2 whitespace-nowrap";
+        } else {
+          panel.classList.add('hidden');
+          btn.className = "py-3 px-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2 whitespace-nowrap";
+        }
+      });
+    }
+
+    /* ================= MENU MANAGEMENT ================= */
+    function previewImageFromUrl(url) {
+      const container = document.getElementById('image-preview-container');
+      const preview = document.getElementById('image-preview');
+      const finalInput = document.getElementById('final-image-data');
+      if (url && url.trim().length > 4) {
+        preview.src = url;
+        finalInput.value = url;
+        container.classList.remove('hidden');
+        container.classList.add('flex');
+      } else {
+        container.classList.add('hidden');
+        container.classList.remove('flex');
+        finalInput.value = '';
+      }
+    }
+
+    function handleImageFileUpload(e, targetHiddenId, targetPreviewImgId, targetBoxId) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 800;
+
+          if (width > height && width > maxDim) {
+            height *= maxDim / width;
+            width = maxDim;
+          } else if (height > maxDim) {
+            width *= maxDim / height;
+            height = maxDim;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+          document.getElementById(targetHiddenId).value = compressedBase64;
+          
+          if (targetPreviewImgId) {
+            document.getElementById(targetPreviewImgId).src = compressedBase64;
+          }
+          if (targetBoxId) {
+            const box = document.getElementById(targetBoxId);
+            box.classList.remove('hidden');
+            box.classList.add('flex');
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function handleSaveMenuItem(e) {
+      e.preventDefault();
+      if (!db) { alert("Database connection not ready."); return; }
+
+      const editId = document.getElementById('item-edit-id').value;
+      const name = document.getElementById('item-name').value.trim();
+      const price = Number(document.getElementById('item-price').value);
+      const desc = document.getElementById('item-desc').value.trim();
+      const imageUrl = document.getElementById('final-image-data').value.trim() || document.getElementById('item-image-url').value.trim() || 'images/chicken-biryani.jpg';
+
+      const saveBtn = document.getElementById('save-item-btn');
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
+
+      try {
+        if (editId) {
+          await db.collection('menu').doc(editId).update({
+            name, price, desc, imageUrl,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast(`Updated "${name}" successfully!`);
+        } else {
+          await db.collection('menu').add({
+            name, price, desc, imageUrl, available: true,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast(`Added "${name}" to menu!`);
+        }
+        resetMenuForm();
+      } catch (err) {
+        alert("Error saving item: " + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> <span id="save-btn-label">Publish to Menu</span>`;
+      }
+    }
+
+    function renderAdminMenuList(items) {
+      const container = document.getElementById('admin-menu-list');
+      if (!container) return;
+
+      if (items.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 text-sm text-center py-4">No menu items found.</p>`;
+        return;
+      }
+
+      container.innerHTML = items.map(item => `
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <img src="${item.imageUrl || 'images/chicken-biryani.jpg'}" onerror="this.onerror=null; this.src='images/chicken-biryani.jpg';" class="w-12 h-12 rounded-lg object-cover border border-slate-700">
+            <div>
+              <div class="font-bold text-white text-sm flex items-center gap-2">
+                <span>${item.name}</span>
+                <span class="text-amber-400 font-extrabold">₹${item.price}</span>
+              </div>
+              <p class="text-xs text-slate-400 truncate max-w-xs">${item.desc || 'No description added'}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 self-end sm:self-auto">
+            <button onclick="toggleItemAvailability('${item.id}', ${item.available !== false})" class="px-2.5 py-1 text-xs font-semibold rounded-lg border transition ${item.available !== false ? 'bg-emerald-950/70 border-emerald-500/40 text-emerald-300' : 'bg-red-950/70 border-red-500/40 text-red-300'}">
+              ${item.available !== false ? 'In Stock' : 'Out of Stock'}
+            </button>
+            <button onclick="loadItemForEdit('${item.id}')" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg text-xs transition" title="Edit Item">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button onclick="deleteMenuItem('${item.id}', '${escapeQuotes(item.name)}')" class="p-1.5 bg-slate-800 hover:bg-red-900/60 text-slate-400 hover:text-red-400 rounded-lg text-xs transition" title="Delete Item">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function toggleItemAvailability(id, currentStatus) {
+      if (!db) return;
+      await db.collection('menu').doc(id).update({ available: !currentStatus });
+      showToast("Item stock status updated!");
+    }
+
+    function loadItemForEdit(id) {
+      const item = menuItems.find(i => i.id === id);
+      if (!item) return;
+
+      document.getElementById('item-edit-id').value = item.id;
+      document.getElementById('item-name').value = item.name;
+      document.getElementById('item-price').value = item.price;
+      document.getElementById('item-desc').value = item.desc || '';
+      document.getElementById('item-image-url').value = item.imageUrl || '';
+      document.getElementById('final-image-data').value = item.imageUrl || '';
+      previewImageFromUrl(item.imageUrl || '');
+
+      document.getElementById('menu-form-title').textContent = "✏️ Editing: " + item.name;
+      document.getElementById('save-btn-label').textContent = "Update This Item";
+      document.getElementById('cancel-edit-btn').classList.remove('hidden');
+
+      document.getElementById('admin-panel-menu-tab').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetMenuForm() {
+      document.getElementById('item-edit-id').value = '';
+      document.getElementById('item-name').value = '';
+      document.getElementById('item-price').value = '';
+      document.getElementById('item-desc').value = '';
+      document.getElementById('item-image-url').value = '';
+      document.getElementById('item-image-file').value = '';
+      document.getElementById('final-image-data').value = '';
+      document.getElementById('image-preview-container').classList.add('hidden');
+      document.getElementById('menu-form-title').textContent = "➕ Add New Menu Item";
+      document.getElementById('save-btn-label').textContent = "Publish to Menu";
+      document.getElementById('cancel-edit-btn').classList.add('hidden');
+    }
+
+    async function deleteMenuItem(id, name) {
+      if (!confirm(`Are you sure you want to remove "${name}" from the menu?`)) return;
+      if (!db) return;
+      await db.collection('menu').doc(id).delete();
+      showToast(`Deleted "${name}".`);
+    }
+
+    /* ================= CART & CHECKOUT ================= */
+    let cart = [];
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) existing.quantity += 1;
+      else cart.push({ name: name, price: price, quantity: 1 });
+      renderCart();
+      showToast(`Added ${name} to your plate!`);
+    }
+
+    function changeQty(index, delta) {
+      if (cart[index]) {
+        cart[index].quantity += delta;
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
+      }
+      renderCart();
+    }
+
+    function removeItem(index) { cart.splice(index, 1); renderCart(); }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => toast.classList.add('opacity-0', 'pointer-events-none'), 2200);
+    }
+
+    function handleOrderTypeChange() {
+      const orderType = document.getElementById('cust-type').value;
+      const geoBox = document.getElementById('geo-location-container');
+      const distLabel = document.getElementById('delivery-distance-label');
+
+      if (orderType !== "Home Delivery") {
+        deliveryFee = 0;
+        document.getElementById('delivery-fee-input').value = 0;
+        if (distLabel) distLabel.textContent = "(Dine-in / Pickup ₹0)";
+        if (geoBox) geoBox.classList.add('hidden');
+      } else {
+        if (!isDeliveryAvailable) {
+          alert("Home delivery is paused for today by restaurant management. Please pick Takeaway or Dine-in.");
+          document.getElementById('cust-type').value = "Takeaway / Parcel";
+          handleOrderTypeChange();
+          return;
+        }
+        if (geoBox) geoBox.classList.remove('hidden');
+        if (distLabel) distLabel.textContent = "";
+      }
+      renderCart();
     }
 
     function calculateDistanceKm(lat1, lon1, lat2, lon2) {
@@ -742,94 +1797,11 @@
           btnText.textContent = `✅ Location Set! Delivery: ₹${deliveryFee}`;
           document.getElementById('geo-btn').className = "w-full py-2.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2";
         },
-        (error) => {
+        () => {
           alert("Unable to retrieve location. Please check GPS permissions.");
           btnText.textContent = "📍 Auto-Detect Location & Calculate Delivery Fee";
         }
       );
-    }
-
-    function handleVoucherButtonClick() { toggleVoucherModal(true); }
-    function toggleVoucherModal(show) {
-      const modal = document.getElementById('voucher-modal');
-      if (show) modal.classList.remove('opacity-0', 'pointer-events-none');
-      else modal.classList.add('opacity-0', 'pointer-events-none');
-    }
-
-    async function loginWithGoogle() {
-      if (!auth) { alert("Firebase initializing..."); return; }
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        const result = await auth.signInWithPopup(provider);
-        await checkAndLoadVoucher(result.user);
-      } catch (error) { alert("Sign-in error: " + error.message); }
-    }
-
-    async function checkAndLoadVoucher(user) {
-      if (!db) return;
-      const userRef = db.collection('vouchers').doc(user.uid);
-      const doc = await userRef.get();
-      let voucherData;
-      if (!doc.exists) {
-        const uniqueCode = "UB-" + Math.random().toString(36).substring(2, 7).toUpperCase();
-        voucherData = {
-          uid: user.uid,
-          name: user.displayName || "Customer",
-          email: user.email,
-          photoURL: user.photoURL || "",
-          code: uniqueCode,
-          discount: "₹30 OFF (Above ₹299)",
-          isRedeemed: false,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        await userRef.set(voucherData);
-      } else { voucherData = doc.data(); }
-      renderVoucherCard(voucherData);
-    }
-
-    function renderVoucherCard(data) {
-      document.getElementById('voucher-login-state').classList.add('hidden');
-      document.getElementById('voucher-card-state').classList.remove('hidden');
-      document.getElementById('user-avatar').src = data.photoURL;
-      document.getElementById('user-name').textContent = data.name;
-      document.getElementById('user-email').textContent = data.email;
-      document.getElementById('voucher-code-display').textContent = data.code;
-      document.getElementById('voucher-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(data.code)}`;
-
-      const statusPill = document.getElementById('voucher-status-pill');
-      if (data.isRedeemed) {
-        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-red-900/60 text-red-300 border border-red-500/40";
-        statusPill.innerHTML = `<span>❌ ALREADY REDEEMED</span>`;
-      } else {
-        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-emerald-950/60 text-emerald-300 border border-emerald-500/40";
-        statusPill.innerHTML = `<span>✅ VALID FOR FIRST VISIT (ABOVE ₹299)</span>`;
-      }
-    }
-
-    let cart = [];
-    function addToCart(name, price) {
-      const existing = cart.find(item => item.name === name);
-      if (existing) existing.quantity += 1;
-      else cart.push({ name: name, price: price, quantity: 1 });
-      renderCart();
-      showToast(`Added ${name} to your plate!`);
-    }
-
-    function changeQty(index, delta) {
-      if (cart[index]) {
-        cart[index].quantity += delta;
-        if (cart[index].quantity <= 0) cart.splice(index, 1);
-      }
-      renderCart();
-    }
-
-    function removeItem(index) { cart.splice(index, 1); renderCart(); }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toast-message').textContent = msg;
-      toast.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => toast.classList.add('opacity-0', 'pointer-events-none'), 2200);
     }
 
     function renderCart() {
@@ -913,6 +1885,11 @@
       if (!name) { alert("Please enter your name."); document.getElementById('cust-name').focus(); return; }
       if (!address) { alert("Please enter your delivery address."); document.getElementById('cust-address').focus(); return; }
 
+      if (type === "Home Delivery" && !isDeliveryAvailable) {
+        alert("Home delivery is paused today. Please change order type to Takeaway or Dine-in.");
+        return;
+      }
+
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       const grandTotal = subtotal + Number(deliveryFee);
 
@@ -937,6 +1914,64 @@
       msg += `_Order placed via website_`;
 
       window.open(`https://wa.me/${RESTAURANT_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    /* ================= VOUCHER AUTH ================= */
+    function handleVoucherButtonClick() { toggleVoucherModal(true); }
+    function toggleVoucherModal(show) {
+      const modal = document.getElementById('voucher-modal');
+      if (show) modal.classList.remove('opacity-0', 'pointer-events-none');
+      else modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    async function loginWithGoogle() {
+      if (!auth) { alert("Firebase initializing..."); return; }
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        await checkAndLoadVoucher(result.user);
+      } catch (error) { alert("Sign-in error: " + error.message); }
+    }
+
+    async function checkAndLoadVoucher(user) {
+      if (!db) return;
+      const userRef = db.collection('vouchers').doc(user.uid);
+      const doc = await userRef.get();
+      let voucherData;
+      if (!doc.exists) {
+        const uniqueCode = "UB-" + Math.random().toString(36).substring(2, 7).toUpperCase();
+        voucherData = {
+          uid: user.uid,
+          name: user.displayName || "Customer",
+          email: user.email,
+          photoURL: user.photoURL || "",
+          code: uniqueCode,
+          discount: "₹30 OFF (Above ₹299)",
+          isRedeemed: false,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        await userRef.set(voucherData);
+      } else { voucherData = doc.data(); }
+      renderVoucherCard(voucherData);
+    }
+
+    function renderVoucherCard(data) {
+      document.getElementById('voucher-login-state').classList.add('hidden');
+      document.getElementById('voucher-card-state').classList.remove('hidden');
+      document.getElementById('user-avatar').src = data.photoURL;
+      document.getElementById('user-name').textContent = data.name;
+      document.getElementById('user-email').textContent = data.email;
+      document.getElementById('voucher-code-display').textContent = data.code;
+      document.getElementById('voucher-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(data.code)}`;
+
+      const statusPill = document.getElementById('voucher-status-pill');
+      if (data.isRedeemed) {
+        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-red-900/60 text-red-300 border border-red-500/40";
+        statusPill.innerHTML = `<span>❌ ALREADY REDEEMED</span>`;
+      } else {
+        statusPill.className = "mt-4 py-2 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-emerald-950/60 text-emerald-300 border border-emerald-500/40";
+        statusPill.innerHTML = `<span>✅ VALID FOR FIRST VISIT (ABOVE ₹299)</span>`;
+      }
     }
 
     renderCart();
